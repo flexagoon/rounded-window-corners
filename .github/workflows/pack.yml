@@ -1,0 +1,46 @@
+name: Pack extensions
+
+on:
+  push:
+    paths-ignore:
+      - README.md
+  pull_request:
+    paths-ignore:
+      - README.md
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    container: archlinux:base-devel
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules
+
+      - name: Prepare
+        run: |
+          pacman -Sy
+          pacman -S --noconfirm base util-linux util-linux-libs gnome-shell gtk3 libadwaita gtk4 glib2 gobject-introspection gettext just
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build
+        run: |
+          just build
+
+      - name: Upload Extension Pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: rounded-window-corners@flexagoon.shell-extension
+          path: _build/
