@@ -30,10 +30,11 @@ jobs:
         run: sudo apt install gettext
 
       - name: Build the extension
-        run: just pack
+        run: just build
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: rounded-window-corners@fxgn.shell-extension
-          path: rounded-window-corners@fxgn.shell-extension.zip
+          path: _build/
+          compression-level: 9
