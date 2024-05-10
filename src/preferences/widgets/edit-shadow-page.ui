@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0" />
+  <requires lib="adw" version="1.0" />
+  <template class="EditShadowPage" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Edit shadows</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" />
+        </child>
+        <child>
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="GtkListBoxRow" id="preview_row">
+                    <property name="activatable">false</property>
+                    <style>
+                      <class name="card"/>
+                      <class name="desktop-background"/>
+                    </style>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="halign">center</property>
+                        <child>
+                          <object class="GtkLabel" id="focused_shadow_preview">
+                            <property name="label" translatable="yes">Focused window</property>
+                            <property name="width-request">192</property>
+                            <property name="height-request">192</property>
+                            <property name="margin-top">24</property>
+                            <property name="margin-bottom">24</property>
+                            <property name="margin-start">24</property>
+                            <property name="margin-end">24</property>
+                            <style>
+                              <class name="background" />
+                              <class name="preview" />
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="unfocused_shadow_preview">
+                            <property name="label" translatable="yes">Unfocused window</property>
+                            <property name="width-request">192</property>
+                            <property name="height-request">192</property>
+                            <property name="margin-top">24</property>
+                            <property name="margin-bottom">24</property>
+                            <property name="margin-start">24</property>
+                            <property name="margin-end">24</property>
+                            <style>
+                              <class name="background" />
+                              <class name="preview" />
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwExpanderRow">
+                    <property name="title" translatable="yes">Focused shadow prefrences</property>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Horizontal offset</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="0" position="bottom">0</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="focused_horizontal_offset">
+                                <property name="lower">-60</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Vertical offset</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="4" position="bottom">4</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="focused_vertical_offset">
+                                <property name="lower">-60</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Blur radius</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="28" position="bottom">28</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="focused_blur_radius">
+                                <property name="lower">0</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Spread radius</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="4" position="bottom">4</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="focused_spread_radius">
+                                <property name="lower">-60</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Opacity</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="60" position="bottom">60</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="focused_opacity">
+                                <property name="lower">0</property>
+                                <property name="upper">100</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwExpanderRow">
+                    <property name="title" translatable="yes">Unfocused shadow prefrences</property>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Horizontal offset</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="0" position="bottom">0</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="unfocused_horizontal_offset">
+                                <property name="lower">-60</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Vertical offset</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="2" position="bottom">2</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="unfocused_vertical_offset">
+                                <property name="lower">-60</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Blur radius</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="12" position="bottom">12</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="unfocused_blur_radius">
+                                <property name="lower">0</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Spread radius</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="-1" position="bottom">-1</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="unfocused_spread_radius">
+                                <property name="lower">-60</property>
+                                <property name="upper">60</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Opacity</property>
+                        <child>
+                          <object class="GtkScale">
+                            <property name="valign">center</property>
+                            <property name="hexpand">true</property>
+                            <property name="draw-value">true</property>
+                            <property name="round-digits">0</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="value-pos">left</property>
+                            <marks>
+                              <mark value="65" position="bottom">65</mark>
+                            </marks>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment" id="unfocused_opacity">
+                                <property name="lower">0</property>
+                                <property name="upper">100</property>
+                                <property name="page-increment">1</property>
+                                <property name="step-increment">1</property>
+                                <signal name="value-changed" handler="on_value_changed" />
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -9,7 +9,7 @@ import {connections} from '../../utils/connections.js';
 import {list_children} from '../../utils/prefs.js';
 import {settings} from '../../utils/settings.js';
 import type {SchemasKeys} from '../../utils/settings.js';
-import {EditShadowWindow} from '../widgets/edit_shadow_window.js';
+import {EditShadowPage} from '../widgets/edit_shadow_page.js';
 import {ResetPage} from '../widgets/reset_page.js';
 import {RoundedCornersItem} from '../widgets/rounded_corners_item.js';
 
@@ -170,15 +170,8 @@ export const General = GObject.registerClass(
 
         /** Called when click 'Window Shadow' action row */
         _show_edit_shadow_window_cb() {
-            const root = this.root as Gtk.Window;
-            const win = new EditShadowWindow();
-            win.application = root.application;
-            win.present();
-            root.hide();
-            win.connect('close-request', () => {
-                root.show();
-                win.destroy();
-            });
+            const root = this.root as unknown as Adw.PreferencesDialog;
+            root.push_subpage(new EditShadowPage());
         }
 
         /** Update UI when settings changed  */
