@@ -47,12 +47,12 @@ export const EditShadowWindow = GObject.registerClass(
         private declare _unfocus_toggle_button: Gtk.ToggleButton;
 
         // CssProvider to change style of preview widgets in edit window
-        private unfocus_provider!: Gtk.CssProvider;
-        private focus_provider!: Gtk.CssProvider;
+        private declare unfocus_provider: Gtk.CssProvider;
+        private declare focus_provider: Gtk.CssProvider;
 
         // Load box-shadow from settings
-        private focused_shadow!: BoxShadow;
-        private unfocused_shadow!: BoxShadow;
+        private declare focused_shadow: BoxShadow;
+        private declare unfocused_shadow: BoxShadow;
 
         _init() {
             super._init({
