@@ -18,15 +18,15 @@ export const ResetDialog = GObject.registerClass(
     {},
     class extends Gtk.Dialog {
         /** Keys to reset  */
-        private _reset_keys!: {
+        private declare _reset_keys: {
             [name in SchemasKeys]?: Cfg;
         };
         /** Global rounded corners settings to reset  */
-        private _reset_corners_cfg!: {
+        private declare _reset_corners_cfg: {
             [name in keyof RoundedCornersCfg]?: Cfg;
         };
         /** Used to select all CheckButtons  */
-        private _all_check_btns!: Gtk.CheckButton[];
+        private declare _all_check_btns: Gtk.CheckButton[];
 
         _init(): void {
             super._init({
