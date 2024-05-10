@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0" />
+    <requires lib="adw" version="1.0" />
+    <template class="ResetPage" parent="AdwNavigationPage">
+        <property name="title" translatable="yes">Reset settings</property>
+        <child>
+            <object class="AdwToolbarView">
+                <child type="top">
+                    <object class="AdwHeaderBar" />
+                </child>
+                <child>
+                    <object class="AdwPreferencesPage">
+                        <child>
+                            <object class="AdwPreferencesGroup" id="reset_grp">
+                                <property name="title" translatable="yes">Settings to reset</property>
+                                <property name="header-suffix">
+                                    <object class="GtkButton">
+                                        <style>
+                                            <class name="suggested-action" />
+                                        </style>
+                                        <property name="label" translatable="yes">Select all</property>
+                                        <signal name="clicked" handler="select_all" />
+                                    </object>
+                                </property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="AdwPreferencesGroup">
+                                <child>
+                                    <object class="GtkButton" id="reset_btn">
+                                        <style>
+                                            <class name="destructive-action" />
+                                            <class name="pill" />
+                                        </style>
+                                        <child>
+                                            <object class="AdwButtonContent">
+                                                <property name="icon-name">view-refresh-symbolic</property>
+                                                <property name="label" translatable="yes">Reset</property>
+                                            </object>
+                                        </child>
+                                        <signal name="clicked" handler="ask_for_reset" />
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+
+            </object>
+        </child>
+    </template>
+
+    <object class="AdwAlertDialog" id="dialog">
+        <property name="heading" translatable="yes">Reset these settings?</property>
+        <property name="default-response">reset</property>
+        <property name="close-response">cancel</property>
+        <signal name="response" handler="reset"/>
+        <responses>
+            <response id="cancel" translatable="yes">_Cancel</response>
+            <response id="reset" appearance="destructive" translatable="yes">_Reset</response>
+        </responses>
+    </object>
+</interface>

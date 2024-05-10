@@ -1,9 +1,13 @@
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import {_log} from '../../utils/log.js';
-import {type SchemasKeys, settings} from '../../utils/settings.js';
-import type {RoundedCornersCfg} from '../../utils/types.js';
+import Adw from 'gi://Adw';
+
+import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { _log } from '../../utils/log.js';
+import { type SchemasKeys, settings } from '../../utils/settings.js';
+import type { RoundedCornersCfg } from '../../utils/types.js';
+
+import { uri } from '../../utils/io.js';
 
 class Cfg {
     description: string;
@@ -14,9 +18,21 @@ class Cfg {
     }
 }
 
-export const ResetDialog = GObject.registerClass(
-    {},
-    class extends Gtk.Dialog {
+export const ResetPage = GObject.registerClass(
+    {
+        Template: uri(import.meta.url, 'reset-page.ui'),
+        GTypeName: 'ResetPage',
+        InternalChildren: [
+            'reset_grp',
+            'reset_btn',
+            'dialog'
+        ]
+    },
+    class extends Adw.NavigationPage {
+        private declare _reset_grp: Adw.PreferencesGroup;
+        private declare _reset_btn: Gtk.Button;
+        private declare _dialog: Adw.AlertDialog;
+
         /** Keys to reset  */
         private declare _reset_keys: {
             [name in SchemasKeys]?: Cfg;
@@ -26,31 +42,12 @@ export const ResetDialog = GObject.registerClass(
             [name in keyof RoundedCornersCfg]?: Cfg;
         };
         /** Used to select all CheckButtons  */
-        private declare _all_check_btns: Gtk.CheckButton[];
+        private declare _rows: Adw.SwitchRow[];
 
-        _init(): void {
-            super._init({
-                useHeaderBar: 1,
-                modal: true,
-                title: 'Reset Preferences',
-            });
+        constructor() {
+            super();
 
-            this._all_check_btns = [];
-
-            this.set_modal(true);
-
-            this.add_button('Apply', Gtk.ResponseType.APPLY);
-            this.add_button('Cancel', Gtk.ResponseType.CANCEL);
-
-            this.connect('response', (_source, id) => {
-                if (id === Gtk.ResponseType.CANCEL) {
-                    this.destroy();
-                }
-                if (id === Gtk.ResponseType.APPLY) {
-                    this.apply();
-                }
-            });
-
+            this._rows = [];
             this._init_cfg();
             this._build_ui();
         }
@@ -79,50 +76,16 @@ export const ResetDialog = GObject.registerClass(
         }
 
         private _build_ui() {
-            const content = this.get_content_area();
-            content.orientation = Gtk.Orientation.VERTICAL;
-            content.spacing = 8;
-
-            // Title
-            content.append(
-                new Gtk.Label({
-                    label: _('Select Items to reset'),
-                    cssClasses: ['heading'],
-                    halign: Gtk.Align.START,
-                }),
-            );
-
-            // Select All Checkbox
-            const select_all_check_btn = new Gtk.CheckButton();
-            const select_all_label = new Gtk.Label({
-                label: _('Select All'),
-            });
-            const row = new Gtk.Box();
-            row.append(select_all_check_btn);
-            row.append(select_all_label);
-            content.append(row);
-
-            select_all_check_btn.connect('toggled', btn => {
-                for (const b of this._all_check_btns) {
-                    b.active = btn.active;
-                }
-            });
-
-            const build = (cfg: {[key: string]: {description: string}}) => {
+            const build = (cfg: { [key: string]: { description: string } }) => {
                 for (const key in cfg) {
-                    const item = new Gtk.Box();
-                    const check_btn = new Gtk.CheckButton({
+                    const row = new Adw.SwitchRow({
                         active: false,
-                        name: key,
+                        name: key
                     });
-                    check_btn.connect('toggled', source =>
-                        this.on_toggled(source),
-                    );
-                    item.append(check_btn);
-                    item.append(Gtk.Label.new(cfg[key].description));
-                    content.append(item);
-
-                    this._all_check_btns.push(check_btn);
+                    row.set_title(cfg[key].description);
+                    row.connect('notify::active', source => this.on_toggled(source));
+                    this._reset_grp.add(row);
+                    this._rows.push(row);
                 }
             };
 
@@ -130,7 +93,7 @@ export const ResetDialog = GObject.registerClass(
             build(this._reset_keys);
         }
 
-        private on_toggled(source: Gtk.CheckButton): void {
+        private on_toggled(source: Adw.SwitchRow): void {
             const k = source.name;
             let v = this._reset_corners_cfg[k as keyof RoundedCornersCfg];
             if (v !== undefined) {
@@ -145,7 +108,23 @@ export const ResetDialog = GObject.registerClass(
             }
         }
 
-        private apply() {
+        select_all() {
+            this._rows.forEach(row => {
+                row.set_active(true);
+            });
+        }
+
+        ask_for_reset() {
+            // typescript thinks, that there should be 0-2 arguments, but actually
+            // it will throw an error, if any of three argument is missing
+            // @ts-ignore
+            this._dialog.choose(this, null, null);
+        }
+
+        reset(_: Adw.MessageDialog, response: string) {
+            if (response === 'cancel')
+                return;
+
             for (const k in this._reset_keys) {
                 if (this._reset_keys[k as SchemasKeys]?.reset === true) {
                     settings().g_settings.reset(k);
@@ -167,7 +146,8 @@ export const ResetDialog = GObject.registerClass(
             }
             settings().global_rounded_corner_settings = current_cfg;
 
-            this.destroy();
+            const root = this.root as unknown as Adw.PreferencesDialog;
+            root.pop_subpage();
         }
     },
 );

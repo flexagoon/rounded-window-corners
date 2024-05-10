@@ -1,6 +1,7 @@
 // imports.gi
 import GObject from 'gi://GObject';
 import Gdk from 'gi://Gdk';
+import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 
 // local modules
@@ -9,7 +10,7 @@ import {list_children} from '../../utils/prefs.js';
 import {settings} from '../../utils/settings.js';
 import type {SchemasKeys} from '../../utils/settings.js';
 import {EditShadowWindow} from '../widgets/edit_shadow_window.js';
-import {ResetDialog} from '../widgets/reset_dialog.js';
+import {ResetPage} from '../widgets/reset_page.js';
 import {RoundedCornersItem} from '../widgets/rounded_corners_item.js';
 
 // types
@@ -148,7 +149,8 @@ export const General = GObject.registerClass(
             );
 
             c.connect(this._reset_preferences_btn, 'clicked', () => {
-                new ResetDialog().show();
+                const root = this.root as unknown as Adw.PreferencesDialog;
+                root.push_subpage(new ResetPage());
             });
         }
 
