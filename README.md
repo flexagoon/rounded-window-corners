@@ -69,6 +69,19 @@ pre-built archive from GitHub Actions.
 After this, the extension will be installed to
 `~/.local/share/gnome-shell/extensions`.
 
+### From AUR packages on Arch Linux
+
+If you use Arch, by the way, you can also install from the provided [AUR](https://aur.archlinux.org/) packages using [paru](https://github.com/Morganamilo/paru) or [yay](https://github.com/Jguer/yay). Two packages are available:
+
+- [gnome-shell-extension-rounded-window-corners-reborn](https://aur.archlinux.org/packages/gnome-shell-extension-rounded-window-corners-reborn) uses the pre-build archives
+- [gnome-shell-extension-rounded-window-corners-reborn-git](https://aur.archlinux.org/packages/gnome-shell-extension-rounded-window-corners-reborn-git) builds on your machine
+
+Installation:
+
+```zsh
+paru gnome-shell-extension-rounded-window-corners-reborn
+```
+
 ## Translation
 
 You can help with the translation of the extension by submitting translations
