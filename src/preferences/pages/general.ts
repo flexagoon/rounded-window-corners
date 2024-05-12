@@ -1,122 +1,87 @@
-// imports.gi
 import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
 import Gdk from 'gi://Gdk';
 import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 
-// local modules
-import {connections} from '../../utils/connections.js';
-import {list_children} from '../../utils/prefs.js';
-import {settings} from '../../utils/settings.js';
-import type {SchemasKeys} from '../../utils/settings.js';
-import {EditShadowPage} from '../widgets/edit_shadow_page.js';
-import {ResetPage} from '../widgets/reset_page.js';
-import {RoundedCornersItem} from '../widgets/rounded_corners_item.js';
+import { connections } from '../../utils/connections.js';
+import { settings } from '../../utils/settings.js';
+import { EditShadowPage } from '../widgets/edit_shadow_page.js';
+import { ResetPage } from '../widgets/reset_page.js';
+import { PaddingsRowClass } from '../widgets/paddings_row.js'
+import '../widgets/paddings_row.js';
 
-// types
-import Gtk from 'gi://Gtk';
-import {uri} from '../../utils/io.js';
-
-// --------------------------------------------------------------- [end imports]
+import { uri } from '../../utils/io.js';
+import { RoundedCornersCfg } from '../../utils/types.js';
 
 export const General = GObject.registerClass(
     {
         Template: uri(import.meta.url, 'general.ui'),
-        GTypeName: 'RoundedWindowCornersPrefsGeneral',
-
-        // Widgets export from template ui
+        GTypeName: 'PrefsGeneral',
         InternalChildren: [
-            'global_settings_preferences_group',
-            'enable_log_switch',
-            'skip_libadwaita_app_switch',
-            'skip_libhandy_app_switch',
-            'tweak_kitty_switch',
-            'preferences_entry_switch',
-            'border_width_ajustment',
-            'border_color_button',
-            'edit_shadow_row',
-            'applications_group',
-            'reset_preferences_btn',
+            'skip_libadwaita',
+            'skip_libhandy',
+            'border_width',
+            'border_color',
+            'corner_radius',
+            'corner_smoothing',
+            'keep_for_maximized',
+            'keep_for_fullscreen',
+            'paddings',
+            'tweak_kitty',
+            'right_click_menu',
+            'enable_log'
         ],
     },
-    class extends Gtk.Box {
-        private declare _global_settings_preferences_group: Gtk.ListBox;
-        private declare _enable_log_switch: Gtk.Switch;
-        private declare _skip_libhandy_app_switch: Gtk.Switch;
-        private declare _skip_libadwaita_app_switch: Gtk.Switch;
-        private declare _tweak_kitty_switch: Gtk.Switch;
-        private declare _preferences_entry_switch: Gtk.Switch;
-        private declare _border_width_ajustment: Gtk.Adjustment;
-        private declare _border_color_button: Gtk.ColorButton;
-        private declare _edit_shadow_row: Gtk.ListBoxRow;
-        private declare _applications_group: Gtk.ListBox;
-        private declare _reset_preferences_btn: Gtk.Button;
+    class extends Adw.PreferencesPage {
+        private declare _skip_libadwaita: Adw.SwitchRow;
+        private declare _skip_libhandy: Adw.SwitchRow;
+        private declare _border_width: Gtk.Adjustment;
+        private declare _border_color: Gtk.ColorDialogButton;
+        private declare _corner_radius: Gtk.Adjustment;
+        private declare _corner_smoothing: Gtk.Adjustment;
+        private declare _keep_for_maximized: Adw.SwitchRow;
+        private declare _keep_for_fullscreen: Adw.SwitchRow;
+        private declare _paddings: PaddingsRowClass;
+        private declare _tweak_kitty: Adw.SwitchRow;
+        private declare _right_click_menu: Adw.SwitchRow;
+        private declare _enable_log: Adw.SwitchRow;
 
-        private config_items!: _Items;
+        private declare _cfg: RoundedCornersCfg;
 
-        _init() {
-            super._init();
+        constructor() {
+            super();
 
-            this.config_items = new RoundedCornersItem();
+            this._cfg = settings().global_rounded_corner_settings;
+            const c = connections.get();
 
-            this.build_ui();
-
-            connections
-                .get()
-                .connect(
-                    settings().g_settings,
-                    'changed',
-                    (_settings: Gio.Settings, key: string) =>
-                        this._on_settings_changed(key),
-                );
-
-            settings().bind(
-                'debug-mode',
-                this._enable_log_switch,
-                'active',
-                Gio.SettingsBindFlags.DEFAULT,
-            );
-            settings().bind(
-                'tweak-kitty-terminal',
-                this._tweak_kitty_switch,
-                'active',
-                Gio.SettingsBindFlags.DEFAULT,
-            );
-            settings().bind(
-                'enable-preferences-entry',
-                this._preferences_entry_switch,
-                'active',
-                Gio.SettingsBindFlags.DEFAULT,
-            );
             settings().bind(
                 'skip-libadwaita-app',
-                this._skip_libadwaita_app_switch,
+                this._skip_libadwaita,
                 'active',
                 Gio.SettingsBindFlags.DEFAULT,
             );
             settings().bind(
                 'skip-libhandy-app',
-                this._skip_libhandy_app_switch,
+                this._skip_libhandy,
                 'active',
                 Gio.SettingsBindFlags.DEFAULT,
             );
+
             settings().bind(
                 'border-width',
-                this._border_width_ajustment,
+                this._border_width,
                 'value',
                 Gio.SettingsBindFlags.DEFAULT,
             );
-
             const color = new Gdk.RGBA();
             [color.red, color.green, color.blue, color.alpha] =
                 settings().border_color;
-            this._border_color_button.set_rgba(color);
-
-            const c = connections.get();
+            this._border_color.set_rgba(color);
             c.connect(
-                this._border_color_button,
-                'color-set',
-                (btn: Gtk.ColorButton) => {
+                this._border_color,
+                'notify::rgba',
+                (btn: Gtk.ColorDialogButton) => {
                     const color = btn.get_rgba();
                     settings().border_color = [
                         color.red,
@@ -126,77 +91,110 @@ export const General = GObject.registerClass(
                     ];
                 },
             );
-
-            // Handler active event for BoxList
+            this._corner_radius.set_value(this._cfg.border_radius);
             c.connect(
-                this._global_settings_preferences_group,
-                'row-activated',
-                (_box: Gtk.ListBox, row: Gtk.ListBoxRow) => {
-                    if (row === this.config_items._paddings_row) {
-                        this.config_items.update_revealer();
-                    }
-                },
+                this._corner_radius,
+                'value-changed',
+                (adj: Gtk.Adjustment) => {
+                    this._cfg.border_radius = adj.get_value();
+                    this._update_global_config();
+                }
             );
-
+            this._corner_smoothing.set_value(this._cfg.smoothing);
             c.connect(
-                this._applications_group,
-                'row-activated',
-                (_box: Gtk.ListBox, row: Gtk.ListBoxRow) => {
-                    if (row === this._edit_shadow_row) {
-                        this._show_edit_shadow_window_cb();
-                    }
-                },
+                this._corner_smoothing,
+                'value-changed',
+                (adj: Gtk.Adjustment) => {
+                    this._cfg.smoothing = adj.get_value();
+                    this._update_global_config();
+                }
             );
-
-            c.connect(this._reset_preferences_btn, 'clicked', () => {
-                const root = this.root as unknown as Adw.PreferencesDialog;
-                root.push_subpage(new ResetPage());
-            });
+            this._keep_for_maximized.set_active(this._cfg.keep_rounded_corners.maximized)
+            c.connect(
+                this._keep_for_maximized,
+                'notify::active',
+                (swtch: Adw.SwitchRow) => {
+                    this._cfg.keep_rounded_corners.maximized = swtch.get_active();
+                    this._update_global_config();
+                }
+            );
+            this._keep_for_fullscreen.set_active(this._cfg.keep_rounded_corners.fullscreen)
+            c.connect(
+                this._keep_for_fullscreen,
+                'notify::active',
+                (swtch: Adw.SwitchRow) => {
+                    this._cfg.keep_rounded_corners.fullscreen = swtch.get_active();
+                    this._update_global_config();
+                }
+            );
+            this._paddings.paddingTop = this._cfg.padding.top;
+            c.connect(
+                this._paddings,
+                'notify::padding-top',
+                (row: PaddingsRowClass) => {
+                    this._cfg.padding.top = row.paddingTop;
+                    this._update_global_config();
+                }
+            );
+            this._paddings.paddingBottom = this._cfg.padding.bottom;
+            c.connect(
+                this._paddings,
+                'notify::padding-bottom',
+                (row: PaddingsRowClass) => {
+                    this._cfg.padding.bottom = row.paddingBottom;
+                    this._update_global_config();
+                }
+            );
+            this._paddings.paddingStart = this._cfg.padding.left;
+            c.connect(
+                this._paddings,
+                'notify::padding-start',
+                (row: PaddingsRowClass) => {
+                    this._cfg.padding.left = row.paddingStart;
+                    this._update_global_config();
+                }
+            );
+            this._paddings.paddingEnd = this._cfg.padding.right;
+            c.connect(
+                this._paddings,
+                'notify::padding-end',
+                (row: PaddingsRowClass) => {
+                    this._cfg.padding.right = row.paddingEnd;
+                    this._update_global_config();
+                }
+            );
+            settings().bind(
+                'tweak-kitty-terminal',
+                this._tweak_kitty,
+                'active',
+                Gio.SettingsBindFlags.DEFAULT,
+            );
+            settings().bind(
+                'enable-preferences-entry',
+                this._right_click_menu,
+                'active',
+                Gio.SettingsBindFlags.DEFAULT,
+            );
+            settings().bind(
+                'debug-mode',
+                this._enable_log,
+                'active',
+                Gio.SettingsBindFlags.DEFAULT,
+            );
         }
 
-        private build_ui() {
-            for (const item of list_children(this.config_items)) {
-                this.config_items.remove(item);
-                this._global_settings_preferences_group.append(item);
-            }
-            // Bind Variants
-            this.config_items.cfg = settings().global_rounded_corner_settings;
-            this.config_items.watch(cfg => {
-                settings().global_rounded_corner_settings = cfg;
-            });
+        show_reset_page(_: Gtk.Button) {
+            const root = this.root as unknown as Adw.PreferencesDialog;
+            root.push_subpage(new ResetPage());
         }
 
-        // ---------------------------------------------------- [signal handler]
-
-        /** Called when click 'Window Shadow' action row */
-        _show_edit_shadow_window_cb() {
+        show_shadow_page(_: Adw.ActionRow) {
             const root = this.root as unknown as Adw.PreferencesDialog;
             root.push_subpage(new EditShadowPage());
         }
 
-        /** Update UI when settings changed  */
-        private _on_settings_changed(key: string) {
-            switch (key as SchemasKeys) {
-                case 'border-color':
-                    {
-                        const color = new Gdk.RGBA();
-                        [color.red, color.green, color.blue, color.alpha] =
-                            settings().border_color;
-                        this._border_color_button.set_rgba(color);
-                    }
-                    break;
-                case 'border-width':
-                    this._border_width_ajustment.value =
-                        settings().border_width;
-                    break;
-                case 'global-rounded-corner-settings':
-                    this.config_items.cfg =
-                        settings().global_rounded_corner_settings;
-                    break;
-                default:
-            }
+        private _update_global_config() {
+            settings().global_rounded_corner_settings = this._cfg;
         }
     },
 );
-
-type _Items = InstanceType<typeof RoundedCornersItem>;
