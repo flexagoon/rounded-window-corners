@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0" />
+  <requires lib="adw" version="1.0" />
+  <template class="PaddingsRow" parent="AdwPreferencesRow">
+    <property name="activatable">false</property>
+    <property name="child">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Paddings</property>
+            <style>
+              <class name="title" />
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="homogeneous">true</property>
+            <property name="hexpand">true</property>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Top</property>
+                <property name="activatable">false</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100</property>
+                    <property name="page-increment">10</property>
+                    <property name="step-increment">1</property>
+                    <property name="value" bind-source="PaddingsRow" bind-property="padding-top" bind-flags="bidirectional" />
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Bottom</property>
+                <property name="activatable">false</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100</property>
+                    <property name="page-increment">10</property>
+                    <property name="step-increment">1</property>
+                    <property name="value" bind-source="PaddingsRow" bind-property="padding-bottom" bind-flags="bidirectional" />
+                  </object>
+                </property>
+              </object>
+            </child>
+            <style>
+              <class name="navigation-sidebar" />
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="homogeneous">true</property>
+            <property name="hexpand">true</property>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Left</property>
+                <property name="activatable">false</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100</property>
+                    <property name="page-increment">10</property>
+                    <property name="step-increment">1</property>
+                    <property name="value" bind-source="PaddingsRow" bind-property="padding-start" bind-flags="bidirectional" />
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Right</property>
+                <property name="activatable">false</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100</property>
+                    <property name="page-increment">10</property>
+                    <property name="step-increment">1</property>
+                    <property name="value" bind-source="PaddingsRow" bind-property="padding-end" bind-flags="bidirectional" />
+                  </object>
+                </property>
+              </object>
+            </child>
+            <style>
+              <class name="navigation-sidebar" />
+            </style>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>
