@@ -2,45 +2,50 @@ import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 
-import { gettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { on_picked, pick } from '../../dbus/client.js';
-import { connections } from '../../utils/connections.js';
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {on_picked, pick} from '../../dbus/client.js';
+import {connections} from '../../utils/connections.js';
 
 export class AppRowClass extends Adw.ExpanderRow {
-    private cb?: AppRowCb;
+    private callbacks?: AppRowCallbacks;
 
     private remove_btn = new Gtk.Button({
         icon_name: 'window-close-symbolic',
         css_classes: ['flat', 'circular'],
-        valign: Gtk.Align.CENTER
+        valign: Gtk.Align.CENTER,
     });
     private apply_btn = new Gtk.Button({
         icon_name: 'object-select-symbolic',
         css_classes: ['flat', 'circular'],
-        valign: Gtk.Align.CENTER
+        valign: Gtk.Align.CENTER,
     });
     private pick_btn = new Gtk.Button({
         icon_name: 'find-location-symbolic',
         css_classes: ['flat', 'circular'],
-        valign: Gtk.Align.CENTER
+        valign: Gtk.Align.CENTER,
     });
     private wm_class_entry = new Adw.EntryRow({
-        title: gettext('Window class')
-    })
+        title: _('Window class'),
+    });
 
-    constructor(cb: AppRowCb) {
+    constructor(cb: AppRowCallbacks) {
         super();
-        this.cb = cb;
+        this.callbacks = cb;
 
         this.wm_class_entry.add_prefix(this.apply_btn);
         this.wm_class_entry.add_prefix(this.pick_btn);
         this.add_row(this.wm_class_entry);
         this.add_suffix(this.remove_btn);
 
-        this.bind_property('subtitle', this.wm_class_entry, 'text', GObject.BindingFlags.DEFAULT);
+        this.bind_property(
+            'subtitle',
+            this.wm_class_entry,
+            'text',
+            GObject.BindingFlags.DEFAULT,
+        );
 
         this.add_css_class('property');
-        this.set_title(gettext('Expand this row, to pick a window'));
+        this.set_title(_('Expand this row, to pick a window'));
 
         const c = connections.get();
 
@@ -59,20 +64,34 @@ export class AppRowClass extends Adw.ExpanderRow {
     }
 
     on_title_change(entry: Adw.EntryRow) {
-        if (!this.cb?.on_title_changed || this.subtitle === entry.text || entry.text === '') {
+        if (
+            !this.callbacks?.on_title_changed ||
+            this.subtitle === entry.text ||
+            entry.text === ''
+        ) {
             return;
         }
 
-        if (this.cb.on_title_changed(this, this.subtitle || '', entry.text || '')) {
+        if (
+            this.callbacks.on_title_changed(
+                this,
+                this.subtitle || '',
+                entry.text || '',
+            )
+        ) {
             this.set_subtitle(entry.text || '');
         }
     }
 
-    on_pick( entry: Adw.EntryRow) {
+    on_pick(entry: Adw.EntryRow) {
         on_picked(wm_instance_class => {
             if (wm_instance_class === 'window-not-found') {
                 const win = this.root as unknown as Adw.PreferencesDialog;
-                win.add_toast(new Adw.Toast({ title: gettext('Can\'t pick window from this position') }));
+                win.add_toast(
+                    new Adw.Toast({
+                        title: _("Can't pick window from this position"),
+                    }),
+                );
                 return;
             }
             entry.text = wm_instance_class;
@@ -81,7 +100,7 @@ export class AppRowClass extends Adw.ExpanderRow {
     }
 
     on_delete() {
-        this.cb?.on_delete(this);
+        this.callbacks?.on_delete(this);
     }
 }
 
@@ -89,10 +108,14 @@ export const AppRow = GObject.registerClass(
     {
         GTypeName: 'AppRow',
     },
-    AppRowClass
+    AppRowClass,
 );
 
-export type AppRowCb = {
+export type AppRowCallbacks = {
     on_delete: (row: AppRowClass) => void;
-    on_title_changed: (row: AppRowClass, old_title: string, new_title: string) => boolean;
+    on_title_changed: (
+        row: AppRowClass,
+        old_title: string,
+        new_title: string,
+    ) => boolean;
 };

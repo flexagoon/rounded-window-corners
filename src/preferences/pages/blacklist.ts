@@ -2,11 +2,11 @@ import GObject from 'gi://GObject';
 import type Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 
-import type {AppRowClass, AppRowCb} from '../widgets/app_row.js';
+import type {AppRowClass, AppRowCallbacks} from '../widgets/app_row.js';
 import {BlacklistRow} from '../widgets/blacklist_row.js';
 import {settings} from '../../utils/settings.js';
 
-import {gettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {uri} from '../../utils/io.js';
 
 export const BlackList = GObject.registerClass(
@@ -18,7 +18,6 @@ export const BlackList = GObject.registerClass(
     class extends Adw.PreferencesPage {
         private declare _blacklist_group: Adw.PreferencesGroup;
 
-        /** Store value of settings */
         private declare blacklist: string[];
 
         constructor() {
@@ -31,14 +30,14 @@ export const BlackList = GObject.registerClass(
         }
 
         private add_window(_?: Gtk.Button, title?: string) {
-            const cb: AppRowCb = {
+            const callbacks: AppRowCallbacks = {
                 on_delete: row => this.delete_row(row),
                 on_title_changed: (_, old_title, new_title) =>
                     this.change_title(old_title, new_title),
             };
 
-            const row = new BlacklistRow(cb);
-            row.set_subtitle(title || '');
+            const row = new BlacklistRow(callbacks);
+            row.set_subtitle(title ?? '');
             this._blacklist_group.add(row);
         }
 
@@ -53,13 +52,14 @@ export const BlackList = GObject.registerClass(
                 const win = this.root as unknown as Adw.PreferencesDialog;
                 win.add_toast(
                     new Adw.Toast({
-                        title: gettext(
+                        title: _(
                             `Can't add ${new_title} to the list, because it already there`,
                         ),
                     }),
                 );
                 return false;
             }
+
             if (old_title === '') {
                 this.blacklist.push(new_title);
             } else {

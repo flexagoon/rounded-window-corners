@@ -2,10 +2,10 @@ import GObject from 'gi://GObject';
 import type Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 
-import {gettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {connections} from '../../utils/connections.js';
 import {settings} from '../../utils/settings.js';
-import type {AppRowClass, AppRowCb} from '../widgets/app_row.js';
+import type {AppRowClass, AppRowCallbacks} from '../widgets/app_row.js';
 import {
     CustomEffectRow,
     CustomEffectRowClass,
@@ -36,17 +36,17 @@ export const Custom = GObject.registerClass(
         }
 
         private add_window(_?: Gtk.Button, title?: string) {
-            const cb: AppRowCb = {
+            const callbacks: AppRowCallbacks = {
                 on_delete: row => this.delete_row(row),
                 on_title_changed: (row, old_title, new_title) =>
                     this.change_title(row, old_title, new_title),
             };
 
-            const row = new CustomEffectRow(cb);
+            const row = new CustomEffectRow(callbacks);
             if (title) {
                 this.setup_row(row, title);
             }
-            row.set_subtitle(title || '');
+            row.set_subtitle(title ?? '');
             this._custom_group.add(row);
         }
 
@@ -66,7 +66,7 @@ export const Custom = GObject.registerClass(
                 const win = this.root as unknown as Adw.PreferencesDialog;
                 win.add_toast(
                     new Adw.Toast({
-                        title: gettext(
+                        title: _(
                             `Can't add ${new_title} to the list, because it already there`,
                         ),
                     }),

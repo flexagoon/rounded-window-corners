@@ -2,18 +2,18 @@ import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 
-import {AppRowClass, type AppRowCb} from './app_row.js';
+import {AppRowClass, type AppRowCallbacks} from './app_row.js';
 import {PaddingsRow} from './paddings_row.js';
 import './app_row.js';
 
-import {gettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 export class CustomEffectRowClass extends AppRowClass {
     public enabled_row = new Adw.SwitchRow({
-        title: gettext('Enabled'),
+        title: _('Enabled'),
     });
     private corner_radius_row = new Adw.ActionRow({
-        title: gettext('Corner radius'),
+        title: _('Corner radius'),
     });
     public corner_radius = new Gtk.Adjustment({
         lower: 0,
@@ -22,7 +22,7 @@ export class CustomEffectRowClass extends AppRowClass {
         page_increment: 1,
     });
     private corner_smoothing_row = new Adw.ActionRow({
-        title: gettext('Corner smoothing'),
+        title: _('Corner smoothing'),
     });
     public corner_smoothing = new Gtk.Adjustment({
         lower: 0,
@@ -31,20 +31,20 @@ export class CustomEffectRowClass extends AppRowClass {
         page_increment: 0.1,
     });
     public keep_for_maximized = new Adw.SwitchRow({
-        title: gettext('Keep rounded corners when maximized'),
-        subtitle: gettext(
+        title: _('Keep rounded corners when maximized'),
+        subtitle: _(
             'Always clip rounded corners even if window is maximized or tiled',
         ),
     });
     public keep_for_fullscreen = new Adw.SwitchRow({
-        title: gettext('Keep rounded corners when in fullscreen'),
-        subtitle: gettext(
+        title: _('Keep rounded corners when in fullscreen'),
+        subtitle: _(
             'Always clip rounded corners even for fullscreen window',
         ),
     });
     public paddings = new PaddingsRow();
 
-    constructor(cb: AppRowCb) {
+    constructor(cb: AppRowCallbacks) {
         super(cb);
         this.corner_radius_row.add_suffix(
             new Gtk.Scale({
