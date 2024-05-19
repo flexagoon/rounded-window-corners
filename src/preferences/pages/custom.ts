@@ -1,227 +1,150 @@
-// imports.gi
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
+import Adw from 'gi://Adw';
 
-// local modules
-import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import {connections} from '../../utils/connections.js';
-import {constants} from '../../utils/constants.js';
-import {TIPS_EMPTY, list_children, show_err_msg} from '../../utils/prefs.js';
-import {settings} from '../../utils/settings.js';
-import {AppRow, type AppRowHandler} from '../widgets/app_row.js';
-import {RoundedCornersItem} from '../widgets/rounded_corners_item.js';
+import { gettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { connections } from '../../utils/connections.js';
+import { settings } from '../../utils/settings.js';
+import { AppRowClass, type AppRowCb } from '../widgets/app_row.js';
+import { CustomEffectRow, CustomEffectRowClass } from '../widgets/customeffect_row.js';
+import { PaddingsRowClass } from '../widgets/paddings_row.js';
 
-import {uri} from '../../utils/io.js';
+import { uri } from '../../utils/io.js';
 import type {
     CustomRoundedCornersCfg,
-    RoundedCornersCfg,
 } from '../../utils/types.js';
-
-// --------------------------------------------------------------- [end imports]
 
 export const Custom = GObject.registerClass(
     {
         Template: uri(import.meta.url, 'custom.ui'),
-        GTypeName: 'RoundedWindowCornersPrefsCustomPage',
-        InternalChildren: ['custom_group', 'add_row_btn'],
+        GTypeName: 'PrefsCustom',
+        InternalChildren: ['custom_group'],
     },
-    class extends Gtk.Box {
-        private declare _custom_group: Gtk.ListBox;
-        private declare _add_row_btn: Gtk.Button;
+    class extends Adw.PreferencesPage {
+        private declare _custom_group: Adw.PreferencesGroup;
 
         private declare _settings_cfg: CustomRoundedCornersCfg;
 
-        _init() {
-            super._init();
+        constructor() {
+            super();
             this._settings_cfg = settings().custom_rounded_corner_settings;
 
-            for (const k in this._settings_cfg) {
-                this.add_row(k, this._settings_cfg[k]);
+            for (const title in this._settings_cfg) {
+                this.add_window(undefined, title);
             }
-
-            connections.get().connect(this._add_row_btn, 'clicked', () => {
-                const title = '';
-
-                if (this._settings_cfg[title]) {
-                    this.show_exists_error_toast(title);
-                    return;
-                }
-
-                const cfg = settings().global_rounded_corner_settings;
-                this.add_row(title, cfg);
-
-                this._settings_cfg[title] = cfg;
-            });
         }
 
-        private add_row(
-            title: string,
-            cfg: RoundedCornersCfg,
-        ): InstanceType<typeof AppRow> {
-            let rounded_corners_item: RoundedCornersItemType | null =
-                new RoundedCornersItem();
+        private add_window(_?: Gtk.Button, title?: string) {
+            const cb: AppRowCb = {
+                on_delete: (row) => this.delete_row(row),
+                on_title_changed: (row, old_title, new_title) => this.change_title(row, old_title, new_title)
+            };
 
-            const enabled_switch = new Gtk.Switch({
-                valign: Gtk.Align.CENTER,
-                active: true,
-                visible: true,
-            });
-            (rounded_corners_item as RoundedCornersItemType).cfg = cfg;
-            enabled_switch.active = cfg.enabled;
-
-            const handler = {
-                on_delete: (row, title) => {
-                    if (rounded_corners_item != null) {
-                        const paddings_row = rounded_corners_item._paddings_row;
-                        connections.get().disconnect_all(paddings_row);
-                        rounded_corners_item.unwatch();
-                        connections.get().disconnect_all(enabled_switch);
-                        this._custom_group.remove(row);
-
-                        delete this._settings_cfg[title];
-                        settings().custom_rounded_corner_settings =
-                            this._settings_cfg;
-                    }
-                    rounded_corners_item = null;
-                },
-                on_title_changed: (old_title, new_title) => {
-                    if (this._settings_cfg[new_title] !== undefined) {
-                        this.show_exists_error_toast(new_title);
-                        return false;
-                    }
-
-                    const cfg = this._settings_cfg[old_title];
-                    delete this._settings_cfg[old_title];
-                    this._settings_cfg[new_title] = cfg;
-
-                    settings().custom_rounded_corner_settings =
-                        this._settings_cfg;
-
-                    return true;
-                },
-                on_open: row => {
-                    if (!rounded_corners_item) {
-                        return;
-                    }
-                    const app_row = row as InstanceType<typeof AppRow>;
-                    rounded_corners_item.watch(cfg => {
-                        cfg.enabled = enabled_switch.active;
-                        this._on_cfg_changed(app_row.title, cfg);
-                    });
-                    connections
-                        .get()
-                        .connect(enabled_switch, 'state-set', () => {
-                            if (!rounded_corners_item) {
-                                return;
-                            }
-                            const cfg = rounded_corners_item.cfg;
-                            cfg.enabled = enabled_switch.active;
-                            this._on_cfg_changed(app_row.title, cfg);
-                            return false;
-                        });
-                    connections
-                        .get()
-                        .connect(
-                            app_row._expanded_list_box,
-                            'row-activated',
-                            (_me: Gtk.ListBox, row: Gtk.ListBoxRow) => {
-                                if (!rounded_corners_item) {
-                                    return;
-                                }
-                                if (
-                                    row === rounded_corners_item._paddings_row
-                                ) {
-                                    rounded_corners_item.update_revealer();
-                                }
-                            },
-                        );
-                },
-                on_close: () => {
-                    if (!rounded_corners_item) {
-                        return;
-                    }
-                    connections
-                        .get()
-                        .disconnect_all(rounded_corners_item._paddings_row);
-                    rounded_corners_item.unwatch();
-                    connections.get().disconnect_all(enabled_switch);
-                },
-            } as AppRowHandler;
-
-            const expanded_row = new AppRow(handler);
-            expanded_row.title = title;
-            expanded_row.activatable = false;
-
-            if (title === '') {
-                expanded_row.description = TIPS_EMPTY();
-            }
-
-            this._custom_group.append(expanded_row);
-
-            const enabled_row = this.create_enabled_row(enabled_switch);
-
-            add_row(expanded_row, enabled_row);
-
-            for (const child of list_children(rounded_corners_item)) {
-                if (child.name === constants.DON_T_CONFIG) {
-                    rounded_corners_item?.remove(child);
-                    add_row(expanded_row, child);
-                    enabled_switch.bind_property(
-                        'active',
-                        child,
-                        'sensitive',
-                        GObject.BindingFlags.SYNC_CREATE,
-                    );
-                }
-            }
-
-            return expanded_row;
+            const row = new CustomEffectRow(cb)
+            if (title) 
+                this.setup_row(row, title);
+            row.set_subtitle(title || '');
+            this._custom_group.add(row);
         }
 
-        private show_exists_error_toast(item: string) {
-            const title = `${item}: ${_(
-                "Can't add to list, because it has exists",
-            )}`;
-            show_err_msg(title);
-        }
-
-        private _on_cfg_changed(k: string, v: RoundedCornersCfg) {
-            this._settings_cfg[k] = v;
+        private delete_row(row: AppRowClass) {
+            delete this._settings_cfg[row.subtitle];
             settings().custom_rounded_corner_settings = this._settings_cfg;
+            this.disconnect_row(row);
+            this._custom_group.remove(row);
         }
 
-        private create_enabled_row(active_widget: Gtk.Widget): Gtk.ListBoxRow {
-            const row = new Gtk.ListBoxRow();
-            const title = new Gtk.Label({
-                label: _('Enable'),
-                halign: Gtk.Align.START,
-            });
-            const description = new Gtk.Label({
-                label: _('Enable custom settings for this window'),
-                halign: Gtk.Align.START,
-                cssClasses: ['caption'],
-            });
-            const hbox = new Gtk.Box({
-                valign: Gtk.Align.CENTER,
-            });
-            const vbox = new Gtk.Box({
-                orientation: Gtk.Orientation.VERTICAL,
-                hexpand: true,
-            });
+        private change_title(row: AppRowClass, old_title: string, new_title: string): boolean {
+            if (this._settings_cfg[new_title] !== undefined) {
+                const win = this.root as unknown as Adw.PreferencesDialog;
+                win.add_toast(new Adw.Toast({ title: gettext(`Can't add ${new_title} to the list, because it already there`) }));
+                return false;
+            }
 
-            vbox.append(title);
-            vbox.append(description);
-            hbox.append(vbox);
-            hbox.append(active_widget);
-            row.set_child(hbox);
+            if (old_title === '') {
+                this._settings_cfg[new_title] = settings().global_rounded_corner_settings;
+            } else {
+                const cfg = this._settings_cfg[old_title];
+                delete this._settings_cfg[old_title];
+                this._settings_cfg[new_title] = cfg;
+                this.disconnect_row(row);
+            }
 
-            return row;
+            this.setup_row(row, new_title);
+            settings().custom_rounded_corner_settings = this._settings_cfg;
+            return true;
         }
-    },
+
+        private setup_row(row: AppRowClass , title: string) {
+            const c = connections.get();
+            if (!(row instanceof CustomEffectRowClass))
+                return;
+            const r = row as CustomEffectRowClass;
+
+            c.connect(r, 'notify::subtitle', (row: CustomEffectRowClass) => {
+                row.check_state();
+            })
+            r.enabled_row.set_active(this._settings_cfg[title].enabled);
+            c.connect(r.enabled_row, 'notify::active', (row: Adw.SwitchRow) => {
+                r.check_state();
+                this._settings_cfg[title].enabled = row.get_active();
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            })
+            r.corner_radius.set_value(this._settings_cfg[title].border_radius);
+            c.connect(r.corner_radius, 'value-changed', (adj: Gtk.Adjustment) => {
+                this._settings_cfg[title].border_radius = adj.get_value();
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+            r.corner_smoothing.set_value(this._settings_cfg[title].smoothing);
+            c.connect(r.corner_smoothing, 'value-changed', (adj: Gtk.Adjustment) => {
+                this._settings_cfg[title].smoothing = adj.get_value();
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+            r.keep_for_maximized.set_active(this._settings_cfg[title].keep_rounded_corners.maximized);
+            c.connect(r.keep_for_maximized, 'notify::active', (row: Adw.SwitchRow) => {
+                this._settings_cfg[title].keep_rounded_corners.maximized = r.keep_for_maximized.get_active();
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+            r.keep_for_fullscreen.set_active(this._settings_cfg[title].keep_rounded_corners.fullscreen);
+            c.connect(r.keep_for_fullscreen, 'notify::active', (row: Adw.SwitchRow) => {
+                this._settings_cfg[title].keep_rounded_corners.fullscreen = r.keep_for_fullscreen.get_active();
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+            r.paddings.paddingTop = this._settings_cfg[title].padding.top;
+            c.connect(r.paddings, 'notify::padding-top', (row: PaddingsRowClass) => {
+                this._settings_cfg[title].padding.top = r.paddings.paddingTop;
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+            r.paddings.paddingBottom = this._settings_cfg[title].padding.bottom;
+            c.connect(r.paddings, 'notify::padding-bottom', (row: PaddingsRowClass) => {
+                this._settings_cfg[title].padding.bottom = r.paddings.paddingBottom;
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+            r.paddings.paddingStart = this._settings_cfg[title].padding.left;
+            c.connect(r.paddings, 'notify::padding-start', (row: PaddingsRowClass) => {
+                this._settings_cfg[title].padding.left = r.paddings.paddingStart;
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+            r.paddings.paddingEnd = this._settings_cfg[title].padding.right;
+            c.connect(r.paddings, 'notify::padding-end', (row: PaddingsRowClass) => {
+                this._settings_cfg[title].padding.right = r.paddings.paddingEnd;
+                settings().custom_rounded_corner_settings = this._settings_cfg;
+            });
+        }
+
+        private disconnect_row(row: AppRowClass) {
+            const c = connections.get();
+            if (!(row instanceof CustomEffectRowClass))
+                return;
+            const r = row as CustomEffectRowClass;
+
+            c.disconnect_all(r);
+            c.disconnect_all(r.enabled_row);
+            c.disconnect_all(r.corner_radius);
+            c.disconnect_all(r.corner_smoothing);
+            c.disconnect_all(r.keep_for_maximized);
+            c.disconnect_all(r.keep_for_fullscreen);
+            c.disconnect_all(r.paddings);
+        }
+    }
 );
-
-function add_row(parent: InstanceType<typeof AppRow>, child: Gtk.Widget) {
-    parent.add_row(child);
-}
-
-type RoundedCornersItemType = InstanceType<typeof RoundedCornersItem>;
