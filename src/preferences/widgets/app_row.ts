@@ -59,11 +59,13 @@ export class AppRowClass extends Adw.ExpanderRow {
     }
 
     on_title_change(entry: Adw.EntryRow) {
-        if (!this.cb?.on_title_changed || this.subtitle === entry.text || entry.text === '')
+        if (!this.cb?.on_title_changed || this.subtitle === entry.text || entry.text === '') {
             return;
+        }
 
-        if (this.cb.on_title_changed(this, this.subtitle || '', entry.text || ''))
+        if (this.cb.on_title_changed(this, this.subtitle || '', entry.text || '')) {
             this.set_subtitle(entry.text || '');
+        }
     }
 
     on_pick( entry: Adw.EntryRow) {

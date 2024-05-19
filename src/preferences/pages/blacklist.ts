@@ -1,19 +1,19 @@
 import GObject from 'gi://GObject';
-import Gtk from 'gi://Gtk';
+import type Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 
-import { AppRowClass, type AppRowCb } from '../widgets/app_row.js';
-import { BlacklistRow } from '../widgets/blacklist_row.js';
-import { settings } from '../../utils/settings.js';
+import type {AppRowClass, AppRowCb} from '../widgets/app_row.js';
+import {BlacklistRow} from '../widgets/blacklist_row.js';
+import {settings} from '../../utils/settings.js';
 
-import { gettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { uri } from '../../utils/io.js';
+import {gettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {uri} from '../../utils/io.js';
 
 export const BlackList = GObject.registerClass(
     {
         Template: uri(import.meta.url, 'blacklist.ui'),
         GTypeName: 'PrefsBlacklist',
-        InternalChildren: ['blacklist_group']
+        InternalChildren: ['blacklist_group'],
     },
     class extends Adw.PreferencesPage {
         private declare _blacklist_group: Adw.PreferencesGroup;
@@ -32,8 +32,9 @@ export const BlackList = GObject.registerClass(
 
         private add_window(_?: Gtk.Button, title?: string) {
             const cb: AppRowCb = {
-                on_delete: (row) => this.delete_row(row),
-                on_title_changed: (_, old_title, new_title) => this.change_title(old_title, new_title)
+                on_delete: row => this.delete_row(row),
+                on_title_changed: (_, old_title, new_title) =>
+                    this.change_title(old_title, new_title),
             };
 
             const row = new BlacklistRow(cb);
@@ -50,7 +51,13 @@ export const BlackList = GObject.registerClass(
         private change_title(old_title: string, new_title: string): boolean {
             if (this.blacklist.includes(new_title)) {
                 const win = this.root as unknown as Adw.PreferencesDialog;
-                win.add_toast(new Adw.Toast({ title: gettext(`Can't add ${new_title} to the list, because it already there`) }));
+                win.add_toast(
+                    new Adw.Toast({
+                        title: gettext(
+                            `Can't add ${new_title} to the list, because it already there`,
+                        ),
+                    }),
+                );
                 return false;
             }
             if (old_title === '') {
@@ -64,5 +71,5 @@ export const BlackList = GObject.registerClass(
 
             return true;
         }
-    }
+    },
 );

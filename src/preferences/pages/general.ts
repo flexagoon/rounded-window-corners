@@ -1,18 +1,18 @@
 import GObject from 'gi://GObject';
-import Gtk from 'gi://Gtk';
+import type Gtk from 'gi://Gtk';
 import Gdk from 'gi://Gdk';
 import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 
-import { connections } from '../../utils/connections.js';
-import { settings } from '../../utils/settings.js';
-import { EditShadowPage } from '../widgets/edit_shadow_page.js';
-import { ResetPage } from '../widgets/reset_page.js';
-import { PaddingsRowClass } from '../widgets/paddings_row.js'
+import {connections} from '../../utils/connections.js';
+import {settings} from '../../utils/settings.js';
+import {EditShadowPage} from '../widgets/edit_shadow_page.js';
+import {ResetPage} from '../widgets/reset_page.js';
+import type {PaddingsRowClass} from '../widgets/paddings_row.js';
 import '../widgets/paddings_row.js';
 
-import { uri } from '../../utils/io.js';
-import { RoundedCornersCfg } from '../../utils/types.js';
+import {uri} from '../../utils/io.js';
+import type {RoundedCornersCfg} from '../../utils/types.js';
 
 export const General = GObject.registerClass(
     {
@@ -30,7 +30,7 @@ export const General = GObject.registerClass(
             'paddings',
             'tweak_kitty',
             'right_click_menu',
-            'enable_log'
+            'enable_log',
         ],
     },
     class extends Adw.PreferencesPage {
@@ -98,7 +98,7 @@ export const General = GObject.registerClass(
                 (adj: Gtk.Adjustment) => {
                     this._cfg.border_radius = adj.get_value();
                     this._update_global_config();
-                }
+                },
             );
             this._corner_smoothing.set_value(this._cfg.smoothing);
             c.connect(
@@ -107,25 +107,31 @@ export const General = GObject.registerClass(
                 (adj: Gtk.Adjustment) => {
                     this._cfg.smoothing = adj.get_value();
                     this._update_global_config();
-                }
+                },
             );
-            this._keep_for_maximized.set_active(this._cfg.keep_rounded_corners.maximized)
+            this._keep_for_maximized.set_active(
+                this._cfg.keep_rounded_corners.maximized,
+            );
             c.connect(
                 this._keep_for_maximized,
                 'notify::active',
                 (swtch: Adw.SwitchRow) => {
-                    this._cfg.keep_rounded_corners.maximized = swtch.get_active();
+                    this._cfg.keep_rounded_corners.maximized =
+                        swtch.get_active();
                     this._update_global_config();
-                }
+                },
             );
-            this._keep_for_fullscreen.set_active(this._cfg.keep_rounded_corners.fullscreen)
+            this._keep_for_fullscreen.set_active(
+                this._cfg.keep_rounded_corners.fullscreen,
+            );
             c.connect(
                 this._keep_for_fullscreen,
                 'notify::active',
                 (swtch: Adw.SwitchRow) => {
-                    this._cfg.keep_rounded_corners.fullscreen = swtch.get_active();
+                    this._cfg.keep_rounded_corners.fullscreen =
+                        swtch.get_active();
                     this._update_global_config();
-                }
+                },
             );
             this._paddings.paddingTop = this._cfg.padding.top;
             c.connect(
@@ -134,7 +140,7 @@ export const General = GObject.registerClass(
                 (row: PaddingsRowClass) => {
                     this._cfg.padding.top = row.paddingTop;
                     this._update_global_config();
-                }
+                },
             );
             this._paddings.paddingBottom = this._cfg.padding.bottom;
             c.connect(
@@ -143,7 +149,7 @@ export const General = GObject.registerClass(
                 (row: PaddingsRowClass) => {
                     this._cfg.padding.bottom = row.paddingBottom;
                     this._update_global_config();
-                }
+                },
             );
             this._paddings.paddingStart = this._cfg.padding.left;
             c.connect(
@@ -152,7 +158,7 @@ export const General = GObject.registerClass(
                 (row: PaddingsRowClass) => {
                     this._cfg.padding.left = row.paddingStart;
                     this._update_global_config();
-                }
+                },
             );
             this._paddings.paddingEnd = this._cfg.padding.right;
             c.connect(
@@ -161,7 +167,7 @@ export const General = GObject.registerClass(
                 (row: PaddingsRowClass) => {
                     this._cfg.padding.right = row.paddingEnd;
                     this._update_global_config();
-                }
+                },
             );
             settings().bind(
                 'tweak-kitty-terminal',

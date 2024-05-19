@@ -3,13 +3,13 @@ import Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 
-import { settings } from '../../utils/settings.js';
-import { box_shadow_css } from '../../utils/types.js';
+import {settings} from '../../utils/settings.js';
+import {box_shadow_css} from '../../utils/types.js';
 
-import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import { uri } from '../../utils/io.js';
-import type { BoxShadow } from '../../utils/types.js';
+import {uri} from '../../utils/io.js';
+import type {BoxShadow} from '../../utils/types.js';
 
 export const EditShadowPage = GObject.registerClass(
     {
@@ -70,8 +70,8 @@ export const EditShadowPage = GObject.registerClass(
             this.focused_shadow = settings().focused_shadow;
             this.unfocused_shadow = settings().unfocused_shadow;
 
-            const style_manager = new Adw.StyleManager()
-            style_manager.connect("notify::dark", (manager) => {
+            const style_manager = new Adw.StyleManager();
+            style_manager.connect('notify::dark', manager => {
                 this.update_background(manager);
             });
 
@@ -88,12 +88,12 @@ export const EditShadowPage = GObject.registerClass(
                     this.unfocus_provider,
                     Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
                 );
-            
+
             this._preview_row
                 .get_style_context()
                 .add_provider(
                     this.backgroud_provider,
-                    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+                    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
                 );
 
             // Init value controls from settings
@@ -104,16 +104,32 @@ export const EditShadowPage = GObject.registerClass(
         }
 
         private update_widget() {
-            this._focused_horizontal_offset.set_value(this.focused_shadow.horizontal_offset);
-            this._focused_vertical_offset.set_value(this.focused_shadow.vertical_offset);
-            this._focused_blur_radius.set_value(this.focused_shadow.blur_offset);
-            this._focused_spread_radius.set_value(this.focused_shadow.spread_radius);
+            this._focused_horizontal_offset.set_value(
+                this.focused_shadow.horizontal_offset,
+            );
+            this._focused_vertical_offset.set_value(
+                this.focused_shadow.vertical_offset,
+            );
+            this._focused_blur_radius.set_value(
+                this.focused_shadow.blur_offset,
+            );
+            this._focused_spread_radius.set_value(
+                this.focused_shadow.spread_radius,
+            );
             this._focused_opacity.set_value(this.focused_shadow.opacity);
 
-            this._unfocused_horizontal_offset.set_value(this.unfocused_shadow.horizontal_offset);
-            this._unfocused_vertical_offset.set_value(this.unfocused_shadow.vertical_offset);
-            this._unfocused_blur_radius.set_value(this.unfocused_shadow.blur_offset);
-            this._unfocused_spread_radius.set_value(this.unfocused_shadow.spread_radius);
+            this._unfocused_horizontal_offset.set_value(
+                this.unfocused_shadow.horizontal_offset,
+            );
+            this._unfocused_vertical_offset.set_value(
+                this.unfocused_shadow.vertical_offset,
+            );
+            this._unfocused_blur_radius.set_value(
+                this.unfocused_shadow.blur_offset,
+            );
+            this._unfocused_spread_radius.set_value(
+                this.unfocused_shadow.spread_radius,
+            );
             this._unfocused_opacity.set_value(this.unfocused_shadow.opacity);
         }
 
@@ -128,7 +144,8 @@ export const EditShadowPage = GObject.registerClass(
             this.focused_shadow = focused_shadow;
             const unfocused_shadow: BoxShadow = {
                 vertical_offset: this._unfocused_vertical_offset.get_value(),
-                horizontal_offset: this._unfocused_horizontal_offset.get_value(),
+                horizontal_offset:
+                    this._unfocused_horizontal_offset.get_value(),
                 blur_offset: this._unfocused_blur_radius.get_value(),
                 spread_radius: this._unfocused_spread_radius.get_value(),
                 opacity: this._unfocused_opacity.get_value(),
@@ -163,14 +180,16 @@ export const EditShadowPage = GObject.registerClass(
         }
 
         private update_background(manager: Adw.StyleManager) {
-            var path = "";
-            const backgrounds = Gio.Settings.new('org.gnome.desktop.background')
+            let path = '';
+            const backgrounds = Gio.Settings.new(
+                'org.gnome.desktop.background',
+            );
             switch (manager.get_dark()) {
                 case true:
-                    path = backgrounds.get_string('picture-uri-dark')
+                    path = backgrounds.get_string('picture-uri-dark');
                     break;
                 case false:
-                    path = backgrounds.get_string('picture-uri')
+                    path = backgrounds.get_string('picture-uri');
                     break;
             }
             this.backgroud_provider.load_from_string(`.desktop-background {
@@ -182,8 +201,9 @@ export const EditShadowPage = GObject.registerClass(
         // signal handles
 
         on_value_changed() {
-            if (!this.is_initialized)
+            if (!this.is_initialized) {
                 return;
+            }
             this.update_cfg();
             this.update_style();
         }

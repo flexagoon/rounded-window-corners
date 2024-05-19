@@ -1,4 +1,4 @@
-import Adw from 'gi://Adw';
+import type Adw from 'gi://Adw';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 

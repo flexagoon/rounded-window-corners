@@ -1,13 +1,13 @@
 import GObject from 'gi://GObject';
-import Gtk from 'gi://Gtk';
+import type Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 
-import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { _log } from '../../utils/log.js';
-import { type SchemasKeys, settings } from '../../utils/settings.js';
-import type { RoundedCornersCfg } from '../../utils/types.js';
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {_log} from '../../utils/log.js';
+import {type SchemasKeys, settings} from '../../utils/settings.js';
+import type {RoundedCornersCfg} from '../../utils/types.js';
 
-import { uri } from '../../utils/io.js';
+import {uri} from '../../utils/io.js';
 
 class Cfg {
     description: string;
@@ -22,11 +22,7 @@ export const ResetPage = GObject.registerClass(
     {
         Template: uri(import.meta.url, 'reset-page.ui'),
         GTypeName: 'ResetPage',
-        InternalChildren: [
-            'reset_grp',
-            'reset_btn',
-            'dialog'
-        ]
+        InternalChildren: ['reset_grp', 'reset_btn', 'dialog'],
     },
     class extends Adw.NavigationPage {
         private declare _reset_grp: Adw.PreferencesGroup;
@@ -76,14 +72,16 @@ export const ResetPage = GObject.registerClass(
         }
 
         private _build_ui() {
-            const build = (cfg: { [key: string]: { description: string } }) => {
+            const build = (cfg: {[key: string]: {description: string}}) => {
                 for (const key in cfg) {
                     const row = new Adw.SwitchRow({
                         active: false,
-                        name: key
+                        name: key,
                     });
                     row.set_title(cfg[key].description);
-                    row.connect('notify::active', source => this.on_toggled(source));
+                    row.connect('notify::active', source =>
+                        this.on_toggled(source),
+                    );
                     this._reset_grp.add(row);
                     this._rows.push(row);
                 }
@@ -109,9 +107,9 @@ export const ResetPage = GObject.registerClass(
         }
 
         select_all() {
-            this._rows.forEach(row => {
+            for (const row of this._rows) {
                 row.set_active(true);
-            });
+            }
         }
 
         ask_for_reset() {
@@ -122,8 +120,9 @@ export const ResetPage = GObject.registerClass(
         }
 
         reset(_: Adw.MessageDialog, response: string) {
-            if (response === 'cancel')
+            if (response === 'cancel') {
                 return;
+            }
 
             for (const k in this._reset_keys) {
                 if (this._reset_keys[k as SchemasKeys]?.reset === true) {
