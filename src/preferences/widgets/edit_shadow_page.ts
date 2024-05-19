@@ -1,12 +1,10 @@
-import GObject from 'gi://GObject';
-import Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
+import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
 
 import {settings} from '../../utils/settings.js';
 import {box_shadow_css} from '../../utils/types.js';
-
-import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 import {uri} from '../../utils/io.js';
 import type {BoxShadow} from '../../utils/types.js';

@@ -1,5 +1,5 @@
-import GObject from 'gi://GObject';
 import Adw from 'gi://Adw';
+import GObject from 'gi://GObject';
 
 import {uri} from '../../utils/io.js';
 

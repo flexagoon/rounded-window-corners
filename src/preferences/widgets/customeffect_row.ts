@@ -1,8 +1,8 @@
+import Adw from 'gi://Adw';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-import Adw from 'gi://Adw';
 
-import {AppRowClass, type AppRowCallbacks} from './app_row.js';
+import {type AppRowCallbacks, AppRowClass} from './app_row.js';
 import {PaddingsRow} from './paddings_row.js';
 import './app_row.js';
 
@@ -38,9 +38,7 @@ export class CustomEffectRowClass extends AppRowClass {
     });
     public keep_for_fullscreen = new Adw.SwitchRow({
         title: _('Keep rounded corners when in fullscreen'),
-        subtitle: _(
-            'Always clip rounded corners even for fullscreen window',
-        ),
+        subtitle: _('Always clip rounded corners even for fullscreen window'),
     });
     public paddings = new PaddingsRow();
 

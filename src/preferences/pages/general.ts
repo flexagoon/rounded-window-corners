@@ -1,14 +1,14 @@
-import GObject from 'gi://GObject';
-import type Gtk from 'gi://Gtk';
-import Gdk from 'gi://Gdk';
 import Adw from 'gi://Adw';
+import GObject from 'gi://GObject';
+import Gdk from 'gi://Gdk';
 import Gio from 'gi://Gio';
+import type Gtk from 'gi://Gtk';
 
 import {connections} from '../../utils/connections.js';
 import {settings} from '../../utils/settings.js';
 import {EditShadowPage} from '../widgets/edit_shadow_page.js';
-import {ResetPage} from '../widgets/reset_page.js';
 import type {PaddingsRowClass} from '../widgets/paddings_row.js';
+import {ResetPage} from '../widgets/reset_page.js';
 import '../widgets/paddings_row.js';
 
 import {uri} from '../../utils/io.js';

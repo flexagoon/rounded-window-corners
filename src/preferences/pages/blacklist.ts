@@ -1,10 +1,10 @@
+import Adw from 'gi://Adw';
 import GObject from 'gi://GObject';
 import type Gtk from 'gi://Gtk';
-import Adw from 'gi://Adw';
 
-import type {AppRowClass, AppRowCallbacks} from '../widgets/app_row.js';
-import {BlacklistRow} from '../widgets/blacklist_row.js';
 import {settings} from '../../utils/settings.js';
+import type {AppRowCallbacks, AppRowClass} from '../widgets/app_row.js';
+import {BlacklistRow} from '../widgets/blacklist_row.js';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {uri} from '../../utils/io.js';
