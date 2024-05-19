@@ -11,10 +11,9 @@
         <property name="description" translatable="yes">Set custom effect setting for each window class</property>
         <property name="header-suffix">
           <object class="GtkButton">
-            <property name="valign">center</property>
-            <style>
-              <class name="pill"/>
-            </style>
+            <property name="valign">start</property>
+            <property name="margin-start">4px</property>
+            <property name="margin-end">4px</property>
             <child>
               <object class="AdwButtonContent">
                 <property name="label" translatable="yes">Add window</property>
