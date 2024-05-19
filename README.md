@@ -13,7 +13,7 @@ This is the fork of the [original rounded-window-corners extension][14] by
 
 ## Features
 
-- Works with Gnome 45+
+- Works with Gnome 46+
 - Custom border radius and clip paddings for windows
 - Blocklist for applications that draw their own window decorations
 - Custom shadow for windows with rounded corners

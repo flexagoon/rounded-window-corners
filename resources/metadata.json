@@ -7,5 +7,5 @@
     "gettext-domain": "rounded-window-corners@fxgn",
     "settings-schema": "org.gnome.shell.extensions.rounded-window-corners",
     "session-modes": ["user", "unlock-dialog"],
-    "shell-version": ["45", "46"]
+    "shell-version": ["46"]
 }
