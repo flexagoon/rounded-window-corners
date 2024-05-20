@@ -14,8 +14,7 @@
             <child>
               <object class="AdwPreferencesGroup">
                 <child>
-                  <object class="GtkListBoxRow" id="preview_row">
-                    <property name="activatable">false</property>
+                  <object class="GtkBox" id="preview_row">
                     <style>
                       <class name="card"/>
                       <class name="desktop-background"/>
@@ -23,6 +22,7 @@
                     <child>
                       <object class="GtkBox">
                         <property name="halign">center</property>
+                        <property name="hexpand">true</property>
                         <child>
                           <object class="GtkLabel" id="focused_shadow_preview">
                             <property name="label" translatable="yes">Focused window</property>
