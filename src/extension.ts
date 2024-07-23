@@ -107,7 +107,10 @@ export default class RoundedWindowCornersReborn extends Extension {
             if (shadow) {
                 has_rounded_corners = UI.shouldEnableEffect(window);
             }
-            if (!(has_rounded_corners && shadow)) {
+            if (
+                !(has_rounded_corners && shadow) ||
+                window.has_attached_dialogs()
+            ) {
                 return;
             }
 
