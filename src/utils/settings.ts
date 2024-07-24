@@ -32,6 +32,7 @@ export type SchemasKeys =
     | 'debug-mode'
     | 'border-width'
     | 'border-color'
+    | 'unfocused-border-color'
     | 'settings-version'
     | 'tweak-kitty-terminal'
     | 'enable-preferences-entry';
@@ -55,6 +56,7 @@ export class Settings {
     border_width!: number;
     settings_version!: number;
     border_color!: [number, number, number, number];
+    unfocused_border_color!: [number, number, number, number];
 
     /** GSettings, which used to store and load settings */
     g_settings: Gio.Settings;

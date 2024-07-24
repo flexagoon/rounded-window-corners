@@ -15,6 +15,7 @@
 ## Features
 
 - Works with Gnome 46+
+- Custom border color for focused and unfocused windows
 - Custom border radius and clip paddings for windows
 - Blocklist for applications that draw their own window decorations
 - Custom shadow for windows with rounded corners
