@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-22 11:54-0700\n"
+"POT-Creation-Date: 2024-08-09 23:51+0100\n"
 "PO-Revision-Date: 2023-10-29 05:13+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/rounded-window-"
@@ -89,65 +89,70 @@ msgstr "Grubość obramowania"
 msgid "Border color"
 msgstr "Kolor obramowania"
 
-#: src/preferences/pages/general.ui:74
+#: src/preferences/pages/general.ui:74 src/preferences/pages/general.ui:82
+#, fuzzy
+msgid "Unfocused border color"
+msgstr "Kolor obramowania"
+
+#: src/preferences/pages/general.ui:91
 #: src/preferences/widgets/customeffect_row.ts:16
 #, fuzzy
 msgid "Corner radius"
 msgstr "Zaokrąglenie krawędzi"
 
-#: src/preferences/pages/general.ui:101
+#: src/preferences/pages/general.ui:118
 #: src/preferences/widgets/customeffect_row.ts:25
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "wygładzanie krawędzi"
 
-#: src/preferences/pages/general.ui:127
+#: src/preferences/pages/general.ui:144
 #, fuzzy
 msgid "Windows shadow"
 msgstr "Styl cienia wybranego okna"
 
-#: src/preferences/pages/general.ui:128
+#: src/preferences/pages/general.ui:145
 msgid "Customize the shadow of the rounded corner window"
 msgstr "Dostosuj cień okien z zaokrąglonymi krawędziami"
 
-#: src/preferences/pages/general.ui:140
+#: src/preferences/pages/general.ui:157
 #, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Zaokrąglaj okna kiedy zmaksymalizowane"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:162
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Zaokrąglaj okna w pełnym ekranie"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:172
 msgid "Tweaks"
 msgstr "Ulepszenia"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:175
 msgid "Try to add rounded corners to Kitty Terminal in Wayland"
 msgstr ""
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:176
 msgid "Tweak clip paddings for Kitty Terminal"
 msgstr ""
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:181
 msgid "Add Settings Entry in right-click menu of Background"
 msgstr ""
 "Dodaj opcję do menu pojawiającego się po kliknięciu prawym przyciskiem myszy "
 "na pulpicie"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:188
 msgid "Debug"
 msgstr "Debuguj"
 
-#: src/preferences/pages/general.ui:174
+#: src/preferences/pages/general.ui:191
 #: src/preferences/widgets/reset_page.ts:61
 msgid "Enable Log"
 msgstr "Włącz logi"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:192
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in terminal to see the log"
@@ -155,7 +160,7 @@ msgstr ""
 "Aby zobaczyć log, uruchom w terminalu polecenie <i>journalctl -o cat -f /usr/"
 "bin/gnome-shell</i>"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:201
 #, fuzzy
 msgid "Open prefereces reset page"
 msgstr "Otwórz okno resetowania ustawień"

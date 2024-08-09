@@ -23,6 +23,7 @@ export const General = GObject.registerClass(
             'skip_libhandy',
             'border_width',
             'border_color',
+            'unfocused_border_color',
             'corner_radius',
             'corner_smoothing',
             'keep_for_maximized',
@@ -38,6 +39,7 @@ export const General = GObject.registerClass(
         private declare _skip_libhandy: Adw.SwitchRow;
         private declare _border_width: Gtk.Adjustment;
         private declare _border_color: Gtk.ColorDialogButton;
+        private declare _unfocused_border_color: Gtk.ColorDialogButton;
         private declare _corner_radius: Gtk.Adjustment;
         private declare _corner_smoothing: Gtk.Adjustment;
         private declare _keep_for_maximized: Adw.SwitchRow;
@@ -89,6 +91,23 @@ export const General = GObject.registerClass(
                         color.green,
                         color.blue,
                         color.alpha,
+                    ];
+                },
+            );
+            const u_color = new Gdk.RGBA();
+            [color.red, color.green, color.blue, color.alpha] =
+                settings().unfocused_border_color;
+            this._unfocused_border_color.set_rgba(color);
+            c.connect(
+                this._unfocused_border_color,
+                'notify::rgba',
+                (btn: Gtk.ColorDialogButton) => {
+                    const u_color = btn.get_rgba();
+                    settings().unfocused_border_color = [
+                        u_color.red,
+                        u_color.green,
+                        u_color.blue,
+                        u_color.alpha,
                     ];
                 },
             );

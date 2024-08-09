@@ -374,6 +374,24 @@ function refreshEffectState() {
 function refreshShadow(actor: ExtensionsWindowActor) {
     const win = actor.metaWindow;
     const shadow = actor.__rwcRoundedWindowInfo?.shadow;
+
+    const effect = getRoundedCornersEffect(actor);
+    if (!effect) return
+    const cfg = getRoundedCornersCfg(win);
+    const windowContentOffset = computeWindowContentsOffset(win);
+    const col = win.appears_focused
+      ? settings ().border_color
+      : settings ().unfocused_border_color;
+    effect.update_uniforms(
+        WindowScaleFactor(win),
+        cfg,
+        computeBounds(actor, windowContentOffset),
+        {
+            width: settings().border_width,
+            color: col,
+        },
+    );
+
     if (!shadow) {
         return;
     }
@@ -418,6 +436,9 @@ function refreshRoundedCorners(actor: ExtensionsWindowActor): void {
 
     const windowContentOffset = computeWindowContentsOffset(win);
 
+    const col = win.appears_focused
+      ? settings ().border_color
+      : settings ().unfocused_border_color
     // When window size is changed, update uniforms for corner rounding shader.
     effect.update_uniforms(
         WindowScaleFactor(win),
@@ -425,7 +446,7 @@ function refreshRoundedCorners(actor: ExtensionsWindowActor): void {
         computeBounds(actor, windowContentOffset),
         {
             width: settings().border_width,
-            color: settings().border_color,
+            color: col,
         },
     );
 
