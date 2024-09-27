@@ -59,8 +59,8 @@ export const General = GObject.registerClass(
 
             if (!this._cfg.keepRoundedCorners) {
                 this._cfg.keepRoundedCorners = {
-                    maximized: false, // Set desired default value here
-                    fullscreen: false, // Set desired default value here
+                    maximized: false,
+                    fullscreen: false,
                 };
             }
 
