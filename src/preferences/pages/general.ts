@@ -57,6 +57,13 @@ export const General = GObject.registerClass(
 
             this._cfg = getPref('global-rounded-corner-settings');
 
+            if (!this._cfg.keepRoundedCorners) {
+                this._cfg.keepRoundedCorners = {
+                    maximized: false, // Set desired default value here
+                    fullscreen: false, // Set desired default value here
+                };
+            }
+
             bindPref(
                 'skip-libadwaita-app',
                 this._skip_libadwaita,
