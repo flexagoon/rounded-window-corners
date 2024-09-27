@@ -112,28 +112,30 @@ export const General = GObject.registerClass(
                 },
             );
 
-            this._keep_for_maximized.set_active(
-                this._cfg.keepRoundedCorners.maximized,
-            );
-            this._keep_for_maximized.connect(
-                'notify::active',
-                (swtch: Adw.SwitchRow) => {
-                    this._cfg.keepRoundedCorners.maximized = swtch.get_active();
-                    this._update_global_config();
-                },
-            );
+            if (this._cfg.keepRoundedCorners) {
+              this._keep_for_maximized.set_active(
+                  this._cfg.keepRoundedCorners.maximized,
+              );
+              this._keep_for_maximized.connect(
+                  'notify::active',
+                  (swtch: Adw.SwitchRow) => {
+                      this._cfg.keepRoundedCorners.maximized = swtch.get_active();
+                      this._update_global_config();
+                  },
+              );
 
-            this._keep_for_fullscreen.set_active(
-                this._cfg.keepRoundedCorners.fullscreen,
-            );
-            this._keep_for_fullscreen.connect(
-                'notify::active',
-                (swtch: Adw.SwitchRow) => {
-                    this._cfg.keepRoundedCorners.fullscreen =
-                        swtch.get_active();
-                    this._update_global_config();
-                },
-            );
+              this._keep_for_fullscreen.set_active(
+                  this._cfg.keepRoundedCorners.fullscreen,
+              );
+              this._keep_for_fullscreen.connect(
+                  'notify::active',
+                  (swtch: Adw.SwitchRow) => {
+                      this._cfg.keepRoundedCorners.fullscreen =
+                          swtch.get_active();
+                      this._update_global_config();
+                  },
+              );
+            }
 
             this._paddings.paddingTop = this._cfg.padding.top;
             this._paddings.connect(
