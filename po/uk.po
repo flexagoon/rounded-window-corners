@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 21:07+0300\n"
+"POT-Creation-Date: 2024-11-03 10:45-0800\n"
 "PO-Revision-Date: 2023-03-27 22:37+0000\n"
 "Last-Translator: Dan <denqwerta@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/rounded-window-"
@@ -89,66 +89,71 @@ msgstr "Ширина рамки"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
 #, fuzzy
-msgid "Border color"
+msgid "Focused border color"
 msgstr "Колір рамки"
 
-#: src/preferences/pages/general.ui:74
+#: src/preferences/pages/general.ui:74 src/preferences/pages/general.ui:82
+#, fuzzy
+msgid "Unfocused border color"
+msgstr "Колір рамки"
+
+#: src/preferences/pages/general.ui:91
 #: src/preferences/widgets/customeffect_row.ts:16
 #, fuzzy
 msgid "Corner radius"
 msgstr "Радіус рамки"
 
-#: src/preferences/pages/general.ui:101
+#: src/preferences/pages/general.ui:118
 #: src/preferences/widgets/customeffect_row.ts:25
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Згладжування кутів"
 
-#: src/preferences/pages/general.ui:127
+#: src/preferences/pages/general.ui:144
 #, fuzzy
 msgid "Windows shadow"
 msgstr "Тінь вікна"
 
-#: src/preferences/pages/general.ui:128
+#: src/preferences/pages/general.ui:145
 msgid "Customize the shadow of the rounded corner window"
 msgstr "Налаштувати тінь заокругленого кутового вікна"
 
-#: src/preferences/pages/general.ui:140
+#: src/preferences/pages/general.ui:157
 #, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Зберігати заокруглені кути при збільшенні"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:162
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Зберігати заокруглені кути в повноекранному режимі"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:172
 msgid "Tweaks"
 msgstr "Твіки"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:175
 msgid "Try to add rounded corners to Kitty Terminal in Wayland"
 msgstr "Спробувати додати заокруглені кути до терміналу Kitty у Wayland"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:176
 msgid "Tweak clip paddings for Kitty Terminal"
 msgstr "Налаштувати внутрішній відступ для терміналу Kitty"
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:181
 msgid "Add Settings Entry in right-click menu of Background"
 msgstr "Додати запис налаштувань у меню фону правою кнопкою миші"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:188
 msgid "Debug"
 msgstr "Налагодження"
 
-#: src/preferences/pages/general.ui:174
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/pages/general.ui:191
+#: src/preferences/widgets/reset_page.ts:65
 msgid "Enable Log"
 msgstr "Увімкнути журнал"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:192
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in terminal to see the log"
@@ -156,7 +161,7 @@ msgstr ""
 "Запустіть <i>journalctl -o cat -f /usr/bin/gnome-shell</i> у терміналі, щоб "
 "переглянути журнал"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:201
 #, fuzzy
 msgid "Open prefereces reset page"
 msgstr "Відкрити діалогове вікно скидання налаштувань"
@@ -314,11 +319,13 @@ msgid "Skip LibHandy Applications"
 msgstr "Пропустити застосунки LibHandy"
 
 #: src/preferences/widgets/reset_page.ts:60
-msgid "Focus Window Shadow Style"
+#, fuzzy
+msgid "Focused Window Shadow Style"
 msgstr "Стиль тіні вибраного вікна"
 
 #: src/preferences/widgets/reset_page.ts:61
-msgid "Unfocus Window Shadow Style"
+#, fuzzy
+msgid "Unfocused Window Shadow Style"
 msgstr "Стиль тіні розфокусованого вікна"
 
 #: src/preferences/widgets/reset_page.ts:62
@@ -326,28 +333,37 @@ msgid "Border Width"
 msgstr "Ширина рамки"
 
 #: src/preferences/widgets/reset_page.ts:63
-msgid "Border Color"
+#, fuzzy
+msgid "Focused Window Border Color"
 msgstr "Колір рамки"
 
-#: src/preferences/widgets/reset_page.ts:68
+#: src/preferences/widgets/reset_page.ts:64
+#, fuzzy
+msgid "Unfocused Window Border Color"
+msgstr "Колір рамки"
+
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Border Radius"
 msgstr "Радіус рамки"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:70
 msgid "Padding"
 msgstr "Відступ"
 
-#: src/preferences/widgets/reset_page.ts:71
+#: src/preferences/widgets/reset_page.ts:72
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Зберігати заокруглені кути при збільшенні та в повноекранному режимі"
 
-#: src/preferences/widgets/reset_page.ts:73
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Corner Smoothing"
 msgstr "Згладжування кутів"
 
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Налаштування заокруглених кутів..."
+
+#~ msgid "Border Color"
+#~ msgstr "Колір рамки"
 
 #~ msgid "Expand this row to pick a window."
 #~ msgstr "Розгорніть цей рядок, щоб вибрати вікно."

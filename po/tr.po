@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 21:07+0300\n"
+"POT-Creation-Date: 2024-11-03 10:45-0800\n"
 "PO-Revision-Date: 2023-05-14 22:51+0000\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/rounded-window-"
@@ -87,66 +87,71 @@ msgstr "Kenarlık Genişliği"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
 #, fuzzy
-msgid "Border color"
+msgid "Focused border color"
 msgstr "Kenarlık Rengi"
 
-#: src/preferences/pages/general.ui:74
+#: src/preferences/pages/general.ui:74 src/preferences/pages/general.ui:82
+#, fuzzy
+msgid "Unfocused border color"
+msgstr "Kenarlık Rengi"
+
+#: src/preferences/pages/general.ui:91
 #: src/preferences/widgets/customeffect_row.ts:16
 #, fuzzy
 msgid "Corner radius"
 msgstr "Kenarlık Yarıçapı"
 
-#: src/preferences/pages/general.ui:101
+#: src/preferences/pages/general.ui:118
 #: src/preferences/widgets/customeffect_row.ts:25
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Köşe Düzleştirme"
 
-#: src/preferences/pages/general.ui:127
+#: src/preferences/pages/general.ui:144
 #, fuzzy
 msgid "Windows shadow"
 msgstr "Pencere Gölgesi"
 
-#: src/preferences/pages/general.ui:128
+#: src/preferences/pages/general.ui:145
 msgid "Customize the shadow of the rounded corner window"
 msgstr "Yuvarlak köşeli pencerenin gölgesini özelleştir"
 
-#: src/preferences/pages/general.ui:140
+#: src/preferences/pages/general.ui:157
 #, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Ekranı Kapladığında Yuvarlatılmış Köşeleri Koru"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:162
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Tam Ekran Olduğunda Yuvarlatılmış Köşeleri Koru"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:172
 msgid "Tweaks"
 msgstr "İnce Ayarlar"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:175
 msgid "Try to add rounded corners to Kitty Terminal in Wayland"
 msgstr "Wayland'da Kitty Terminal'e yuvarlatılmış köşeler eklemeye çalış"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:176
 msgid "Tweak clip paddings for Kitty Terminal"
 msgstr "Kitty Terminal için kırpma dolgularını ayarla"
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:181
 msgid "Add Settings Entry in right-click menu of Background"
 msgstr "Arka Plan'ın sağ tıklama menüsüne Ayarlar Girdisi Ekle"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:188
 msgid "Debug"
 msgstr "Hata Ayıkla"
 
-#: src/preferences/pages/general.ui:174
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/pages/general.ui:191
+#: src/preferences/widgets/reset_page.ts:65
 msgid "Enable Log"
 msgstr "Günlüğü Etkinleştir"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:192
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in terminal to see the log"
@@ -154,7 +159,7 @@ msgstr ""
 "Günlüğü görmek için uçbirimde <i>journalctl -o cat -f /usr/bin/gnome-shell</"
 "i> komutunu çalıştırın"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:201
 #, fuzzy
 msgid "Open prefereces reset page"
 msgstr "Tercihleri Sıfırla İletişim Kutusunu Aç"
@@ -311,11 +316,13 @@ msgid "Skip LibHandy Applications"
 msgstr "LibHandy Uygulamalarını Atla"
 
 #: src/preferences/widgets/reset_page.ts:60
-msgid "Focus Window Shadow Style"
+#, fuzzy
+msgid "Focused Window Shadow Style"
 msgstr "Odaklı Pencere Gölge Biçemi"
 
 #: src/preferences/widgets/reset_page.ts:61
-msgid "Unfocus Window Shadow Style"
+#, fuzzy
+msgid "Unfocused Window Shadow Style"
 msgstr "Odaklanmamış Pencere Gölge Biçemi"
 
 #: src/preferences/widgets/reset_page.ts:62
@@ -323,28 +330,37 @@ msgid "Border Width"
 msgstr "Kenarlık Genişliği"
 
 #: src/preferences/widgets/reset_page.ts:63
-msgid "Border Color"
+#, fuzzy
+msgid "Focused Window Border Color"
 msgstr "Kenarlık Rengi"
 
-#: src/preferences/widgets/reset_page.ts:68
+#: src/preferences/widgets/reset_page.ts:64
+#, fuzzy
+msgid "Unfocused Window Border Color"
+msgstr "Kenarlık Rengi"
+
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Border Radius"
 msgstr "Kenarlık Yarıçapı"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:70
 msgid "Padding"
 msgstr "Dolgu"
 
-#: src/preferences/widgets/reset_page.ts:71
+#: src/preferences/widgets/reset_page.ts:72
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Ekranı Kapladığında veya Tam Ekranda Yuvarlatılmış Köşeleri Koru"
 
-#: src/preferences/widgets/reset_page.ts:73
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Corner Smoothing"
 msgstr "Köşe Düzleştirme"
 
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Yuvarlatılmış Köşe Ayarları..."
+
+#~ msgid "Border Color"
+#~ msgstr "Kenarlık Rengi"
 
 #~ msgid "Expand this row to pick a window."
 #~ msgstr "Bir pencere seçmek için bu sırayı genişlet."

@@ -25,7 +25,8 @@ export const General = GObject.registerClass(
             'skip_libadwaita',
             'skip_libhandy',
             'border_width',
-            'border_color',
+            'focused_border_color',
+            'unfocused_border_color',
             'corner_radius',
             'corner_smoothing',
             'keep_for_maximized',
@@ -40,7 +41,8 @@ export const General = GObject.registerClass(
         private declare _skip_libadwaita: Adw.SwitchRow;
         private declare _skip_libhandy: Adw.SwitchRow;
         private declare _border_width: Gtk.Adjustment;
-        private declare _border_color: Gtk.ColorDialogButton;
+        private declare _focused_border_color: Gtk.ColorDialogButton;
+        private declare _unfocused_border_color: Gtk.ColorDialogButton;
         private declare _corner_radius: Gtk.Adjustment;
         private declare _corner_smoothing: Gtk.Adjustment;
         private declare _keep_for_maximized: Adw.SwitchRow;
@@ -77,15 +79,32 @@ export const General = GObject.registerClass(
                 Gio.SettingsBindFlags.DEFAULT,
             );
 
-            const color = new Gdk.RGBA();
-            [color.red, color.green, color.blue, color.alpha] =
-                getPref('border-color');
-            this._border_color.set_rgba(color);
-            this._border_color.connect(
+            const focused_color = new Gdk.RGBA();
+            [focused_color.red, focused_color.green, focused_color.blue, focused_color.alpha] =
+                getPref('focused-border-color');
+            this._focused_border_color.set_rgba(focused_color);
+            this._focused_border_color.connect(
                 'notify::rgba',
                 (btn: Gtk.ColorDialogButton) => {
                     const color = btn.get_rgba();
-                    setPref('border-color', [
+                    setPref('focused-border-color', [
+                        color.red,
+                        color.green,
+                        color.blue,
+                        color.alpha,
+                    ]);
+                },
+            );
+
+            const unfocused_color = new Gdk.RGBA();
+            [unfocused_color.red, unfocused_color.green, unfocused_color.blue, unfocused_color.alpha] =
+                getPref('unfocused-border-color');
+            this._unfocused_border_color.set_rgba(unfocused_color);
+            this._unfocused_border_color.connect(
+                'notify::rgba',
+                (btn: Gtk.ColorDialogButton) => {
+                    const color = btn.get_rgba();
+                    setPref('unfocused-border-color', [
                         color.red,
                         color.green,
                         color.blue,

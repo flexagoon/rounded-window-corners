@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 21:07+0300\n"
+"POT-Creation-Date: 2024-11-03 10:45-0800\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/rounded-window-"
@@ -86,66 +86,71 @@ msgstr "Randbreedte"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
 #, fuzzy
-msgid "Border color"
+msgid "Focused border color"
 msgstr "Randkleur"
 
-#: src/preferences/pages/general.ui:74
+#: src/preferences/pages/general.ui:74 src/preferences/pages/general.ui:82
+#, fuzzy
+msgid "Unfocused border color"
+msgstr "Randkleur"
+
+#: src/preferences/pages/general.ui:91
 #: src/preferences/widgets/customeffect_row.ts:16
 #, fuzzy
 msgid "Corner radius"
 msgstr "Randstraal"
 
-#: src/preferences/pages/general.ui:101
+#: src/preferences/pages/general.ui:118
 #: src/preferences/widgets/customeffect_row.ts:25
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Hoeken gladstrijken"
 
-#: src/preferences/pages/general.ui:127
+#: src/preferences/pages/general.ui:144
 #, fuzzy
 msgid "Windows shadow"
 msgstr "Vensterschaduw"
 
-#: src/preferences/pages/general.ui:128
+#: src/preferences/pages/general.ui:145
 msgid "Customize the shadow of the rounded corner window"
 msgstr "Pas de schaduw van afgeronde vensters aan"
 
-#: src/preferences/pages/general.ui:140
+#: src/preferences/pages/general.ui:157
 #, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Afgeronde hoeken van gemaximaliseerde vensters behouden"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:162
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Afgeronde hoeken van schermvullende vensters behouden"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:172
 msgid "Tweaks"
 msgstr "Trucs"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:175
 msgid "Try to add rounded corners to Kitty Terminal in Wayland"
 msgstr "Kitty Terminal voorzien van afgeronde hoeken op Wayland"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:176
 msgid "Tweak clip paddings for Kitty Terminal"
 msgstr "Opvullingen van Kitty Terminal verbeteren"
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:181
 msgid "Add Settings Entry in right-click menu of Background"
 msgstr "Voorkeurenitem tonen in rechtermuisknopmenu van achtergrond"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:188
 msgid "Debug"
 msgstr "Foutopsporing"
 
-#: src/preferences/pages/general.ui:174
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/pages/general.ui:191
+#: src/preferences/widgets/reset_page.ts:65
 msgid "Enable Log"
 msgstr "Logboek bijhouden"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:192
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in terminal to see the log"
@@ -153,7 +158,7 @@ msgstr ""
 "Voer <i>journalctl -o cat -f /usr/bin/gnome-shell</i> uit in een "
 "terminalvenster om het logboek te bekijken"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:201
 #, fuzzy
 msgid "Open prefereces reset page"
 msgstr "Open het voorkeurenherstelvenster"
@@ -310,11 +315,13 @@ msgid "Skip LibHandy Applications"
 msgstr "LibHandy-apps negeren"
 
 #: src/preferences/widgets/reset_page.ts:60
-msgid "Focus Window Shadow Style"
+#, fuzzy
+msgid "Focused Window Shadow Style"
 msgstr "Schaduw van vensterfocus"
 
 #: src/preferences/widgets/reset_page.ts:61
-msgid "Unfocus Window Shadow Style"
+#, fuzzy
+msgid "Unfocused Window Shadow Style"
 msgstr "Schaduw stijl van ongefocust venster"
 
 #: src/preferences/widgets/reset_page.ts:62
@@ -322,29 +329,38 @@ msgid "Border Width"
 msgstr "Randbreedte"
 
 #: src/preferences/widgets/reset_page.ts:63
-msgid "Border Color"
+#, fuzzy
+msgid "Focused Window Border Color"
 msgstr "Randkleur"
 
-#: src/preferences/widgets/reset_page.ts:68
+#: src/preferences/widgets/reset_page.ts:64
+#, fuzzy
+msgid "Unfocused Window Border Color"
+msgstr "Randkleur"
+
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Border Radius"
 msgstr "Randstraal"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:70
 msgid "Padding"
 msgstr "Opvulling"
 
-#: src/preferences/widgets/reset_page.ts:71
+#: src/preferences/widgets/reset_page.ts:72
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr ""
 "Afgeronde hoeken van gemaximaliseerde en schermvullende vensters behouden"
 
-#: src/preferences/widgets/reset_page.ts:73
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Corner Smoothing"
 msgstr "Hoeken gladstrijken"
 
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Afgeronde hoeken-voorkeuren…"
+
+#~ msgid "Border Color"
+#~ msgstr "Randkleur"
 
 #~ msgid "Expand this row to pick a window."
 #~ msgstr "Klap deze rij uit om een venster te kiezen."

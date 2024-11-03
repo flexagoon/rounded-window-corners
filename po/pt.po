@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 21:07+0300\n"
+"POT-Creation-Date: 2024-11-03 10:45-0800\n"
 "PO-Revision-Date: 2023-12-21 14:06+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/rounded-"
@@ -87,67 +87,72 @@ msgstr "Largura da Borda"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
 #, fuzzy
-msgid "Border color"
+msgid "Focused border color"
 msgstr "Cor da Borda"
 
-#: src/preferences/pages/general.ui:74
+#: src/preferences/pages/general.ui:74 src/preferences/pages/general.ui:82
+#, fuzzy
+msgid "Unfocused border color"
+msgstr "Cor da Borda"
+
+#: src/preferences/pages/general.ui:91
 #: src/preferences/widgets/customeffect_row.ts:16
 #, fuzzy
 msgid "Corner radius"
 msgstr "Raio da Borda"
 
-#: src/preferences/pages/general.ui:101
+#: src/preferences/pages/general.ui:118
 #: src/preferences/widgets/customeffect_row.ts:25
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Suavização dos Cantos"
 
-#: src/preferences/pages/general.ui:127
+#: src/preferences/pages/general.ui:144
 #, fuzzy
 msgid "Windows shadow"
 msgstr "Sombra da janela"
 
-#: src/preferences/pages/general.ui:128
+#: src/preferences/pages/general.ui:145
 msgid "Customize the shadow of the rounded corner window"
 msgstr "Personalize a sombra dos cantos da janela"
 
-#: src/preferences/pages/general.ui:140
+#: src/preferences/pages/general.ui:157
 #, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Manter Cantos Arredondados ao Maximizar"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:162
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Manter Cantos Arredondados em Ecrã Inteiro"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:172
 msgid "Tweaks"
 msgstr "Ajustes"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:175
 msgid "Try to add rounded corners to Kitty Terminal in Wayland"
 msgstr "Tente adicionar cantos arredondados ao Terminal Kitty em Wayland"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:176
 msgid "Tweak clip paddings for Kitty Terminal"
 msgstr "Ajustar preenchimento de clipe para o Kitty Terminal"
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:181
 msgid "Add Settings Entry in right-click menu of Background"
 msgstr ""
 "Adicionar entrada de configurações no menu de fundo do botão direito do rato"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:188
 msgid "Debug"
 msgstr "Debug"
 
-#: src/preferences/pages/general.ui:174
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/pages/general.ui:191
+#: src/preferences/widgets/reset_page.ts:65
 msgid "Enable Log"
 msgstr "Ativar Log"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:192
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in terminal to see the log"
@@ -155,7 +160,7 @@ msgstr ""
 "Execute <i>journalctl -o cat -f /usr/bin/gnome-shell</i> no terminal para "
 "ver o log"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:201
 #, fuzzy
 msgid "Open prefereces reset page"
 msgstr "Abrir caixa de diálogo de Redefinição de Configurações"
@@ -314,11 +319,13 @@ msgid "Skip LibHandy Applications"
 msgstr "Ignorar Aplicações Usando LibHandy"
 
 #: src/preferences/widgets/reset_page.ts:60
-msgid "Focus Window Shadow Style"
+#, fuzzy
+msgid "Focused Window Shadow Style"
 msgstr "Estilo de Sombra da Janela Focada"
 
 #: src/preferences/widgets/reset_page.ts:61
-msgid "Unfocus Window Shadow Style"
+#, fuzzy
+msgid "Unfocused Window Shadow Style"
 msgstr "Estilo de Sombra da Janela Desfocada"
 
 #: src/preferences/widgets/reset_page.ts:62
@@ -326,28 +333,37 @@ msgid "Border Width"
 msgstr "Largura da Borda"
 
 #: src/preferences/widgets/reset_page.ts:63
-msgid "Border Color"
+#, fuzzy
+msgid "Focused Window Border Color"
 msgstr "Cor da Borda"
 
-#: src/preferences/widgets/reset_page.ts:68
+#: src/preferences/widgets/reset_page.ts:64
+#, fuzzy
+msgid "Unfocused Window Border Color"
+msgstr "Cor da Borda"
+
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Border Radius"
 msgstr "Raio da Borda"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:70
 msgid "Padding"
 msgstr "Margem"
 
-#: src/preferences/widgets/reset_page.ts:71
+#: src/preferences/widgets/reset_page.ts:72
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Manter Cantos Arredondados ao Maximizar ou em Ecrã Inteiro"
 
-#: src/preferences/widgets/reset_page.ts:73
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Corner Smoothing"
 msgstr "Suavização dos Cantos"
 
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Configurações de Cantos Arredondados..."
+
+#~ msgid "Border Color"
+#~ msgstr "Cor da Borda"
 
 #~ msgid "Expand this row to pick a window."
 #~ msgstr "Expanda esta linha para escolher uma janela."
