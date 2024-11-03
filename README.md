@@ -17,6 +17,7 @@
 - Works with Gnome 46+
 - Custom border radius and clip paddings for windows
 - Blocklist for applications that draw their own window decorations
+- Custom border colors for focused and unfocused windows
 - Custom shadow for windows with rounded corners
 - Option to skip libadwaita / libhandy application
 - [Superelliptical][1] shape for rounded corners, thanks to [@YuraIz][2]
