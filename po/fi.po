@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 21:07+0300\n"
+"POT-Creation-Date: 2024-11-04 14:45-0800\n"
 "PO-Revision-Date: 2022-11-12 07:50+0000\n"
 "Last-Translator: Ilari Suhonen <ilari.suhonen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/rounded-window-"
@@ -76,7 +76,7 @@ msgstr "Globaalit asetukset"
 
 #: src/preferences/pages/general.ui:27
 #, fuzzy
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr "Tämä asetus pyrkii vaikuttamaan kaikkiin ikkunoihin"
 
 #: src/preferences/pages/general.ui:30
@@ -86,66 +86,71 @@ msgstr "Reunan leveys"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
 #, fuzzy
-msgid "Border color"
+msgid "Focused border color"
 msgstr "Reunan väri"
 
-#: src/preferences/pages/general.ui:74
+#: src/preferences/pages/general.ui:74 src/preferences/pages/general.ui:82
+#, fuzzy
+msgid "Unfocused border color"
+msgstr "Reunan väri"
+
+#: src/preferences/pages/general.ui:91
 #: src/preferences/widgets/customeffect_row.ts:16
 #, fuzzy
 msgid "Corner radius"
 msgstr "Reunan säde"
 
-#: src/preferences/pages/general.ui:101
+#: src/preferences/pages/general.ui:118
 #: src/preferences/widgets/customeffect_row.ts:25
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Kulman pehmitys"
 
-#: src/preferences/pages/general.ui:127
+#: src/preferences/pages/general.ui:144
 #, fuzzy
 msgid "Windows shadow"
 msgstr "Ikkunan varjo"
 
-#: src/preferences/pages/general.ui:128
+#: src/preferences/pages/general.ui:145
 msgid "Customize the shadow of the rounded corner window"
 msgstr "Mukauta pyöristetyn kulman varjoa"
 
-#: src/preferences/pages/general.ui:140
+#: src/preferences/pages/general.ui:157
 #, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Pidä pyöristetyt kulmat maksimoidussa tilassa"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:162
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Pidä pyöristetyt kulmat kokonäytön tilassa"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:172
 msgid "Tweaks"
 msgstr "Hienosäädöt"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:175
 msgid "Try to add rounded corners to Kitty Terminal in Wayland"
 msgstr "Koita pyöristää Kitty-pääteohjelman kulmat Waylandissa"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:176
 msgid "Tweak clip paddings for Kitty Terminal"
 msgstr "Muokkaa Kitty-pääteohjelman ylijäämäleikkausta"
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:181
 msgid "Add Settings Entry in right-click menu of Background"
 msgstr "Lisää asetukset-rivi taustan kontekstivalikkoon"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:188
 msgid "Debug"
 msgstr "Vianetsintä"
 
-#: src/preferences/pages/general.ui:174
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/pages/general.ui:191
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Enable Log"
 msgstr "Kirjoita lokiin"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:192
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in terminal to see the log"
@@ -153,7 +158,7 @@ msgstr ""
 "Suorita <i>journalctl -o cat -f /usr/bin/gnome-shell</i> komentopäätteessä "
 "nähdäksesi lokin"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:201
 #, fuzzy
 msgid "Open prefereces reset page"
 msgstr "Avaa asetusten nollausvalikko"
@@ -308,40 +313,51 @@ msgid "Skip LibHandy Applications"
 msgstr "Älä pyöristä LibHandy-ikkunoiden kulmia"
 
 #: src/preferences/widgets/reset_page.ts:60
-msgid "Focus Window Shadow Style"
+#, fuzzy
+msgid "Focused Window Shadow Style"
 msgstr "Keskitetyn ikkunan varjotyyli"
 
 #: src/preferences/widgets/reset_page.ts:61
-msgid "Unfocus Window Shadow Style"
+#, fuzzy
+msgid "Unfocused Window Shadow Style"
 msgstr "Keskittämättömän ikkunan varjo"
 
 #: src/preferences/widgets/reset_page.ts:62
 msgid "Border Width"
 msgstr "Reunan leveys"
 
-#: src/preferences/widgets/reset_page.ts:63
-msgid "Border Color"
+#: src/preferences/widgets/reset_page.ts:64
+#, fuzzy
+msgid "Focused Window Border Color"
 msgstr "Reunan väri"
 
-#: src/preferences/widgets/reset_page.ts:68
+#: src/preferences/widgets/reset_page.ts:67
+#, fuzzy
+msgid "Unfocused Window Border Color"
+msgstr "Reunan väri"
+
+#: src/preferences/widgets/reset_page.ts:73
 msgid "Border Radius"
 msgstr "Reunan säde"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Padding"
 msgstr "Ylijäämä"
 
-#: src/preferences/widgets/reset_page.ts:71
+#: src/preferences/widgets/reset_page.ts:76
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Pidä pyöristetyt kulmat maksimoidussa ja kokonäytön tilassa"
 
-#: src/preferences/widgets/reset_page.ts:73
+#: src/preferences/widgets/reset_page.ts:78
 msgid "Corner Smoothing"
 msgstr "Kulman pehmitys"
 
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Kulmienpyöristyksen asetukset..."
+
+#~ msgid "Border Color"
+#~ msgstr "Reunan väri"
 
 #~ msgid "Expand this row to pick a window."
 #~ msgstr "Laajenna rivi valitaksesi ikkunan."

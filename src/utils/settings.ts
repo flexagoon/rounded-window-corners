@@ -23,7 +23,8 @@ type Schema = {
     'skip-libadwaita-app': boolean;
     'skip-libhandy-app': boolean;
     'border-width': number;
-    'border-color': [number, number, number, number];
+    'focused-border-color': [number, number, number, number];
+    'unfocused-border-color': [number, number, number, number];
     'global-rounded-corner-settings': RoundedCornerSettings;
     'custom-rounded-corner-settings': CustomRoundedCornerSettings;
     'focused-shadow': BoxShadow;
@@ -43,7 +44,8 @@ const Schema = {
     'skip-libadwaita-app': 'b',
     'skip-libhandy-app': 'b',
     'border-width': 'i',
-    'border-color': '(dddd)',
+    'focused-border-color': '(dddd)',
+    'unfocused-border-color': '(dddd)',
     'global-rounded-corner-settings': 'a{sv}',
     'custom-rounded-corner-settings': 'a{sv}',
     'focused-shadow': 'a{si}',

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 21:07+0300\n"
+"POT-Creation-Date: 2024-11-04 14:45-0800\n"
 "PO-Revision-Date: 2024-02-25 14:01+0000\n"
 "Last-Translator: repex97 <repetto.andrea025@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/rounded-window-"
@@ -77,7 +77,7 @@ msgstr "Impostazioni Globali"
 
 #: src/preferences/pages/general.ui:27
 #, fuzzy
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr "Queste impostazioni avranno possibilmente effetto su tutte le finestre"
 
 #: src/preferences/pages/general.ui:30
@@ -87,68 +87,73 @@ msgstr "Larghezza del bordo"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
 #, fuzzy
-msgid "Border color"
+msgid "Focused border color"
 msgstr "Colore del bordo"
 
-#: src/preferences/pages/general.ui:74
+#: src/preferences/pages/general.ui:74 src/preferences/pages/general.ui:82
+#, fuzzy
+msgid "Unfocused border color"
+msgstr "Colore del bordo"
+
+#: src/preferences/pages/general.ui:91
 #: src/preferences/widgets/customeffect_row.ts:16
 #, fuzzy
 msgid "Corner radius"
 msgstr "Raggio del bordo"
 
-#: src/preferences/pages/general.ui:101
+#: src/preferences/pages/general.ui:118
 #: src/preferences/widgets/customeffect_row.ts:25
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Smussamento del bordo"
 
-#: src/preferences/pages/general.ui:127
+#: src/preferences/pages/general.ui:144
 #, fuzzy
 msgid "Windows shadow"
 msgstr "Ombra della Finestra"
 
-#: src/preferences/pages/general.ui:128
+#: src/preferences/pages/general.ui:145
 msgid "Customize the shadow of the rounded corner window"
 msgstr "Personalizza l'ombra del bordo arrotondato"
 
-#: src/preferences/pages/general.ui:140
+#: src/preferences/pages/general.ui:157
 #, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Mantieni I Bordi Arrotondati quando Massimizzato"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:162
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Mantieni I Bordi Arrotondati In Schermo Intero"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:172
 msgid "Tweaks"
 msgstr "Modifiche"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:175
 msgid "Try to add rounded corners to Kitty Terminal in Wayland"
 msgstr "Prova ad arrotondare i bordi al terminale Kitty su Wayland"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:176
 msgid "Tweak clip paddings for Kitty Terminal"
 msgstr "Personalizza i margini per Kitty Terminal"
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:181
 msgid "Add Settings Entry in right-click menu of Background"
 msgstr ""
 "Aggiungi tra le impostazioni del menu del tasto destro del mouse sul "
 "Background"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:188
 msgid "Debug"
 msgstr "Debug"
 
-#: src/preferences/pages/general.ui:174
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/pages/general.ui:191
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Enable Log"
 msgstr "Abilita i Log"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:192
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in terminal to see the log"
@@ -156,7 +161,7 @@ msgstr ""
 "Esegui <i>journalctl -o cat -f /usr/bin/gnome-shell</i> nel terminale per "
 "vedere i log"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:201
 #, fuzzy
 msgid "Open prefereces reset page"
 msgstr "Apri il Dialogo Per Resettare le Preferenze"
@@ -311,40 +316,51 @@ msgid "Skip LibHandy Applications"
 msgstr "Ignora Applicazioni LibHandy"
 
 #: src/preferences/widgets/reset_page.ts:60
-msgid "Focus Window Shadow Style"
+#, fuzzy
+msgid "Focused Window Shadow Style"
 msgstr "Stile dell'ombra della finestra attiva"
 
 #: src/preferences/widgets/reset_page.ts:61
-msgid "Unfocus Window Shadow Style"
+#, fuzzy
+msgid "Unfocused Window Shadow Style"
 msgstr "Stile ombreggiatura finestra in secondo piano"
 
 #: src/preferences/widgets/reset_page.ts:62
 msgid "Border Width"
 msgstr "Larghezza del bordo"
 
-#: src/preferences/widgets/reset_page.ts:63
-msgid "Border Color"
+#: src/preferences/widgets/reset_page.ts:64
+#, fuzzy
+msgid "Focused Window Border Color"
 msgstr "Colore del bordo"
 
-#: src/preferences/widgets/reset_page.ts:68
+#: src/preferences/widgets/reset_page.ts:67
+#, fuzzy
+msgid "Unfocused Window Border Color"
+msgstr "Colore del bordo"
+
+#: src/preferences/widgets/reset_page.ts:73
 msgid "Border Radius"
 msgstr "Raggio del bordo"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Padding"
 msgstr "Padding"
 
-#: src/preferences/widgets/reset_page.ts:71
+#: src/preferences/widgets/reset_page.ts:76
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Mantieni I Bordi Arrotondati Quando Massimizzato o a Schermo Intero"
 
-#: src/preferences/widgets/reset_page.ts:73
+#: src/preferences/widgets/reset_page.ts:78
 msgid "Corner Smoothing"
 msgstr "Smussamento del bordo"
 
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Impostazioni per i Bordi Arrotondati..."
+
+#~ msgid "Border Color"
+#~ msgstr "Colore del bordo"
 
 #~ msgid "Expand this row to pick a window."
 #~ msgstr "Espandi questa riga per selezionare una finestra."

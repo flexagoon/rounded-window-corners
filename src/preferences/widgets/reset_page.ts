@@ -57,10 +57,15 @@ export const ResetPage = GObject.registerClass(
                     _('Skip LibAdwaita Applications'),
                 ),
                 'skip-libhandy-app': new Cfg(_('Skip LibHandy Applications')),
-                'focused-shadow': new Cfg(_('Focus Window Shadow Style')),
-                'unfocused-shadow': new Cfg(_('Unfocus Window Shadow Style')),
+                'focused-shadow': new Cfg(_('Focused Window Shadow Style')),
+                'unfocused-shadow': new Cfg(_('Unfocused Window Shadow Style')),
                 'border-width': new Cfg(_('Border Width')),
-                'border-color': new Cfg(_('Border Color')),
+                'focused-border-color': new Cfg(
+                    _('Focused Window Border Color'),
+                ),
+                'unfocused-border-color': new Cfg(
+                    _('Unfocused Window Border Color'),
+                ),
                 'debug-mode': new Cfg(_('Enable Log')),
             };
 

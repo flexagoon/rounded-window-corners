@@ -24,7 +24,7 @@
     <child>
       <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">Global settings</property>
-        <property name="description" translatable="yes">These settings will have effect on all windows</property>
+        <property name="description" translatable="yes">These settings will have an effect on all windows</property>
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Border width</property>
@@ -54,15 +54,32 @@
         </child>
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Border color</property>
+            <property name="title" translatable="yes">Focused border color</property>
             <property name="activatable">true</property>
-            <property name="activatable-widget">border_color</property>
+            <property name="activatable-widget">focused_border_color</property>
             <child>
-              <object class="GtkColorDialogButton" id="border_color">
+              <object class="GtkColorDialogButton" id="focused_border_color">
                 <property name="valign">center</property>
                 <property name="dialog">
                   <object class="GtkColorDialog">
-                    <property name="title" translatable="yes">Border color</property>
+                    <property name="title" translatable="yes">Focused border color</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Unfocused border color</property>
+            <property name="activatable">true</property>
+            <property name="activatable-widget">unfocused_border_color</property>
+            <child>
+              <object class="GtkColorDialogButton" id="unfocused_border_color">
+                <property name="valign">center</property>
+                <property name="dialog">
+                  <object class="GtkColorDialog">
+                    <property name="title" translatable="yes">Unfocused border color</property>
                   </object>
                 </property>
               </object>

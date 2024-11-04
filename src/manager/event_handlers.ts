@@ -148,7 +148,10 @@ export function onRestacked(): void {
 
 export const onSizeChanged = refreshRoundedCorners;
 
-export const onFocusChanged = refreshShadow;
+export function onFocusChanged(actor: RoundedWindowActor): void {
+    refreshShadow(actor);
+    refreshRoundedCorners(actor);
+}
 
 export function onSettingsChanged(key: SchemaKey): void {
     switch (key) {
@@ -163,7 +166,8 @@ export function onSettingsChanged(key: SchemaKey): void {
             break;
         case 'global-rounded-corner-settings':
         case 'custom-rounded-corner-settings':
-        case 'border-color':
+        case 'focused-border-color':
+        case 'unfocused-border-color':
         case 'border-width':
         case 'tweak-kitty-terminal':
             refreshAllRoundedCorners();
@@ -284,6 +288,7 @@ function refreshRoundedCorners(actor: RoundedWindowActor): void {
 
     // When window size is changed, update uniforms for corner rounding shader.
     effect.updateUniforms(
+        win.appears_focused,
         windowScaleFactor(win),
         cfg,
         computeBounds(actor, windowContentOffset),
