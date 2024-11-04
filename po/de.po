@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:45-0800\n"
+"POT-Creation-Date: 2024-11-04 14:39-0800\n"
 "PO-Revision-Date: 2023-04-18 06:49+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/rounded-window-"
@@ -78,7 +78,7 @@ msgstr "Globale Einstellungen"
 
 #: src/preferences/pages/general.ui:27
 #, fuzzy
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr "Diese Einstellungen versuchen auf alle Fenster angewendet zu werden"
 
 #: src/preferences/pages/general.ui:30

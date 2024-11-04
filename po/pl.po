@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:45-0800\n"
+"POT-Creation-Date: 2024-11-04 14:39-0800\n"
 "PO-Revision-Date: 2023-10-29 05:13+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/rounded-window-"
@@ -76,7 +76,7 @@ msgid "Global settings"
 msgstr "Globalne ustawienia"
 
 #: src/preferences/pages/general.ui:27
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr ""
 
 #: src/preferences/pages/general.ui:30

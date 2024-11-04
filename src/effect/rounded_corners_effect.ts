@@ -68,13 +68,7 @@ export const RoundedCornersEffect = GObject.registerClass(
             windowBounds: Bounds,
         ) {
             const borderWidth = getPref('border-width') * scaleFactor;
-            const focusedBorderColor = getPref('focused-border-color');
-            const unfocusedBorderColor = getPref('unfocused-border-color');
-
-            var borderColor = focusedBorderColor;
-            if (!focused) {
-                borderColor = unfocusedBorderColor;
-            }
+            const borderColor = focused ? getPref('focused-border-color') : getPref('unfocused-border-color');
 
             const outerRadius = config.borderRadius * scaleFactor;
             const {padding, smoothing} = config;

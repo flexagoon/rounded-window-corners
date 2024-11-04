@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:45-0800\n"
+"POT-Creation-Date: 2024-11-04 14:39-0800\n"
 "PO-Revision-Date: 2022-11-12 07:50+0000\n"
 "Last-Translator: Ilari Suhonen <ilari.suhonen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/rounded-window-"
@@ -76,7 +76,7 @@ msgstr "Globaalit asetukset"
 
 #: src/preferences/pages/general.ui:27
 #, fuzzy
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr "Tämä asetus pyrkii vaikuttamaan kaikkiin ikkunoihin"
 
 #: src/preferences/pages/general.ui:30

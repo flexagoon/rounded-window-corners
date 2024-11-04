@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:45-0800\n"
+"POT-Creation-Date: 2024-11-04 14:39-0800\n"
 "PO-Revision-Date: 2022-09-15 06:16+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/rounded-"
@@ -63,7 +63,7 @@ msgid "Global settings"
 msgstr ""
 
 #: src/preferences/pages/general.ui:27
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr ""
 
 #: src/preferences/pages/general.ui:30

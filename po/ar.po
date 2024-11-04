@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:45-0800\n"
+"POT-Creation-Date: 2024-11-04 14:39-0800\n"
 "PO-Revision-Date: 2023-12-10 10:05+0000\n"
 "Last-Translator: Nadjib Chergui <chergui.cnadjib@outlook.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/rounded-window-"
@@ -74,7 +74,7 @@ msgstr "الإعدادات الشاملة"
 
 #: src/preferences/pages/general.ui:27
 #, fuzzy
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr "هذه الإعدادات ستحاول في التأثير على كل النوافذ"
 
 #: src/preferences/pages/general.ui:30

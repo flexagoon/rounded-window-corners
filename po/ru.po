@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 10:45-0800\n"
+"POT-Creation-Date: 2024-11-04 14:39-0800\n"
 "PO-Revision-Date: 2023-03-09 15:37+0000\n"
 "Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/rounded-window-"
@@ -78,7 +78,7 @@ msgstr "Глобальные настройки"
 
 #: src/preferences/pages/general.ui:27
 #, fuzzy
-msgid "These settings will have effect on all windows"
+msgid "These settings will have an effect on all windows"
 msgstr "Эта настройка будет пытаться воздействовать на все окна"
 
 #: src/preferences/pages/general.ui:30
