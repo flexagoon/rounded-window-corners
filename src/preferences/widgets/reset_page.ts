@@ -60,8 +60,12 @@ export const ResetPage = GObject.registerClass(
                 'focused-shadow': new Cfg(_('Focused Window Shadow Style')),
                 'unfocused-shadow': new Cfg(_('Unfocused Window Shadow Style')),
                 'border-width': new Cfg(_('Border Width')),
-                'focused-border-color': new Cfg(_('Focused Window Border Color')),
-                'unfocused-border-color': new Cfg(_('Unfocused Window Border Color')),
+                'focused-border-color': new Cfg(
+                    _('Focused Window Border Color'),
+                ),
+                'unfocused-border-color': new Cfg(
+                    _('Unfocused Window Border Color'),
+                ),
                 'debug-mode': new Cfg(_('Enable Log')),
             };
 

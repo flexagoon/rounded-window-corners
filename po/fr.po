@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 14:39-0800\n"
+"POT-Creation-Date: 2024-11-04 14:45-0800\n"
 "PO-Revision-Date: 2023-10-11 16:02+0000\n"
 "Last-Translator: luxluth <delphin.blehoussi93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/rounded-window-"
@@ -147,7 +147,7 @@ msgid "Debug"
 msgstr "Débogage"
 
 #: src/preferences/pages/general.ui:191
-#: src/preferences/widgets/reset_page.ts:65
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Enable Log"
 msgstr "Activer les journaux"
 
@@ -330,29 +330,29 @@ msgstr "Style de l'ombre de la fenêtre non active"
 msgid "Border Width"
 msgstr "Largeur de la bordure"
 
-#: src/preferences/widgets/reset_page.ts:63
+#: src/preferences/widgets/reset_page.ts:64
 #, fuzzy
 msgid "Focused Window Border Color"
 msgstr "Couleur de la bordure"
 
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/widgets/reset_page.ts:67
 #, fuzzy
 msgid "Unfocused Window Border Color"
 msgstr "Couleur de la bordure"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:73
 msgid "Border Radius"
 msgstr "Rayon du coin"
 
-#: src/preferences/widgets/reset_page.ts:70
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Padding"
 msgstr "Bordure"
 
-#: src/preferences/widgets/reset_page.ts:72
+#: src/preferences/widgets/reset_page.ts:76
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Garder les coins arrondis quand maximisé ou en plein écran"
 
-#: src/preferences/widgets/reset_page.ts:74
+#: src/preferences/widgets/reset_page.ts:78
 msgid "Corner Smoothing"
 msgstr "Lissage du coin"
 

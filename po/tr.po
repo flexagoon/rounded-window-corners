@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 14:39-0800\n"
+"POT-Creation-Date: 2024-11-04 14:45-0800\n"
 "PO-Revision-Date: 2023-05-14 22:51+0000\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/rounded-window-"
@@ -147,7 +147,7 @@ msgid "Debug"
 msgstr "Hata Ayıkla"
 
 #: src/preferences/pages/general.ui:191
-#: src/preferences/widgets/reset_page.ts:65
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Enable Log"
 msgstr "Günlüğü Etkinleştir"
 
@@ -329,29 +329,29 @@ msgstr "Odaklanmamış Pencere Gölge Biçemi"
 msgid "Border Width"
 msgstr "Kenarlık Genişliği"
 
-#: src/preferences/widgets/reset_page.ts:63
+#: src/preferences/widgets/reset_page.ts:64
 #, fuzzy
 msgid "Focused Window Border Color"
 msgstr "Kenarlık Rengi"
 
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/widgets/reset_page.ts:67
 #, fuzzy
 msgid "Unfocused Window Border Color"
 msgstr "Kenarlık Rengi"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:73
 msgid "Border Radius"
 msgstr "Kenarlık Yarıçapı"
 
-#: src/preferences/widgets/reset_page.ts:70
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Padding"
 msgstr "Dolgu"
 
-#: src/preferences/widgets/reset_page.ts:72
+#: src/preferences/widgets/reset_page.ts:76
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Ekranı Kapladığında veya Tam Ekranda Yuvarlatılmış Köşeleri Koru"
 
-#: src/preferences/widgets/reset_page.ts:74
+#: src/preferences/widgets/reset_page.ts:78
 msgid "Corner Smoothing"
 msgstr "Köşe Düzleştirme"
 

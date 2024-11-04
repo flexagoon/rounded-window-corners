@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 14:39-0800\n"
+"POT-Creation-Date: 2024-11-04 14:45-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,7 +128,7 @@ msgid "Debug"
 msgstr ""
 
 #: src/preferences/pages/general.ui:191
-#: src/preferences/widgets/reset_page.ts:65
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Enable Log"
 msgstr ""
 
@@ -286,27 +286,27 @@ msgstr ""
 msgid "Border Width"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:63
+#: src/preferences/widgets/reset_page.ts:64
 msgid "Focused Window Border Color"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/widgets/reset_page.ts:67
 msgid "Unfocused Window Border Color"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:73
 msgid "Border Radius"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:70
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Padding"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:72
+#: src/preferences/widgets/reset_page.ts:76
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:74
+#: src/preferences/widgets/reset_page.ts:78
 msgid "Corner Smoothing"
 msgstr ""
 

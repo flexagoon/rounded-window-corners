@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 14:39-0800\n"
+"POT-Creation-Date: 2024-11-04 14:45-0800\n"
 "PO-Revision-Date: 2023-03-27 22:37+0000\n"
 "Last-Translator: Dan <denqwerta@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/rounded-window-"
@@ -149,7 +149,7 @@ msgid "Debug"
 msgstr "Налагодження"
 
 #: src/preferences/pages/general.ui:191
-#: src/preferences/widgets/reset_page.ts:65
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Enable Log"
 msgstr "Увімкнути журнал"
 
@@ -332,29 +332,29 @@ msgstr "Стиль тіні розфокусованого вікна"
 msgid "Border Width"
 msgstr "Ширина рамки"
 
-#: src/preferences/widgets/reset_page.ts:63
+#: src/preferences/widgets/reset_page.ts:64
 #, fuzzy
 msgid "Focused Window Border Color"
 msgstr "Колір рамки"
 
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/widgets/reset_page.ts:67
 #, fuzzy
 msgid "Unfocused Window Border Color"
 msgstr "Колір рамки"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:73
 msgid "Border Radius"
 msgstr "Радіус рамки"
 
-#: src/preferences/widgets/reset_page.ts:70
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Padding"
 msgstr "Відступ"
 
-#: src/preferences/widgets/reset_page.ts:72
+#: src/preferences/widgets/reset_page.ts:76
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr "Зберігати заокруглені кути при збільшенні та в повноекранному режимі"
 
-#: src/preferences/widgets/reset_page.ts:74
+#: src/preferences/widgets/reset_page.ts:78
 msgid "Corner Smoothing"
 msgstr "Згладжування кутів"
 

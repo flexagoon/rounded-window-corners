@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 14:39-0800\n"
+"POT-Creation-Date: 2024-11-04 14:45-0800\n"
 "PO-Revision-Date: 2023-10-01 14:00+0000\n"
 "Last-Translator: olevo <imagyarcsik@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/rounded-window-"
@@ -130,7 +130,7 @@ msgid "Debug"
 msgstr "Debug"
 
 #: src/preferences/pages/general.ui:191
-#: src/preferences/widgets/reset_page.ts:65
+#: src/preferences/widgets/reset_page.ts:69
 msgid "Enable Log"
 msgstr "Napló bekapcsolása"
 
@@ -295,29 +295,29 @@ msgstr "Ablak előtérbe helyezése"
 msgid "Border Width"
 msgstr "A border szélessége"
 
-#: src/preferences/widgets/reset_page.ts:63
+#: src/preferences/widgets/reset_page.ts:64
 #, fuzzy
 msgid "Focused Window Border Color"
 msgstr "A border széle"
 
-#: src/preferences/widgets/reset_page.ts:64
+#: src/preferences/widgets/reset_page.ts:67
 #, fuzzy
 msgid "Unfocused Window Border Color"
 msgstr "A border széle"
 
-#: src/preferences/widgets/reset_page.ts:69
+#: src/preferences/widgets/reset_page.ts:73
 msgid "Border Radius"
 msgstr "A border radius vastagsága"
 
-#: src/preferences/widgets/reset_page.ts:70
+#: src/preferences/widgets/reset_page.ts:74
 msgid "Padding"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:72
+#: src/preferences/widgets/reset_page.ts:76
 msgid "Keep Rounded Corners when Maximized or Fullscreen"
 msgstr ""
 
-#: src/preferences/widgets/reset_page.ts:74
+#: src/preferences/widgets/reset_page.ts:78
 msgid "Corner Smoothing"
 msgstr "A sarkok simítása/simasága"
 

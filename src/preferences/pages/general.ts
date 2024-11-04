@@ -80,8 +80,12 @@ export const General = GObject.registerClass(
             );
 
             const focused_color = new Gdk.RGBA();
-            [focused_color.red, focused_color.green, focused_color.blue, focused_color.alpha] =
-                getPref('focused-border-color');
+            [
+                focused_color.red,
+                focused_color.green,
+                focused_color.blue,
+                focused_color.alpha,
+            ] = getPref('focused-border-color');
             this._focused_border_color.set_rgba(focused_color);
             this._focused_border_color.connect(
                 'notify::rgba',
@@ -97,8 +101,12 @@ export const General = GObject.registerClass(
             );
 
             const unfocused_color = new Gdk.RGBA();
-            [unfocused_color.red, unfocused_color.green, unfocused_color.blue, unfocused_color.alpha] =
-                getPref('unfocused-border-color');
+            [
+                unfocused_color.red,
+                unfocused_color.green,
+                unfocused_color.blue,
+                unfocused_color.alpha,
+            ] = getPref('unfocused-border-color');
             this._unfocused_border_color.set_rgba(unfocused_color);
             this._unfocused_border_color.connect(
                 'notify::rgba',
