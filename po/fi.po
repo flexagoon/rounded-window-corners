@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-13 01:29+0300\n"
+"POT-Creation-Date: 2024-11-30 18:36+0100\n"
 "PO-Revision-Date: 2022-11-12 07:50+0000\n"
 "Last-Translator: Ilari Suhonen <ilari.suhonen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/rounded-window-"
@@ -12,11 +12,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.15-dev\n"
 
-#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:21
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Estot"
 
-#: src/preferences/pages/blacklist.ui:11
+#: src/preferences/pages/blacklist.ui:22
 #, fuzzy
 msgid ""
 "Not all application can works well with rounded corners effects, add them to "
@@ -28,7 +29,7 @@ msgstr ""
 "Listan alkiot täsmäävät ikkunoiden WM_CLASS:in instanssiosaa. Voit valita "
 "ikkunan lisätäksesi sen listaan."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:30 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Lisää ikkuna"
@@ -305,6 +306,9 @@ msgstr "Älä poista pyöristettyjä kulmia kokonäytön ikkunoista."
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Kulmienpyöristyksen asetukset..."
+
+#~ msgid "Blacklist"
+#~ msgstr "Estot"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Muokkaa Kitty-pääteohjelman ylijäämäleikkausta"

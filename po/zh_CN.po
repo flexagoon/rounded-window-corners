@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-13 01:29+0300\n"
+"POT-Creation-Date: 2024-11-30 18:36+0100\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: Yi <yilozt@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -12,11 +12,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:21
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "黑名单"
 
-#: src/preferences/pages/blacklist.ui:11
+#: src/preferences/pages/blacklist.ui:22
 #, fuzzy
 msgid ""
 "Not all application can works well with rounded corners effects, add them to "
@@ -27,7 +28,7 @@ msgstr ""
 "\n"
 "每一项代表窗口的 WM_CLASS 属性，可以在添加窗口后选取窗口。"
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:30 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "添加窗口"
@@ -303,6 +304,9 @@ msgstr "当窗口全屏时保留圆角效果。"
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "圆角设置…"
+
+#~ msgid "Blacklist"
+#~ msgstr "黑名单"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "调整 Kitty 终端的剪裁半径"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-13 01:29+0300\n"
+"POT-Creation-Date: 2024-11-30 18:36+0100\n"
 "PO-Revision-Date: 2023-12-21 14:06+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/rounded-"
@@ -13,11 +13,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.4-dev\n"
 
-#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:21
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Lista negra"
 
-#: src/preferences/pages/blacklist.ui:11
+#: src/preferences/pages/blacklist.ui:22
 #, fuzzy
 msgid ""
 "Not all application can works well with rounded corners effects, add them to "
@@ -29,7 +30,7 @@ msgstr ""
 "O item da lista é uma parte da propriedade WM_CLASS da janela. Pode "
 "selecionar uma janela para adicioná-la a esta lista."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:30 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Adicionar janela"
@@ -311,6 +312,9 @@ msgstr ""
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Configurações de Cantos Arredondados..."
+
+#~ msgid "Blacklist"
+#~ msgstr "Lista negra"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Ajustar preenchimento de clipe para o Kitty Terminal"

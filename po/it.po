@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-13 01:29+0300\n"
+"POT-Creation-Date: 2024-11-30 18:36+0100\n"
 "PO-Revision-Date: 2024-02-25 14:01+0000\n"
 "Last-Translator: repex97 <repetto.andrea025@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/rounded-window-"
@@ -13,11 +13,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.5-dev\n"
 
-#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:21
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Lista nera"
 
-#: src/preferences/pages/blacklist.ui:11
+#: src/preferences/pages/blacklist.ui:22
 #, fuzzy
 msgid ""
 "Not all application can works well with rounded corners effects, add them to "
@@ -29,7 +30,7 @@ msgstr ""
 "Gli oggetti di questa lista fanno parte della proprietà WM_CLASS. Puoi "
 "selezionare una finestra per aggingerla a questa lista."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:30 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Aggiungi Finestra"
@@ -308,6 +309,9 @@ msgstr "Tieni i bordi arrotondati quando la finestra è a schermo intero."
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Impostazioni per i Bordi Arrotondati..."
+
+#~ msgid "Blacklist"
+#~ msgstr "Lista nera"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Personalizza i margini per Kitty Terminal"

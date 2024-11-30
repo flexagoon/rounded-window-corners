@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-13 01:29+0300\n"
+"POT-Creation-Date: 2024-11-30 18:36+0100\n"
 "PO-Revision-Date: 2023-03-27 22:37+0000\n"
 "Last-Translator: Dan <denqwerta@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/rounded-window-"
@@ -14,11 +14,12 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.17-dev\n"
 
-#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:21
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Чорний список"
 
-#: src/preferences/pages/blacklist.ui:11
+#: src/preferences/pages/blacklist.ui:22
 #, fuzzy
 msgid ""
 "Not all application can works well with rounded corners effects, add them to "
@@ -30,7 +31,7 @@ msgstr ""
 "Елемент списку є екземпляром властивості WM_CLASS з вікном. Ви можете "
 "вибрати вікно, щоб додати його до цього списку."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:30 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Додати вікно"
@@ -311,6 +312,9 @@ msgstr ""
 #: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
 msgid "Rounded Corners Settings..."
 msgstr "Налаштування заокруглених кутів..."
+
+#~ msgid "Blacklist"
+#~ msgstr "Чорний список"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Налаштувати внутрішній відступ для терміналу Kitty"

@@ -6,9 +6,10 @@
 import Adw from 'gi://Adw';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import {getPref, setPref} from '../../utils/settings.js';
+import {bindPref, getPref, setPref} from '../../utils/settings.js';
 import {AppRow, type AppRowClass} from '../widgets/app_row.js';
 
 import type Gtk from 'gi://Gtk';
@@ -21,15 +22,26 @@ export const BlacklistPage = GObject.registerClass(
             GLib.UriFlags.NONE,
         ),
         GTypeName: 'PrefsBlacklist',
-        InternalChildren: ['blacklistGroup'],
+        InternalChildren: [
+          'blacklistGroup',
+          'useWhitelist',
+        ],
     },
     class extends Adw.PreferencesPage {
         private declare _blacklistGroup: Adw.PreferencesGroup;
+        private declare _useWhitelist: Adw.SwitchRow;
 
         #blacklist = getPref('blacklist');
 
         constructor() {
             super();
+
+            bindPref(
+                'whitelist',
+                this._useWhitelist,
+                'active',
+                Gio.SettingsBindFlags.DEFAULT,
+            );
 
             for (const title of this.#blacklist) {
                 this.addWindow(undefined, title);

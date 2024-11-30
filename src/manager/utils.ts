@@ -251,7 +251,11 @@ export function shouldEnableEffect(
         logDebug(`Warning: wm_class_instance of ${win}: ${win.title} is null`);
         return false;
     }
-    if (getPref('blacklist').includes(wmClass)) {
+    if (!getPref('whitelist') && getPref('blacklist').includes(wmClass)) {
+        return false;
+    }
+    // Skip not whitelisted applications.
+    if (getPref('whitelist') && !getPref('blacklist').includes(wmClass)) {
         return false;
     }
 
