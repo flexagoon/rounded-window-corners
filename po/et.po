@@ -1,13 +1,13 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 22:01-0500\n"
+"POT-Creation-Date: 2026-03-14 14:13+0100\n"
 "Language: et\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+msgid "Blacklist / Whitelist"
 msgstr ""
 
 #: src/preferences/pages/blacklist.ui:11
@@ -16,7 +16,17 @@ msgid ""
 "this list to disable effects."
 msgstr ""
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+msgid "Use as Whitelist"
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 msgid "Add window"
 msgstr ""
 
@@ -222,6 +232,14 @@ msgstr ""
 
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
+msgstr ""
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Whitelist"
+msgstr ""
+
+#: src/preferences/pages/blacklist.ts:63
+msgid "Blacklist"
 msgstr ""
 
 #: src/preferences/widgets/app_row.ts:34

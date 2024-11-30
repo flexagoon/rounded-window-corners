@@ -10,6 +10,11 @@
       <default>0</default>
     </key>
 
+    <key name="whitelist" type="b">
+      <summary>Use Blacklist as Whitelist instead</summary>
+      <default>false</default>
+    </key>
+
     <key name="blacklist" type="as">
       <default>[]</default>
       <summary>window here will not be rounded</summary>

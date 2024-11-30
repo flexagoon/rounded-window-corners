@@ -6,12 +6,13 @@
 import type Gtk from 'gi://Gtk';
 
 import Adw from 'gi://Adw';
+import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import {getPref, setPref} from '../../utils/settings.js';
+import {bindPref, getPref, setPref} from '../../utils/settings.js';
 import {AppRow, type AppRowClass} from '../widgets/app_row.js';
 
 export const BlacklistPage = GObject.registerClass(
@@ -22,19 +23,47 @@ export const BlacklistPage = GObject.registerClass(
             GLib.UriFlags.NONE,
         ),
         GTypeName: 'PrefsBlacklist',
-        InternalChildren: ['blacklistGroup'],
+        InternalChildren: ['blacklistGroup', 'useWhitelist'],
     },
     class extends Adw.PreferencesPage {
         private declare _blacklistGroup: Adw.PreferencesGroup;
+        private declare _useWhitelist: Adw.SwitchRow;
 
         #blacklist = getPref('blacklist');
 
         constructor() {
             super();
 
+            bindPref(
+                'whitelist',
+                this._useWhitelist,
+                'active',
+                Gio.SettingsBindFlags.DEFAULT,
+            );
+
             for (const title of this.#blacklist) {
                 this.addWindow(undefined, title);
             }
+
+            // update page title dynamically
+            this._useWhitelist.connect('notify::active', () => {
+                this.#updateBlacklistPageTitle();
+            });
+            this.#updateBlacklistPageTitle();
+        }
+
+        /**
+         * Dynamically update the title of the blacklist page
+         * based on the state of the whitelist switch.
+         */
+        #updateBlacklistPageTitle() {
+            const isWhitelist = this._useWhitelist.get_active();
+            const newTitle = isWhitelist
+                ? _('Whitelist') // Title when switch is ON
+                : _('Blacklist'); // Title when switch is OFF
+
+            this.set_title(newTitle); // changes page Title
+            this._blacklistGroup.set_title(newTitle); // changes group Title
         }
 
         /**
