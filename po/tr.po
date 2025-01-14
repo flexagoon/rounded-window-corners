@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-25 13:30+0300\n"
+"POT-Creation-Date: 2025-01-14 10:38+0100\n"
 "PO-Revision-Date: 2023-05-14 22:51+0000\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/rounded-window-"
@@ -138,18 +138,19 @@ msgid "Border width"
 msgstr "Kenarlık Genişliği"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
+#: src/preferences/widgets/custom_settings_row.ts:19
 #, fuzzy
 msgid "Border color"
 msgstr "Kenarlık Rengi"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:27
 #, fuzzy
 msgid "Corner radius"
 msgstr "Kenarlık Yarıçapı"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:29
+#: src/preferences/widgets/custom_settings_row.ts:37
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Köşe Düzleştirme"
@@ -283,24 +284,24 @@ msgstr "Bu konumdan bir pencere seçilemez"
 msgid "Enabled"
 msgstr "Etkinleştir"
 
-#: src/preferences/widgets/custom_settings_row.ts:39
+#: src/preferences/widgets/custom_settings_row.ts:47
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "Ekranı Kapladığında Yuvarlatılmış Köşeleri Koru"
 
-#: src/preferences/widgets/custom_settings_row.ts:41
+#: src/preferences/widgets/custom_settings_row.ts:49
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr ""
 "Pencere büyütüldüğünde veya döşendiğinde her zaman yuvarlatılmış köşeleri "
 "koru."
 
-#: src/preferences/widgets/custom_settings_row.ts:45
+#: src/preferences/widgets/custom_settings_row.ts:53
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "Tam Ekran Olduğunda Yuvarlatılmış Köşeleri Koru"
 
-#: src/preferences/widgets/custom_settings_row.ts:46
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Pencere tam ekran olduğunda köşeleri her zaman yuvarlak tut."

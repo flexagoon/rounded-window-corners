@@ -2,6 +2,7 @@
 
 import type Meta from 'gi://Meta';
 import type St from 'gi://St';
+import Gdk from 'gi://Gdk';
 
 /** Bounds of rounded corners  */
 export type Bounds = {
@@ -25,6 +26,7 @@ export type RoundedCornerSettings = {
         top: number;
         bottom: number;
     };
+    borderColor: [number, number, number, number];
     enabled: boolean;
 };
 

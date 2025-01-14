@@ -5,6 +5,7 @@
  */
 
 import Adw from 'gi://Adw';
+import Gdk from 'gi://Gdk';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 
@@ -147,6 +148,30 @@ export const CustomPage = GObject.registerClass(
                     this.#customWindowSettings,
                 );
             });
+
+            const colorArray = this.#customWindowSettings[wmClass].borderColor || [0, 0, 0, 1];
+            const rgba = new Gdk.RGBA()
+            rgba.red   = colorArray[0],
+            rgba.green = colorArray[1],
+            rgba.blue  = colorArray[2],
+            rgba.alpha = colorArray[3],
+            r.borderColorButton.set_rgba(
+                rgba,
+            );
+            r.borderColorButton.connect('notify::rgba', (button: Gtk.ColorDialogButton) => {
+              const color = r.borderColorButton.get_rgba();
+              this.#customWindowSettings[wmClass].borderColor = [
+                color.red,
+                color.green,
+                color.blue,
+                color.alpha,
+              ];
+              setPref(
+                  'custom-rounded-corner-settings',
+                  this.#customWindowSettings,
+              );
+            });
+
             r.cornerRadius.set_value(
                 this.#customWindowSettings[wmClass].borderRadius,
             );
