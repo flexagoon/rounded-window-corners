@@ -135,10 +135,19 @@ function applyEffectTo(actor: RoundedWindowActor) {
     // In wayland sessions, the surface actor of XWayland clients is sometimes
     // not ready when the window is created. In this case, we wait until it is
     // ready before applying the effect.
-    if (!actor.firstChild) {
-        const id = actor.connect('notify::first-child', () => {
-            applyEffectTo(actor);
-            actor.disconnect(id);
+    // For Blur My Shell compatibility, we have to make sure that the actor is
+    // not a bms-application-blurred-widget. This actor is created by BMS and
+    // is not the actual window actor.
+    const bmsActorName = 'bms-application-blurred-widget';
+    const actorReady = (actor.firstChild && actor.firstChild.name !== bmsActorName) ||
+                       (actor.lastChild && actor.lastChild.name !== bmsActorName);
+
+    if (!actorReady) {
+        const id = actor.connect('child-added', (actor, child) => {
+            if (child.name !== bmsActorName) {
+                applyEffectTo(actor);
+                actor.disconnect(id);
+            }
         });
 
         return;
