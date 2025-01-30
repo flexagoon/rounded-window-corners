@@ -55,7 +55,7 @@ export function getRoundedCornersEffect(
     actor: Meta.WindowActor,
 ): RoundedCornersEffectType | null {
     const name = ROUNDED_CORNERS_EFFECT;
-    return  (actor.lastChild.get_effect(name) as RoundedCornersEffectType);
+    return actor.lastChild.get_effect(name) as RoundedCornersEffectType;
 }
 
 /**

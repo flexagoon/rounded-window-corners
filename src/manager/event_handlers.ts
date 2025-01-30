@@ -42,10 +42,12 @@ export function onAddEffect(actor: RoundedWindowActor) {
         return;
     }
 
-    actor.get_last_child()?.add_effect_with_name(
-        ROUNDED_CORNERS_EFFECT,
-        new RoundedCornersEffect(),
-    );
+    actor
+        .get_last_child()
+        ?.add_effect_with_name(
+            ROUNDED_CORNERS_EFFECT,
+            new RoundedCornersEffect(),
+        );
 
     const shadow = createShadow(actor);
 

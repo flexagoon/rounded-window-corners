@@ -139,8 +139,9 @@ function applyEffectTo(actor: RoundedWindowActor) {
     // not a bms-application-blurred-widget. This actor is created by BMS and
     // is not the actual window actor.
     const bmsActorName = 'bms-application-blurred-widget';
-    const actorReady = (actor.firstChild && actor.firstChild.name !== bmsActorName) ||
-                       (actor.lastChild && actor.lastChild.name !== bmsActorName);
+    const actorReady =
+        (actor.firstChild && actor.firstChild.name !== bmsActorName) ||
+        (actor.lastChild && actor.lastChild.name !== bmsActorName);
 
     if (!actorReady) {
         const id = actor.connect('child-added', (actor, child) => {
