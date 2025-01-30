@@ -122,7 +122,7 @@ export function bindPref(
  * @param prefs the GSettings object to clean.
  */
 function resetOutdated(prefs: Gio.Settings) {
-    const lastVersion = 6;
+    const lastVersion = 7;
     const currentVersion = prefs
         .get_user_value('settings-version')
         ?.recursiveUnpack();
@@ -133,6 +133,7 @@ function resetOutdated(prefs: Gio.Settings) {
         }
         prefs.reset('global-rounded-corner-settings');
         prefs.reset('custom-rounded-corner-settings');
+        prefs.reset('border-color');
         prefs.reset('focused-shadow');
         prefs.reset('unfocused-shadow');
         prefs.set_uint('settings-version', lastVersion);
