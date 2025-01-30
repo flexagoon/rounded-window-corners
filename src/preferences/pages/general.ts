@@ -92,10 +92,10 @@ export const GeneralPage = GObject.registerClass(
                 (button: Gtk.ColorDialogButton) => {
                     const color = button.get_rgba();
                     this.#settings.borderColor = [
-                      color.red,
-                      color.green,
-                      color.blue,
-                      color.alpha,
+                        color.red,
+                        color.green,
+                        color.blue,
+                        color.alpha,
                     ];
                     this.#updateGlobalConfig();
                 },

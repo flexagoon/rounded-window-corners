@@ -19,7 +19,7 @@ export class CustomSettingsRowClass extends AppRowClass {
         title: _('Border color'),
     });
     borderColorButton = new Gtk.ColorDialogButton({
-      valign: Gtk.Align.CENTER,
+        valign: Gtk.Align.CENTER,
     });
     borderColorDialog = new Gtk.ColorDialog();
 
