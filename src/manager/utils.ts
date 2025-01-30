@@ -19,22 +19,6 @@ import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
 import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
 
 /**
- * Get the actor that rounded corners should be applied to.
- * In Wayland, the effect is applied to WindowActor, but in X11, it is applied
- * to WindowActor.last_child. Usually, there is only one child but to improve the
- * compatibility with Blur My Shell, we use the last child. With Blur My Shell's
- * application blur effect, the first child is actually the blur effect and the
- * second child is the actual window actor.
- *
- * @param actor - The window actor to unwrap.
- * @returns The correct actor that the effect should be applied to.
- */
-export function unwrapActor(actor: Meta.WindowActor): Clutter.Actor | null {
-    const type = actor.metaWindow.get_client_type();
-    return type === Meta.WindowClientType.X11 ? actor.get_last_child() : actor;
-}
-
-/**
  * Get the correct rounded corner setting for a window (custom settings if a
  * window has custom overrides, global settings otherwise).
  *
@@ -70,11 +54,8 @@ type RoundedCornersEffectType = InstanceType<typeof RoundedCornersEffect>;
 export function getRoundedCornersEffect(
     actor: Meta.WindowActor,
 ): RoundedCornersEffectType | null {
-    const win = actor.metaWindow;
     const name = ROUNDED_CORNERS_EFFECT;
-    return win.get_client_type() === Meta.WindowClientType.X11
-        ? (actor.lastChild.get_effect(name) as RoundedCornersEffectType)
-        : (actor.get_effect(name) as RoundedCornersEffectType);
+    return  (actor.lastChild.get_effect(name) as RoundedCornersEffectType);
 }
 
 /**
