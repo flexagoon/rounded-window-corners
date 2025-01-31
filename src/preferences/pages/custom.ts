@@ -149,14 +149,11 @@ export const CustomPage = GObject.registerClass(
                 );
             });
 
-            const colorArray = this.#customWindowSettings[wmClass]
-                .borderColor || [0, 0, 0, 1];
-            const rgba = new Gdk.RGBA();
-            rgba.red = colorArray[0];
-            rgba.green = colorArray[1];
-            rgba.blue = colorArray[2];
-            rgba.alpha = colorArray[3];
-            r.borderColorButton.set_rgba(rgba);
+            const color = new Gdk.RGBA();
+            [color.red, color.green, color.blue, color.alpha] =
+                this.#customWindowSettings[wmClass].borderColor;
+
+            r.borderColorButton.set_rgba(color);
             r.borderColorButton.connect(
                 'notify::rgba',
                 (_button: Gtk.ColorDialogButton) => {
