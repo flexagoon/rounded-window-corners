@@ -7,6 +7,7 @@
 import Adw from 'gi://Adw';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
+import Gdk from 'gi://Gdk';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {getPref, setPref} from '../../utils/settings.js';
@@ -147,6 +148,29 @@ export const CustomPage = GObject.registerClass(
                     this.#customWindowSettings,
                 );
             });
+
+            const color = new Gdk.RGBA();
+            [color.red, color.green, color.blue, color.alpha] =
+                this.#customWindowSettings[wmClass].borderColor;
+
+            r.borderColorButton.set_rgba(color);
+            r.borderColorButton.connect(
+                'notify::rgba',
+                (_button: Gtk.ColorDialogButton) => {
+                    const color = r.borderColorButton.get_rgba();
+                    this.#customWindowSettings[wmClass].borderColor = [
+                        color.red,
+                        color.green,
+                        color.blue,
+                        color.alpha,
+                    ];
+                    setPref(
+                        'custom-rounded-corner-settings',
+                        this.#customWindowSettings,
+                    );
+                },
+            );
+
             r.cornerRadius.set_value(
                 this.#customWindowSettings[wmClass].borderRadius,
             );

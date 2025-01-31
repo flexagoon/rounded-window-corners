@@ -85,18 +85,19 @@ export const GeneralPage = GObject.registerClass(
 
             const color = new Gdk.RGBA();
             [color.red, color.green, color.blue, color.alpha] =
-                getPref('border-color');
+                this.#settings.borderColor;
             this._borderColor.set_rgba(color);
             this._borderColor.connect(
                 'notify::rgba',
                 (button: Gtk.ColorDialogButton) => {
                     const color = button.get_rgba();
-                    setPref('border-color', [
+                    this.#settings.borderColor = [
                         color.red,
                         color.green,
                         color.blue,
                         color.alpha,
-                    ]);
+                    ];
+                    this.#updateGlobalConfig();
                 },
             );
 

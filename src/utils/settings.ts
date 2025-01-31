@@ -122,7 +122,7 @@ export function bindPref(
  * @param prefs the GSettings object to clean.
  */
 function resetOutdated(prefs: Gio.Settings) {
-    const lastVersion = 6;
+    const lastVersion = 7;
     const currentVersion = prefs
         .get_user_value('settings-version')
         ?.recursiveUnpack();
@@ -133,6 +133,7 @@ function resetOutdated(prefs: Gio.Settings) {
         }
         prefs.reset('global-rounded-corner-settings');
         prefs.reset('custom-rounded-corner-settings');
+        prefs.reset('border-color');
         prefs.reset('focused-shadow');
         prefs.reset('unfocused-shadow');
         prefs.set_uint('settings-version', lastVersion);
@@ -159,6 +160,7 @@ function packRoundedCornerSettings(settings: RoundedCornerSettings) {
     );
     const borderRadius = GLib.Variant.new_uint32(settings.borderRadius);
     const smoothing = GLib.Variant.new_double(settings.smoothing);
+    const borderColor = new GLib.Variant('(dddd)', settings.borderColor);
     const enabled = GLib.Variant.new_boolean(settings.enabled);
 
     const variantObject = {
@@ -166,6 +168,7 @@ function packRoundedCornerSettings(settings: RoundedCornerSettings) {
         keepRoundedCorners: keepRoundedCorners,
         borderRadius: borderRadius,
         smoothing: smoothing,
+        borderColor: borderColor,
         enabled: enabled,
     };
 

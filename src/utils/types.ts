@@ -25,6 +25,7 @@ export type RoundedCornerSettings = {
         top: number;
         bottom: number;
     };
+    borderColor: [number, number, number, number];
     enabled: boolean;
 };
 
