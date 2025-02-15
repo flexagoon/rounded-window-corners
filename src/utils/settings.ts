@@ -23,7 +23,6 @@ type Schema = {
     'skip-libadwaita-app': boolean;
     'skip-libhandy-app': boolean;
     'border-width': number;
-    'border-color': [number, number, number, number];
     'global-rounded-corner-settings': RoundedCornerSettings;
     'custom-rounded-corner-settings': CustomRoundedCornerSettings;
     'focused-shadow': BoxShadow;
@@ -43,7 +42,6 @@ export const Schema = {
     'skip-libadwaita-app': 'b',
     'skip-libhandy-app': 'b',
     'border-width': 'i',
-    'border-color': '(dddd)',
     'global-rounded-corner-settings': 'a{sv}',
     'custom-rounded-corner-settings': 'a{sv}',
     'focused-shadow': 'a{si}',
@@ -133,7 +131,9 @@ function resetOutdated(prefs: Gio.Settings) {
         }
         prefs.reset('global-rounded-corner-settings');
         prefs.reset('custom-rounded-corner-settings');
-        prefs.reset('border-color');
+        if (prefs.list_keys().includes('border-color')) {
+            prefs.reset('border-color');
+        }
         prefs.reset('focused-shadow');
         prefs.reset('unfocused-shadow');
         prefs.set_uint('settings-version', lastVersion);
