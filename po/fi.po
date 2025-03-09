@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-25 13:30+0300\n"
+"POT-Creation-Date: 2025-01-14 10:38+0100\n"
 "PO-Revision-Date: 2022-11-12 07:50+0000\n"
 "Last-Translator: Ilari Suhonen <ilari.suhonen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/rounded-window-"
@@ -137,18 +137,19 @@ msgid "Border width"
 msgstr "Reunan leveys"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
+#: src/preferences/widgets/custom_settings_row.ts:19
 #, fuzzy
 msgid "Border color"
 msgstr "Reunan väri"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:27
 #, fuzzy
 msgid "Corner radius"
 msgstr "Reunan säde"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:29
+#: src/preferences/widgets/custom_settings_row.ts:37
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Kulman pehmitys"
@@ -282,22 +283,22 @@ msgstr "Ikkunaa ei voi valita tästä sijainnista"
 msgid "Enabled"
 msgstr "Päälle"
 
-#: src/preferences/widgets/custom_settings_row.ts:39
+#: src/preferences/widgets/custom_settings_row.ts:47
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "Pidä pyöristetyt kulmat maksimoidussa tilassa"
 
-#: src/preferences/widgets/custom_settings_row.ts:41
+#: src/preferences/widgets/custom_settings_row.ts:49
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr "Älä poista pyöristettyjä kulmia aseteltujen tai kokonäytön ikkunoista."
 
-#: src/preferences/widgets/custom_settings_row.ts:45
+#: src/preferences/widgets/custom_settings_row.ts:53
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "Pidä pyöristetyt kulmat kokonäytön tilassa"
 
-#: src/preferences/widgets/custom_settings_row.ts:46
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Älä poista pyöristettyjä kulmia kokonäytön ikkunoista."

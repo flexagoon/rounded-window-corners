@@ -98,6 +98,10 @@ Available recipes:
     pot     # Update and compile the translation files
 ```
 
+## Credits
+
+Thanks to [yotamguttman](https://github.com/yotamguttman) for making an icon for the extension!
+
 <!-- links -->
 
 [1]: https://en.wikipedia.org/wiki/Superellipse

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-25 13:30+0300\n"
+"POT-Creation-Date: 2025-01-14 10:38+0100\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: Yi <yilozt@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -136,18 +136,19 @@ msgid "Border width"
 msgstr "边框大小"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
+#: src/preferences/widgets/custom_settings_row.ts:19
 #, fuzzy
 msgid "Border color"
 msgstr "边框颜色"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:27
 #, fuzzy
 msgid "Corner radius"
 msgstr "圆角半径"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:29
+#: src/preferences/widgets/custom_settings_row.ts:37
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "圆角平滑程度"
@@ -280,22 +281,22 @@ msgstr "无法从此位置选取窗口"
 msgid "Enabled"
 msgstr "启用"
 
-#: src/preferences/widgets/custom_settings_row.ts:39
+#: src/preferences/widgets/custom_settings_row.ts:47
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "最大化时保留圆角"
 
-#: src/preferences/widgets/custom_settings_row.ts:41
+#: src/preferences/widgets/custom_settings_row.ts:49
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr "窗口最大化或垂直平铺时保留圆角。"
 
-#: src/preferences/widgets/custom_settings_row.ts:45
+#: src/preferences/widgets/custom_settings_row.ts:53
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "窗口全屏时保留圆角"
 
-#: src/preferences/widgets/custom_settings_row.ts:46
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "当窗口全屏时保留圆角效果。"

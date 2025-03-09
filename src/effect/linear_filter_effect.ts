@@ -13,7 +13,7 @@ export const LinearFilterEffect = GObject.registerClass(
     {},
     class extends Shell.GLSLEffect {
         vfunc_build_pipeline(): void {
-            this.add_glsl_snippet(Shell.SnippetHook.FRAGMENT, '', '', false);
+            this.add_glsl_snippet(Cogl.SnippetHook.FRAGMENT, '', '', false);
         }
 
         vfunc_paint_target(
