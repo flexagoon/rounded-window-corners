@@ -63,7 +63,7 @@
               <object class="AdwPreferencesGroup">
                 <child>
                   <object class="AdwExpanderRow">
-                    <property name="title" translatable="yes">Focused shadow prefrences</property>
+                    <property name="title" translatable="yes">Focused shadow preferences</property>
                     <child>
                       <object class="AdwActionRow">
                         <property name="title" translatable="yes">Horizontal offset</property>
@@ -203,7 +203,7 @@
                 </child>
                 <child>
                   <object class="AdwExpanderRow">
-                    <property name="title" translatable="yes">Unfocused shadow prefrences</property>
+                    <property name="title" translatable="yes">Unfocused shadow preferences</property>
                     <child>
                       <object class="AdwActionRow">
                         <property name="title" translatable="yes">Horizontal offset</property>
