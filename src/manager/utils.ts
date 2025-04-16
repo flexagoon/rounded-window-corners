@@ -272,10 +272,18 @@ export function shouldEnableEffect(
     win._appType = appType; // Cache the result.
     logDebug(`Check Type of window:${win.title} => ${appType}`);
 
-    if (getPref('skip-libadwaita-app') && appType === 'LibAdwaita') {
+    if (
+        getPref('skip-libadwaita-app') &&
+        appType === 'LibAdwaita' &&
+        !isException
+    ) {
         return false;
     }
-    if (getPref('skip-libhandy-app') && appType === 'LibHandy') {
+    if (
+        getPref('skip-libhandy-app') &&
+        appType === 'LibHandy' &&
+        !isException
+    ) {
         return false;
     }
 
