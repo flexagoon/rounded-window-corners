@@ -150,18 +150,19 @@ msgid "Border width"
 msgstr "Šířka okraje"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
+#: src/preferences/widgets/custom_settings_row.ts:19
 #, fuzzy
 msgid "Border color"
 msgstr "Barva okraje"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:27
 #, fuzzy
 msgid "Corner radius"
 msgstr "Poloměr okraje"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:29
+#: src/preferences/widgets/custom_settings_row.ts:37
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Vyhlazování rohů"
@@ -304,27 +305,27 @@ msgstr "Nelze vybrat okno z této pozice"
 msgid "Enabled"
 msgstr "Povolit"
 
-#: src/preferences/widgets/custom_settings_row.ts:39
+#: src/preferences/widgets/custom_settings_row.ts:47
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "Zachovat zaoblené rohy při maximalizaci"
 
-#: src/preferences/widgets/custom_settings_row.ts:41
+#: src/preferences/widgets/custom_settings_row.ts:49
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr "Při maximalizovaném okně nebo dlaždicích vždy zachovat zaoblené rohy."
 
-#: src/preferences/widgets/custom_settings_row.ts:45
+#: src/preferences/widgets/custom_settings_row.ts:53
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "Zachovat zaoblené rohy v režimu celé obrazovky"
 
-#: src/preferences/widgets/custom_settings_row.ts:46
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Při zobrazení okna na celou obrazovku vždy zachovat zaoblené rohy."
 
-#: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
+#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
 msgid "Rounded Corners Settings..."
 msgstr "Nastavení zaoblených rohů..."
 

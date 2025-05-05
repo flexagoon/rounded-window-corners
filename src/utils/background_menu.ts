@@ -10,21 +10,10 @@ import {
     Extension,
     gettext as _,
 } from 'resource:///org/gnome/shell/extensions/extension.js';
+import {PopupMenuItem} from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import type Clutter from 'gi://Clutter';
-import type {
-    PopupMenu,
-    PopupMenuItem,
-} from 'resource:///org/gnome/shell/ui/popupMenu.js';
-
-/**
- * Desktop background context menu.
- *
- * https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/backgroundMenu.js
- */
-type BackgroundMenu = PopupMenu & {
-    _getMenuItems(): PopupMenuItem[];
-};
+import type {PopupMenu} from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 /**
  * Clutter Actor of the desktop background.
@@ -32,7 +21,7 @@ type BackgroundMenu = PopupMenu & {
  * https://gjs-docs.gnome.org/meta15~15/meta.backgroundactor
  */
 type BackgroundActor = Clutter.Actor & {
-    _backgroundMenu: BackgroundMenu;
+    _backgroundMenu: PopupMenu;
 };
 
 /** Enable the "rounded corner settings" item in desktop context menu. */
@@ -56,12 +45,15 @@ export function disableBackgroundMenuItem() {
  *
  * @param menu - BackgroundMenu to add the item to.
  */
-function addItemToMenu(menu: BackgroundMenu) {
+function addItemToMenu(menu: PopupMenu) {
     const rwcMenuItemName = _('Rounded Corners Settings...');
 
     // Check if the item already exists
     for (const item of menu._getMenuItems()) {
-        if (item.label?.text === rwcMenuItemName) {
+        if (
+            item instanceof PopupMenuItem &&
+            item.label.text === rwcMenuItemName
+        ) {
             return;
         }
     }
@@ -77,11 +69,14 @@ function addItemToMenu(menu: BackgroundMenu) {
  *
  * @param menu - BackgroundMenu to remove the item from.
  */
-function removeItemFromMenu(menu: BackgroundMenu) {
+function removeItemFromMenu(menu: PopupMenu) {
     const items = menu._getMenuItems();
     const rwcMenuItemName = _('Rounded Corners Settings...');
     for (const item of items) {
-        if (item.label?.text === rwcMenuItemName) {
+        if (
+            item instanceof PopupMenuItem &&
+            item.label.text === rwcMenuItemName
+        ) {
             item.destroy();
             break;
         }

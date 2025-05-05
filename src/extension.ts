@@ -1,4 +1,7 @@
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {
+    Extension,
+    InjectionManager,
+} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {layoutManager} from 'resource:///org/gnome/shell/ui/main.js';
 import {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
 import {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
@@ -21,13 +24,10 @@ import type Gio from 'gi://Gio';
 
 export default class RoundedWindowCornersReborn extends Extension {
     // The extension works by overriding (monkey patching) the code of GNOME
-    // Shell's internal methods. We need to keep a reference to the original
-    // methods so that we can restore them when the extension is disabled.
-    #originalAddWindow = WindowPreview.prototype._addWindow;
-    #originalPrepareWorkspaceSwitch =
-        WorkspaceAnimationController.prototype._prepareWorkspaceSwitch;
-    #originalFinishWorkspaceSwitch =
-        WorkspaceAnimationController.prototype._finishWorkspaceSwitch;
+    // Shell's internal methods. InjectionManager is a convenience class that
+    // stores references to the original methods and allows to easily restore
+    // them when the extension is disabled.
+    #injectionManager: InjectionManager | null = null;
 
     #windowPicker: WindowPicker | null = null;
 
@@ -38,6 +38,8 @@ export default class RoundedWindowCornersReborn extends Extension {
     enable() {
         // Initialize extension preferences
         initPrefs(this.getSettings());
+
+        this.#injectionManager = new InjectionManager();
 
         // Export the d-bus interface of the window picker in preferences.
         // See the readme in the `window_picker` directory for more information.
@@ -77,27 +79,38 @@ export default class RoundedWindowCornersReborn extends Extension {
         // We need to override its `_addWindow` method to add a shadow actor
         // to the preview, otherwise overview windows won't have custom
         // shadows.
-        WindowPreview.prototype._addWindow = function (window) {
-            self.#originalAddWindow.apply(this, [window]);
-            addShadowInOverview(window, this);
-        };
+        this.#injectionManager.overrideMethod(
+            WindowPreview.prototype,
+            '_addWindow',
+            addWindow =>
+                function (window) {
+                    addWindow.call(this, window);
+                    addShadowInOverview(window, this);
+                },
+        );
 
         // The same way we applied a cloned shadow actor to window previews in
         // the overview, we also need to apply it to windows during workspace
         // switching.
-        WorkspaceAnimationController.prototype._prepareWorkspaceSwitch =
-            function (workspaceIndices) {
-                self.#originalPrepareWorkspaceSwitch.apply(this, [
-                    workspaceIndices,
-                ]);
-                self.#workspaceSwitchConnections =
-                    addShadowsInWorkspaceSwitch(this);
-            };
-        WorkspaceAnimationController.prototype._finishWorkspaceSwitch =
-            function (switchData) {
-                removeShadowsAfterWorkspaceSwitch(this);
-                self.#originalFinishWorkspaceSwitch.apply(this, [switchData]);
-            };
+        this.#injectionManager.overrideMethod(
+            WorkspaceAnimationController.prototype,
+            '_prepareWorkspaceSwitch',
+            prepareWorkspaceSwitch =>
+                function (workspaceIndices) {
+                    prepareWorkspaceSwitch.call(this, workspaceIndices);
+                    self.#workspaceSwitchConnections =
+                        addShadowsInWorkspaceSwitch(this);
+                },
+        );
+        this.#injectionManager.overrideMethod(
+            WorkspaceAnimationController.prototype,
+            '_finishWorkspaceSwitch',
+            finishWorkspaceSwitch =>
+                function (switchData) {
+                    removeShadowsAfterWorkspaceSwitch(this);
+                    finishWorkspaceSwitch.call(this, switchData);
+                },
+        );
 
         // Watch for changes of the `enable-preferences-entry` prefs key.
         prefs.connect('changed', (_: Gio.Settings, key: string) => {
@@ -113,11 +126,8 @@ export default class RoundedWindowCornersReborn extends Extension {
 
     disable() {
         // Restore patched methods
-        WindowPreview.prototype._addWindow = this.#originalAddWindow;
-        WorkspaceAnimationController.prototype._prepareWorkspaceSwitch =
-            this.#originalPrepareWorkspaceSwitch;
-        WorkspaceAnimationController.prototype._finishWorkspaceSwitch =
-            this.#originalFinishWorkspaceSwitch;
+        this.#injectionManager?.clear();
+        this.#injectionManager = null;
 
         // Remove the item to open preferences page in background menu
         disableBackgroundMenuItem();

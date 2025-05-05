@@ -1,5 +1,6 @@
 /** @file Binds the actual corner rounding shader to the windows. */
 
+import Cogl from 'gi://Cogl';
 import GObject from 'gi://GObject';
 import Shell from 'gi://Shell';
 
@@ -46,7 +47,7 @@ export const RoundedCornersEffect = GObject.registerClass(
 
         vfunc_build_pipeline() {
             this.add_glsl_snippet(
-                Shell.SnippetHook.FRAGMENT,
+                Cogl.SnippetHook.FRAGMENT,
                 declarations,
                 code,
                 false,
@@ -67,7 +68,7 @@ export const RoundedCornersEffect = GObject.registerClass(
             windowBounds: Bounds,
         ) {
             const borderWidth = getPref('border-width') * scaleFactor;
-            const borderColor = getPref('border-color');
+            const borderColor = config.borderColor;
 
             const outerRadius = config.borderRadius * scaleFactor;
             const {padding, smoothing} = config;

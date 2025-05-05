@@ -24,7 +24,6 @@ type Schema = {
     'skip-libadwaita-app': boolean;
     'skip-libhandy-app': boolean;
     'border-width': number;
-    'border-color': [number, number, number, number];
     'global-rounded-corner-settings': RoundedCornerSettings;
     'custom-rounded-corner-settings': CustomRoundedCornerSettings;
     'focused-shadow': BoxShadow;
@@ -45,7 +44,6 @@ export const Schema = {
     'skip-libadwaita-app': 'b',
     'skip-libhandy-app': 'b',
     'border-width': 'i',
-    'border-color': '(dddd)',
     'global-rounded-corner-settings': 'a{sv}',
     'custom-rounded-corner-settings': 'a{sv}',
     'focused-shadow': 'a{si}',
@@ -124,7 +122,7 @@ export function bindPref(
  * @param prefs the GSettings object to clean.
  */
 function resetOutdated(prefs: Gio.Settings) {
-    const lastVersion = 6;
+    const lastVersion = 7;
     const currentVersion = prefs
         .get_user_value('settings-version')
         ?.recursiveUnpack();
@@ -135,6 +133,9 @@ function resetOutdated(prefs: Gio.Settings) {
         }
         prefs.reset('global-rounded-corner-settings');
         prefs.reset('custom-rounded-corner-settings');
+        if (prefs.list_keys().includes('border-color')) {
+            prefs.reset('border-color');
+        }
         prefs.reset('focused-shadow');
         prefs.reset('unfocused-shadow');
         prefs.set_uint('settings-version', lastVersion);
@@ -161,6 +162,7 @@ function packRoundedCornerSettings(settings: RoundedCornerSettings) {
     );
     const borderRadius = GLib.Variant.new_uint32(settings.borderRadius);
     const smoothing = GLib.Variant.new_double(settings.smoothing);
+    const borderColor = new GLib.Variant('(dddd)', settings.borderColor);
     const enabled = GLib.Variant.new_boolean(settings.enabled);
 
     const variantObject = {
@@ -168,6 +170,7 @@ function packRoundedCornerSettings(settings: RoundedCornerSettings) {
         keepRoundedCorners: keepRoundedCorners,
         borderRadius: borderRadius,
         smoothing: smoothing,
+        borderColor: borderColor,
         enabled: enabled,
     };
 

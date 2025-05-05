@@ -8,10 +8,8 @@ import {prefs} from '../utils/settings.js';
 import * as handlers from './event_handlers.js';
 
 import type GObject from 'gi://GObject';
-import type Gio from 'gi://Gio';
 import type Meta from 'gi://Meta';
 import type Shell from 'gi://Shell';
-import type {SchemaKey} from '../utils/settings.js';
 import type {RoundedWindowActor} from '../utils/types.js';
 
 /**
@@ -24,9 +22,7 @@ import type {RoundedWindowActor} from '../utils/types.js';
  */
 export function enableEffect() {
     // Update the effect when settings are changed.
-    connect(prefs, 'changed', (_: Gio.Settings, key: string) =>
-        handlers.onSettingsChanged(key as SchemaKey),
-    );
+    connect(prefs, 'changed', handlers.onSettingsChanged);
 
     const wm = global.windowManager;
 

@@ -119,16 +119,17 @@ msgid "Border width"
 msgstr ""
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
+#: src/preferences/widgets/custom_settings_row.ts:19
 msgid "Border color"
 msgstr ""
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:27
 msgid "Corner radius"
 msgstr ""
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:29
+#: src/preferences/widgets/custom_settings_row.ts:37
 msgid "Corner smoothing"
 msgstr ""
 
@@ -253,22 +254,22 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: src/preferences/widgets/custom_settings_row.ts:39
+#: src/preferences/widgets/custom_settings_row.ts:47
 msgid "Keep rounded corners when maximized"
 msgstr ""
 
-#: src/preferences/widgets/custom_settings_row.ts:41
+#: src/preferences/widgets/custom_settings_row.ts:49
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr ""
 
-#: src/preferences/widgets/custom_settings_row.ts:45
+#: src/preferences/widgets/custom_settings_row.ts:53
 msgid "Keep rounded corners when in fullscreen"
 msgstr ""
 
-#: src/preferences/widgets/custom_settings_row.ts:46
+#: src/preferences/widgets/custom_settings_row.ts:54
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr ""
 
-#: src/utils/background_menu.ts:60 src/utils/background_menu.ts:82
+#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
 msgid "Rounded Corners Settings..."
 msgstr ""
