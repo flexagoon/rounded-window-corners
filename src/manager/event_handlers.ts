@@ -154,7 +154,6 @@ export const onFocusChanged = refreshShadow;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
 
-
 /**
  * Create the shadow actor for a window.
  *
