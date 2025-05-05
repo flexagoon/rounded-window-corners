@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-01-31 09:36+0100\n"
 "PO-Revision-Date: 2023-12-10 10:05+0000\n"
 "Last-Translator: Nadjib Chergui <chergui.cnadjib@outlook.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/rounded-window-"
@@ -15,7 +15,8 @@ msgstr ""
 "X-Generator: Weblate 5.3-dev\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "اللائحة السوداء"
 
 #: src/preferences/pages/blacklist.ui:11
@@ -26,7 +27,18 @@ msgid ""
 msgstr ""
 "ليست كل التطبيقات تعمل مع تأثير الزوايا المدورة، أضفهم لإيقاف التأثيرات لهم."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+#, fuzzy
+msgid "Use as Whitelist"
+msgstr "اللائحة السوداء"
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "إضافة نافذة"
@@ -260,6 +272,15 @@ msgstr "يسار"
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
 msgstr "يمين"
+
+#: src/preferences/pages/blacklist.ts:61
+#, fuzzy
+msgid "Whitelist"
+msgstr "اللائحة السوداء"
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Blacklist"
+msgstr "اللائحة السوداء"
 
 #: src/preferences/widgets/app_row.ts:33
 #, fuzzy

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-01-31 09:36+0100\n"
 "PO-Revision-Date: 2024-02-25 14:01+0000\n"
 "Last-Translator: repex97 <repetto.andrea025@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/rounded-window-"
@@ -14,7 +14,8 @@ msgstr ""
 "X-Generator: Weblate 5.5-dev\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Lista nera"
 
 #: src/preferences/pages/blacklist.ui:11
@@ -29,7 +30,18 @@ msgstr ""
 "Gli oggetti di questa lista fanno parte della proprietà WM_CLASS. Puoi "
 "selezionare una finestra per aggingerla a questa lista."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+#, fuzzy
+msgid "Use as Whitelist"
+msgstr "Lista nera"
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Aggiungi Finestra"
@@ -265,6 +277,15 @@ msgstr "Sinistra"
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
 msgstr "Destra"
+
+#: src/preferences/pages/blacklist.ts:61
+#, fuzzy
+msgid "Whitelist"
+msgstr "Lista nera"
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Blacklist"
+msgstr "Lista nera"
 
 #: src/preferences/widgets/app_row.ts:33
 #, fuzzy

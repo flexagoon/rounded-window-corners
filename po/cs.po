@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-01-31 09:36+0100\n"
 "PO-Revision-Date: 2023-04-25 17:52+0000\n"
 "Last-Translator: Fjuro <ifjuro@proton.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/rounded-window-"
@@ -14,7 +14,8 @@ msgstr ""
 "X-Generator: Weblate 4.18-dev\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Černá listina"
 
 #: src/preferences/pages/blacklist.ui:11
@@ -29,7 +30,18 @@ msgstr ""
 "Položka seznamu je součástí instance vlastnosti WM_CLASS s oknem. Můžete "
 "vybrat okno a přidat jej do tohoto seznamu."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+#, fuzzy
+msgid "Use as Whitelist"
+msgstr "Černá listina"
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Přidat okno"
@@ -263,6 +275,15 @@ msgstr "Vlevo"
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
 msgstr "Vpravo"
+
+#: src/preferences/pages/blacklist.ts:61
+#, fuzzy
+msgid "Whitelist"
+msgstr "Černá listina"
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Blacklist"
+msgstr "Černá listina"
 
 #: src/preferences/widgets/app_row.ts:33
 #, fuzzy

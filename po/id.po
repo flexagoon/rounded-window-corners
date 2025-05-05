@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-01-31 09:36+0100\n"
 "PO-Revision-Date: 2023-05-24 00:51+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/rounded-"
@@ -13,7 +13,8 @@ msgstr ""
 "X-Generator: Weblate 4.18-dev\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Daftar hitam"
 
 #: src/preferences/pages/blacklist.ui:11
@@ -28,7 +29,18 @@ msgstr ""
 "Item daftar adalah bagian instan dari properti WM_CLASS dengan jendela. Anda "
 "dapat memilih jendela untuk menambahkannya ke dalam daftar ini."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+#, fuzzy
+msgid "Use as Whitelist"
+msgstr "Daftar hitam"
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Tambahkan Jendela"
@@ -262,6 +274,15 @@ msgstr "Kiri"
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
 msgstr "Kanan"
+
+#: src/preferences/pages/blacklist.ts:61
+#, fuzzy
+msgid "Whitelist"
+msgstr "Daftar hitam"
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Blacklist"
+msgstr "Daftar hitam"
 
 #: src/preferences/widgets/app_row.ts:33
 #, fuzzy

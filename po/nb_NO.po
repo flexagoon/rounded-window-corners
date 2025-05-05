@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-01-31 09:36+0100\n"
 "PO-Revision-Date: 2022-09-15 06:16+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/rounded-"
@@ -13,7 +13,8 @@ msgstr ""
 "X-Generator: Weblate 4.14.1-dev\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Svarteliste"
 
 #: src/preferences/pages/blacklist.ui:11
@@ -22,7 +23,18 @@ msgid ""
 "this list to disable effects."
 msgstr ""
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+#, fuzzy
+msgid "Use as Whitelist"
+msgstr "Svarteliste"
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Legg til vindu"
@@ -230,6 +242,15 @@ msgstr ""
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
 msgstr ""
+
+#: src/preferences/pages/blacklist.ts:61
+#, fuzzy
+msgid "Whitelist"
+msgstr "Svarteliste"
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Blacklist"
+msgstr "Svarteliste"
 
 #: src/preferences/widgets/app_row.ts:33
 msgid "Window class"

@@ -20,6 +20,7 @@ import type {
 type Schema = {
     'settings-version': number;
     blacklist: string[];
+    whitelist: boolean;
     'skip-libadwaita-app': boolean;
     'skip-libhandy-app': boolean;
     'border-width': number;
@@ -39,6 +40,7 @@ export type SchemaKey = keyof Schema;
 export const Schema = {
     'settings-version': 'u',
     blacklist: 'as',
+    whitelist: 'b',
     'skip-libadwaita-app': 'b',
     'skip-libhandy-app': 'b',
     'border-width': 'i',

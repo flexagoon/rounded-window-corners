@@ -3,12 +3,18 @@
   <requires lib="gtk" version="4.0" />
   <requires lib="adw" version="1.0" />
   <template class="PrefsBlacklist" parent="AdwPreferencesPage">
-    <property name="title" translatable="yes">Blacklist</property>
+    <property name="title" translatable="yes">Blacklist / Whitelist</property>
     <property name="icon-name">action-unavailable-symbolic</property>
     <child>
       <object class="AdwPreferencesGroup" id="blacklistGroup">
-        <property name="title" translatable="yes">Blacklist</property>
+        <property name="title" translatable="yes">Blacklist / Whitelist</property>
         <property name="description" translatable="yes">Not all application can works well with rounded corners effects, add them to this list to disable effects.</property>
+        <child>
+          <object class="AdwSwitchRow" id="useWhitelist">
+            <property name="title" translatable="yes">Use as Whitelist</property>
+            <property name="subtitle" translatable="yes">When selected, instead of omitting certain windows, only allows certain windows.</property>
+          </object>
+        </child>
         <property name="header-suffix">
           <object class="GtkButton">
             <property name="valign">start</property>

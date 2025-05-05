@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-01-31 09:36+0100\n"
 "PO-Revision-Date: 2023-01-04 20:51+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/rounded-window-"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Generator: Weblate 4.15.1-dev\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+msgid "Blacklist / Whitelist"
 msgstr ""
 
 #: src/preferences/pages/blacklist.ui:11
@@ -22,7 +22,17 @@ msgid ""
 "this list to disable effects."
 msgstr ""
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+msgid "Use as Whitelist"
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 msgid "Add window"
 msgstr ""
 
@@ -235,6 +245,14 @@ msgstr "Maldekstro"
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
 msgstr "Dekstro"
+
+#: src/preferences/pages/blacklist.ts:61
+msgid "Whitelist"
+msgstr ""
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Blacklist"
+msgstr ""
 
 #: src/preferences/widgets/app_row.ts:33
 msgid "Window class"

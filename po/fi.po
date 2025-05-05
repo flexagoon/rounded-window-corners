@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-01-31 09:36+0100\n"
 "PO-Revision-Date: 2022-11-12 07:50+0000\n"
 "Last-Translator: Ilari Suhonen <ilari.suhonen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/rounded-window-"
@@ -13,7 +13,8 @@ msgstr ""
 "X-Generator: Weblate 4.15-dev\n"
 
 #: src/preferences/pages/blacklist.ui:6 src/preferences/pages/blacklist.ui:10
-msgid "Blacklist"
+#, fuzzy
+msgid "Blacklist / Whitelist"
 msgstr "Estot"
 
 #: src/preferences/pages/blacklist.ui:11
@@ -28,7 +29,18 @@ msgstr ""
 "Listan alkiot täsmäävät ikkunoiden WM_CLASS:in instanssiosaa. Voit valita "
 "ikkunan lisätäksesi sen listaan."
 
-#: src/preferences/pages/blacklist.ui:19 src/preferences/pages/custom.ui:19
+#: src/preferences/pages/blacklist.ui:14
+#, fuzzy
+msgid "Use as Whitelist"
+msgstr "Estot"
+
+#: src/preferences/pages/blacklist.ui:15
+msgid ""
+"When selected, instead of omitting certain windows, only allows certain "
+"windows."
+msgstr ""
+
+#: src/preferences/pages/blacklist.ui:25 src/preferences/pages/custom.ui:19
 #, fuzzy
 msgid "Add window"
 msgstr "Lisää ikkuna"
@@ -262,6 +274,15 @@ msgstr "Vasen"
 #: src/preferences/widgets/paddings-row.ui:70
 msgid "Right"
 msgstr "Oikea"
+
+#: src/preferences/pages/blacklist.ts:61
+#, fuzzy
+msgid "Whitelist"
+msgstr "Estot"
+
+#: src/preferences/pages/blacklist.ts:62
+msgid "Blacklist"
+msgstr "Estot"
 
 #: src/preferences/widgets/app_row.ts:33
 #, fuzzy
