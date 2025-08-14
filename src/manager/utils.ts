@@ -282,7 +282,7 @@ export function shouldEnableEffect(
     const cfg = getRoundedCornersCfg(win);
     return (
         !(maximized || fullscreen) ||
-        (maximized && cfg.keepRoundedCorners.maximized) ||
+        (maximized && !fullscreen && cfg.keepRoundedCorners.maximized) ||
         (fullscreen && cfg.keepRoundedCorners.fullscreen)
     );
 }
