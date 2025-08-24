@@ -6,6 +6,7 @@
 import {logDebug} from '../utils/log.js';
 import {prefs} from '../utils/settings.js';
 import * as handlers from './event_handlers.js';
+import Gio from 'gi://Gio';
 
 import type GObject from 'gi://GObject';
 import type Meta from 'gi://Meta';
@@ -70,6 +71,11 @@ export function enableEffect() {
 
     // When windows are restacked, the order of shadow actors as well.
     connect(global.display, 'restacked', handlers.onRestacked);
+
+    // Listen to system theme (light/dark) changes
+    const interfaceSettings = new Gio.Settings({schema: 'org.gnome.desktop.interface'});
+    connect(interfaceSettings, 'changed::color-scheme', () => handlers.onSettingsChanged());
+    connect(interfaceSettings, 'changed::gtk-theme', () => handlers.onSettingsChanged());
 }
 
 /** Disable the effect for all windows. */

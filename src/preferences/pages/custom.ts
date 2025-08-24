@@ -150,15 +150,18 @@ export const CustomPage = GObject.registerClass(
             });
 
             const color = new Gdk.RGBA();
+            // TODO: 
+            //  - Test.
+            //  - Add support for light/dark theme borderColor
             [color.red, color.green, color.blue, color.alpha] =
-                this.#customWindowSettings[wmClass].borderColor;
+                this.#customWindowSettings[wmClass].borderColor.dark;
 
             r.borderColorButton.set_rgba(color);
             r.borderColorButton.connect(
                 'notify::rgba',
                 (_button: Gtk.ColorDialogButton) => {
                     const color = r.borderColorButton.get_rgba();
-                    this.#customWindowSettings[wmClass].borderColor = [
+                    this.#customWindowSettings[wmClass].borderColor.dark = [
                         color.red,
                         color.green,
                         color.blue,

@@ -31,6 +31,7 @@ import {
 
 import type Meta from 'gi://Meta';
 import type {RoundedWindowActor} from '../utils/types.js';
+import {currentThemeVariant} from '../utils/theme.js';
 
 export function onAddEffect(actor: RoundedWindowActor) {
     logDebug(`Adding effect to ${actor?.metaWindow.title}`);
@@ -154,6 +155,8 @@ export const onFocusChanged = refreshShadow;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
 
+export const onThemeChanged = refreshAllRoundedCorners;
+
 /**
  * Create the shadow actor for a window.
  *
@@ -248,6 +251,7 @@ function refreshRoundedCorners(actor: RoundedWindowActor): void {
         windowScaleFactor(win),
         cfg,
         computeBounds(actor, windowContentOffset),
+        currentThemeVariant(),
     );
 
     // Update BindConstraint for the shadow

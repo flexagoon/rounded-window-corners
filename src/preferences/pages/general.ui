@@ -54,15 +54,32 @@
         </child>
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Border color</property>
+            <property name="title" translatable="yes">Light theme border color</property>
             <property name="activatable">true</property>
-            <property name="activatable-widget">borderColor</property>
+            <property name="activatable-widget">lightBorderColor</property>
             <child>
-              <object class="GtkColorDialogButton" id="borderColor">
+              <object class="GtkColorDialogButton" id="lightBorderColor">
                 <property name="valign">center</property>
                 <property name="dialog">
                   <object class="GtkColorDialog">
-                    <property name="title" translatable="yes">Border color</property>
+                    <property name="title" translatable="yes">Light theme border color</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Dark theme border color</property>
+            <property name="activatable">true</property>
+            <property name="activatable-widget">darkBorderColor</property>
+            <child>
+              <object class="GtkColorDialogButton" id="darkBorderColor">
+                <property name="valign">center</property>
+                <property name="dialog">
+                  <object class="GtkColorDialog">
+                    <property name="title" translatable="yes">Dark theme border color</property>
                   </object>
                 </property>
               </object>

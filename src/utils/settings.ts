@@ -120,7 +120,7 @@ export function bindPref(
  * @param prefs the GSettings object to clean.
  */
 function resetOutdated(prefs: Gio.Settings) {
-    const lastVersion = 7;
+    const lastVersion = 8;
     const currentVersion = prefs
         .get_user_value('settings-version')
         ?.recursiveUnpack();
@@ -160,16 +160,25 @@ function packRoundedCornerSettings(settings: RoundedCornerSettings) {
     );
     const borderRadius = GLib.Variant.new_uint32(settings.borderRadius);
     const smoothing = GLib.Variant.new_double(settings.smoothing);
-    const borderColor = new GLib.Variant('(dddd)', settings.borderColor);
+
+    // Ensure we always have 4-tuples for RGBA; fallback dark to light if missing
+    const light = settings.borderColor?.light ?? [0.5, 0.5, 0.5, 1.0];
+    const dark = settings.borderColor?.dark ?? light;
+
+    const borderColor = new GLib.Variant('a{sv}', {
+        light: new GLib.Variant('(dddd)', light as [number, number, number, number]),
+        dark: new GLib.Variant('(dddd)', dark as [number, number, number, number]),
+    });
+
     const enabled = GLib.Variant.new_boolean(settings.enabled);
 
     const variantObject = {
-        padding: padding,
-        keepRoundedCorners: keepRoundedCorners,
-        borderRadius: borderRadius,
-        smoothing: smoothing,
-        borderColor: borderColor,
-        enabled: enabled,
+        padding,
+        keepRoundedCorners,
+        borderRadius,
+        smoothing,
+        borderColor,
+        enabled,
     };
 
     return new GLib.Variant('a{sv}', variantObject);

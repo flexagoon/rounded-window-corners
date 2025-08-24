@@ -7,16 +7,20 @@ import Gtk from 'gi://Gtk';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {prefsTabs} from './preferences/index.js';
-import {logDebug} from './utils/log.js';
+import {logDebug, logError} from './utils/log.js';
 import {initPrefs, uninitPrefs} from './utils/settings.js';
 
 export default class RoundedWindowCornersRebornPrefs extends ExtensionPreferences {
     async fillPreferencesWindow(win: Adw.PreferencesWindow) {
-        initPrefs(this.getSettings());
+        try {
+            const settings = this.getSettings();
+            console.log(`[Rounded Window Corners] `, settings);
 
-        for (const page of prefsTabs) {
-            win.add(new page());
-        }
+            initPrefs(settings);
+
+            for (const page of prefsTabs) {
+                win.add(new page());
+            }
 
         // Disconnect all signals when closing the preferences
         win.connect('close-request', () => {
@@ -24,7 +28,11 @@ export default class RoundedWindowCornersRebornPrefs extends ExtensionPreference
             uninitPrefs();
         });
 
-        this.#loadCss();
+            this.#loadCss();
+        } catch (err) {
+            console.error(`[Rounded Window Corners] `, err);
+        }
+        
     }
 
     #loadCss() {

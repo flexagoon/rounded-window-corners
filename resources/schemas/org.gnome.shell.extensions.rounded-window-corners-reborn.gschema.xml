@@ -56,7 +56,10 @@
           }&gt;,
           'borderRadius': &lt;uint32 12&gt;,
           'smoothing': &lt;0&gt;,
-          'borderColor': &lt;[0.5, 0.5, 0.5, 1.0]&gt;,
+          'borderColor': &lt;{
+            'light': &lt;[0.5, 0.5, 0.5, 1.0]&gt;,
+            'dark': &lt;[0.5, 0.5, 0.5, 1.0]&gt;
+          }&gt;,
           'enabled': &lt;true&gt;
         }
       </default>

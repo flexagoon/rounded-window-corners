@@ -32,7 +32,8 @@ export const GeneralPage = GObject.registerClass(
             'skipLibadwaita',
             'skipLibhandy',
             'borderWidth',
-            'borderColor',
+            'lightBorderColor',
+            'darkBorderColor',
             'cornerRadius',
             'cornerSmoothing',
             'keepForMaximized',
@@ -47,7 +48,8 @@ export const GeneralPage = GObject.registerClass(
         private declare _skipLibadwaita: Adw.SwitchRow;
         private declare _skipLibhandy: Adw.SwitchRow;
         private declare _borderWidth: Gtk.Adjustment;
-        private declare _borderColor: Gtk.ColorDialogButton;
+        private declare _lightBorderColor: Gtk.ColorDialogButton;
+        private declare _darkBorderColor: Gtk.ColorDialogButton;
         private declare _cornerRadius: Gtk.Adjustment;
         private declare _cornerSmoothing: Gtk.Adjustment;
         private declare _keepForMaximized: Adw.SwitchRow;
@@ -83,20 +85,34 @@ export const GeneralPage = GObject.registerClass(
                 Gio.SettingsBindFlags.DEFAULT,
             );
 
-            const color = new Gdk.RGBA();
-            [color.red, color.green, color.blue, color.alpha] =
-                this.#settings.borderColor;
-            this._borderColor.set_rgba(color);
-            this._borderColor.connect(
+            console.log(`[Rounded Window Corners] general `, this.#settings);
+
+            // Set binding for the Light theme border color picker
+            const light = new Gdk.RGBA();
+            
+            [light.red, light.green, light.blue, light.alpha] = this.#settings.borderColor.light;
+            
+            this._lightBorderColor.set_rgba(light);
+            this._lightBorderColor.connect(
                 'notify::rgba',
                 (button: Gtk.ColorDialogButton) => {
-                    const color = button.get_rgba();
-                    this.#settings.borderColor = [
-                        color.red,
-                        color.green,
-                        color.blue,
-                        color.alpha,
-                    ];
+                    const c = button.get_rgba();
+                    this.#settings.borderColor.light = [c.red, c.green, c.blue, c.alpha];
+                    this.#updateGlobalConfig();
+                },
+            );
+
+            // Set binding for the Dark theme border color picker
+            const dark = new Gdk.RGBA();
+
+            [dark.red, dark.green, dark.blue, dark.alpha] = this.#settings.borderColor.dark;
+            
+            this._darkBorderColor.set_rgba(dark);
+            this._darkBorderColor.connect(
+                'notify::rgba',
+                (button: Gtk.ColorDialogButton) => {
+                    const c = button.get_rgba();
+                    this.#settings.borderColor.dark = [c.red, c.green, c.blue, c.alpha];
                     this.#updateGlobalConfig();
                 },
             );

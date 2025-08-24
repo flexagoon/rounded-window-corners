@@ -54,7 +54,6 @@ export const ResetPage = GObject.registerClass(
             'debug-mode': 'Enable Log',
 
             borderRadius: 'Border Radius',
-            borderColor: 'Border Color',
             padding: 'Padding',
             keepRoundedCorners:
                 'Keep Rounded Corners when Maximized or Fullscreen',
