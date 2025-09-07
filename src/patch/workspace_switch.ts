@@ -48,7 +48,11 @@ export function addShadowsInWorkspaceSwitch(
             connections.push({object: workspace, id: destroyConnection});
 
             for (const {windowActor: actor, clone} of windowRecords) {
+                // Skip windows that don't have a wm_class.
                 const win = actor.metaWindow;
+                 if (!win || !win.wm_class) {
+                    continue;
+                }
 
                 // Skip windows that don't have a shadow or an enabled RWC effect.
                 const shadow = (actor as RoundedWindowActor).rwcCustomData
