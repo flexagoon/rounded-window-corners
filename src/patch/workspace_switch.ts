@@ -50,7 +50,7 @@ export function addShadowsInWorkspaceSwitch(
             for (const {windowActor: actor, clone} of windowRecords) {
                 // Skip windows that don't have a wm_class.
                 const win = actor.metaWindow;
-                 if (!win || !win.wm_class) {
+                if (!win || !win.wm_class) {
                     continue;
                 }
 
