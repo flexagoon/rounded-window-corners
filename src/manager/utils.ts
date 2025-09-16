@@ -67,10 +67,14 @@ type RoundedCornersEffectType = InstanceType<typeof RoundedCornersEffect>;
 export function getRoundedCornersEffect(
     actor: Meta.WindowActor,
 ): RoundedCornersEffectType | null {
+    if (!actor || !actor.metaWindow) {
+        return null;
+    }
+
     const win = actor.metaWindow;
     const name = ROUNDED_CORNERS_EFFECT;
     return win.get_client_type() === Meta.WindowClientType.X11
-        ? (actor.firstChild.get_effect(name) as RoundedCornersEffectType)
+        ? (actor.firstChild?.get_effect(name) as RoundedCornersEffectType)
         : (actor.get_effect(name) as RoundedCornersEffectType);
 }
 

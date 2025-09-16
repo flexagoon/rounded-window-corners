@@ -274,49 +274,69 @@ function refreshShadow(actor: RoundedWindowActor) {
  * @param actor - The window actor to refresh the rounded corners settings for.
  */
 function refreshRoundedCorners(actor: RoundedWindowActor): void {
+    if (!actor || !actor.metaWindow) {
+        return;
+    }
+
     const win = actor.metaWindow;
+    logDebug(`refreshRoundedCorners called for ${win.title || 'unknown window'}`);
 
     const windowInfo = actor.rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
 
-    const hasEffect = effect && windowInfo;
+    const hasEffect = !!(effect && windowInfo);
     const shouldHaveEffect = shouldEnableEffect(win);
 
-    if (!hasEffect) {
-        // onAddEffect already skips windows that shouldn't have rounded corners.
+    logDebug(`${win.title || 'unknown window'}: hasEffect=${hasEffect}, shouldHaveEffect=${shouldHaveEffect}`);
+
+    if (!hasEffect && shouldHaveEffect) {
+        logDebug(`Adding effect to ${win.title || 'unknown window'} (was missing)`);
         onAddEffect(actor);
         return;
     }
 
-    if (!shouldHaveEffect) {
+    if (hasEffect && !shouldHaveEffect) {
+        logDebug(`Removing effect from ${win.title || 'unknown window'} (no longer needed)`);
         onRemoveEffect(actor);
         return;
     }
 
-    if (!effect.enabled) {
+    if (!hasEffect && !shouldHaveEffect) {
+        // Neither has nor should have effect - this is normal for some windows
+        const maximized = win.maximizedHorizontally || win.maximizedVertically;
+        const fullscreen = win.fullscreen;
+        logDebug(`Window ${win.title || 'unknown window'} state: maximized=${maximized}, fullscreen=${fullscreen}, shouldHaveEffect=${shouldHaveEffect}`);
+        return;
+    }
+
+    // If we reach here, the window has effect and should have effect
+    // Update the effect settings
+    if (effect && !effect.enabled) {
         effect.enabled = true;
     }
 
-    // When window size is changed, update uniforms for corner rounding shader.
-    const cfg = getRoundedCornersCfg(win);
-    const windowContentOffset = computeWindowContentsOffset(win);
-    effect.updateUniforms(
-        windowScaleFactor(win),
-        cfg,
-        computeBounds(actor, windowContentOffset),
-    );
+    if (effect && windowInfo) {
+        // When window size is changed, update uniforms for corner rounding shader.
+        const cfg = getRoundedCornersCfg(win);
+        const windowContentOffset = computeWindowContentsOffset(win);
+        effect.updateUniforms(
+            windowScaleFactor(win),
+            cfg,
+            computeBounds(actor, windowContentOffset),
+        );
 
-    // Update BindConstraint for the shadow
-    const shadow = windowInfo.shadow;
-    const offsets = computeShadowActorOffset(actor, windowContentOffset);
-    const constraints = shadow.get_constraints();
-    constraints.forEach((constraint, i) => {
-        if (constraint instanceof Clutter.BindConstraint) {
-            constraint.offset = offsets[i];
-        }
-    });
+        // Update BindConstraint for the shadow
+        const shadow = windowInfo.shadow;
+        const offsets = computeShadowActorOffset(actor, windowContentOffset);
+        const constraints = shadow.get_constraints();
+        constraints.forEach((constraint, i) => {
+            if (constraint instanceof Clutter.BindConstraint) {
+                constraint.offset = offsets[i];
+            }
+        });
 
-    refreshShadow(actor);
+        refreshShadow(actor);
+    }
 }
 
 /** Refresh rounded corners settings for all windows. */

@@ -220,6 +220,12 @@ function removeEffectFrom(actor: RoundedWindowActor) {
         if (actor.metaWindow) {
             disconnectAll(actor.metaWindow);
         }
+
+        // Also disconnect from texture to prevent GC callback issues
+        const texture = actor.get_texture();
+        if (texture) {
+            disconnectAll(texture);
+        }
     } catch (e) {
         logDebug(`Error disconnecting signals: ${e}`);
     }
