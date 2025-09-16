@@ -253,6 +253,10 @@ function createShadow(actor: Meta.WindowActor): St.Bin {
  * @param actor - The window actor to refresh the shadow for.
  */
 function refreshShadow(actor: RoundedWindowActor) {
+    if (!actor || !actor.metaWindow) {
+        return;
+    }
+
     const win = actor.metaWindow;
     const shadow = actor.rwcCustomData?.shadow;
     if (!shadow) {
@@ -279,15 +283,12 @@ function refreshRoundedCorners(actor: RoundedWindowActor): void {
     }
 
     const win = actor.metaWindow;
-    logDebug(`refreshRoundedCorners called for ${win.title || 'unknown window'}`);
 
     const windowInfo = actor.rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
 
     const hasEffect = !!(effect && windowInfo);
     const shouldHaveEffect = shouldEnableEffect(win);
-
-    logDebug(`${win.title || 'unknown window'}: hasEffect=${hasEffect}, shouldHaveEffect=${shouldHaveEffect}`);
 
     if (!hasEffect && shouldHaveEffect) {
         logDebug(`Adding effect to ${win.title || 'unknown window'} (was missing)`);
