@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-16 11:35+0800\n"
 "PO-Revision-Date: 2023-12-10 10:05+0000\n"
 "Last-Translator: Nadjib Chergui <chergui.cnadjib@outlook.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/rounded-window-"
@@ -55,8 +55,9 @@ msgid "Unfocused window"
 msgstr "النافذة الغير المختارة"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "إعادة ضبط الإعدادات"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -88,8 +89,9 @@ msgid "Opacity"
 msgstr ""
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "إعادة ضبط الإعدادات"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"

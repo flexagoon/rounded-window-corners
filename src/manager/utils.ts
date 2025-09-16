@@ -267,7 +267,7 @@ export function shouldEnableEffect(
     // Skip libhandy/libadwaita applications according to settings.
     const appType = win._appType ?? getAppType(win);
     win._appType = appType; // Cache the result.
-    logDebug(`Check Type of window:${win.title} => ${appType}`);
+    logDebug(`Check Type of window:${win.title || 'unknown'} => ${appType}`);
 
     if (getPref('skip-libadwaita-app') && appType === 'LibAdwaita') {
         return false;

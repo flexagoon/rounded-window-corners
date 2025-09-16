@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-16 11:35+0800\n"
 "PO-Revision-Date: 2023-01-04 20:51+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/rounded-window-"
@@ -49,7 +49,7 @@ msgid "Unfocused window"
 msgstr "Eksterfokusa fenestro"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
+msgid "Focused shadow preferences"
 msgstr ""
 
 #: src/preferences/pages/edit-shadow.ui:69
@@ -80,7 +80,7 @@ msgid "Opacity"
 msgstr "Opako"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
+msgid "Unfocused shadow preferences"
 msgstr ""
 
 #: src/preferences/pages/general.ui:6

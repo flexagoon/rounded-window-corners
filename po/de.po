@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-16 11:35+0800\n"
 "PO-Revision-Date: 2023-04-18 06:49+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/rounded-window-"
@@ -58,8 +58,9 @@ msgid "Unfocused window"
 msgstr "Unfokussiertes Fenster"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "Einstellungen zurücksetzen"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -91,8 +92,9 @@ msgid "Opacity"
 msgstr "Deckkraft"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "Einstellungen zurücksetzen"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"

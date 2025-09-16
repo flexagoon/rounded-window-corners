@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-16 11:35+0800\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: Yi <yilozt@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -56,8 +56,9 @@ msgid "Unfocused window"
 msgstr "未获取焦点的窗口"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "重置设置"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -89,8 +90,9 @@ msgid "Opacity"
 msgstr "透明度"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "重置设置"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"

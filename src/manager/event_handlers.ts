@@ -33,12 +33,22 @@ import type Meta from 'gi://Meta';
 import type {RoundedWindowActor} from '../utils/types.js';
 
 export function onAddEffect(actor: RoundedWindowActor) {
-    logDebug(`Adding effect to ${actor?.metaWindow.title}`);
+    // Add null checks for safety
+    if (!actor || !actor.metaWindow) {
+        return;
+    }
 
     const win = actor.metaWindow;
+    logDebug(`Adding effect to ${win.title || 'unknown window'}`);
 
     if (!shouldEnableEffect(win)) {
-        logDebug(`Skipping ${win.title}`);
+        logDebug(`Skipping ${win.title || 'unknown window'}`);
+        return;
+    }
+
+    // Check if effect already exists to prevent duplicates
+    if (actor.rwcCustomData) {
+        logDebug(`Effect already exists for ${win.title || 'unknown window'}, skipping`);
         return;
     }
 
@@ -49,6 +59,9 @@ export function onAddEffect(actor: RoundedWindowActor) {
 
     const shadow = createShadow(actor);
 
+    // Store property bindings so we can clean them up later
+    const propertyBindings: GObject.Binding[] = [];
+
     // Bind properties of the window to the shadow actor.
     for (const prop of [
         'pivot-point',
@@ -58,18 +71,22 @@ export function onAddEffect(actor: RoundedWindowActor) {
         'scale-y',
         'visible',
     ]) {
-        actor.bind_property(
+        const binding = actor.bind_property(
             prop,
             shadow,
             prop,
             GObject.BindingFlags.SYNC_CREATE,
         );
+        if (binding) {
+            propertyBindings.push(binding);
+        }
     }
 
-    // Store shadow, app type, visible binding, so that we can access them later
+    // Store shadow, property bindings, and timeout ID for cleanup
     actor.rwcCustomData = {
         shadow,
         unminimizedTimeoutId: 0,
+        propertyBindings,
     };
 
     // Make sure the effect is applied correctly.
@@ -77,23 +94,62 @@ export function onAddEffect(actor: RoundedWindowActor) {
 }
 
 export function onRemoveEffect(actor: RoundedWindowActor): void {
-    const name = ROUNDED_CORNERS_EFFECT;
-    unwrapActor(actor)?.remove_effect_by_name(name);
-
-    // Remove shadow actor
-    const shadow = actor.rwcCustomData?.shadow;
-    if (shadow) {
-        global.windowGroup.remove_child(shadow);
-        shadow.clear_effects();
-        shadow.destroy();
+    if (!actor || !actor.rwcCustomData) {
+        return;
     }
 
-    // Remove all timeout handler
-    const timeoutId = actor.rwcCustomData?.unminimizedTimeoutId;
+    logDebug(`Removing effect and cleaning up resources for ${actor.metaWindow?.title || 'unknown window'}`);
+
+    const customData = actor.rwcCustomData;
+    const name = ROUNDED_CORNERS_EFFECT;
+
+    // Remove the rounded corners effect
+    unwrapActor(actor)?.remove_effect_by_name(name);
+
+    // Clean up property bindings
+    if (customData.propertyBindings) {
+        logDebug(`Cleaning up ${customData.propertyBindings.length} property bindings`);
+        for (const binding of customData.propertyBindings) {
+            try {
+                binding.unbind();
+            } catch (e) {
+                logDebug(`Failed to unbind property: ${e}`);
+            }
+        }
+    }
+
+    // Remove shadow actor and its constraints
+    const shadow = customData.shadow;
+    if (shadow) {
+        try {
+            // Clear all constraints first
+            const constraints = shadow.get_constraints();
+            for (const constraint of constraints) {
+                shadow.remove_constraint(constraint);
+            }
+
+            // Remove from parent and destroy
+            if (shadow.get_parent()) {
+                global.windowGroup.remove_child(shadow);
+            }
+
+            logDebug('Destroying shadow actor');
+            shadow.clear_effects();
+            shadow.destroy();
+        } catch (e) {
+            logDebug(`Error cleaning up shadow actor: ${e}`);
+        }
+    }
+
+    // Remove timeout handler
+    const timeoutId = customData.unminimizedTimeoutId;
     if (timeoutId) {
         GLib.source_remove(timeoutId);
     }
+
+    // Clear the custom data
     delete actor.rwcCustomData;
+    logDebug('Cleanup completed for window');
 }
 
 export function onMinimize(actor: RoundedWindowActor): void {

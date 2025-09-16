@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-16 11:35+0800\n"
 "PO-Revision-Date: 2023-04-25 17:52+0000\n"
 "Last-Translator: Fjuro <ifjuro@proton.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/rounded-window-"
@@ -58,8 +58,9 @@ msgid "Unfocused window"
 msgstr "Okno bez zaměření"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "Obnovit předvolby"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -91,8 +92,9 @@ msgid "Opacity"
 msgstr "Neprůhlednost"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "Obnovit předvolby"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"

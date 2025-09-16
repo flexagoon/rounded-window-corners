@@ -2,6 +2,7 @@
 
 import type Meta from 'gi://Meta';
 import type St from 'gi://St';
+import type GObject from 'gi://GObject';
 
 /** Bounds of rounded corners  */
 export type Bounds = {
@@ -52,5 +53,6 @@ export type RoundedWindowActor = Meta.WindowActor & {
     rwcCustomData?: {
         shadow: St.Bin;
         unminimizedTimeoutId: number;
+        propertyBindings?: GObject.Binding[];
     };
 };

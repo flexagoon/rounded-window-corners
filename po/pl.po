@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-16 11:35+0800\n"
 "PO-Revision-Date: 2023-10-29 05:13+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/rounded-window-"
@@ -58,8 +58,9 @@ msgid "Unfocused window"
 msgstr "Nieaktywne okno"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "Przywróć preferencje do domyślnych"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -91,8 +92,9 @@ msgid "Opacity"
 msgstr "Nieprzezroczystość"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "Przywróć preferencje do domyślnych"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"

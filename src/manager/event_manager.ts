@@ -38,14 +38,25 @@ export function enableEffect() {
         global.display,
         'window-created',
         (_: Meta.Display, win: Meta.Window) => {
+            if (!win) {
+                logDebug('window-created signal received with null window');
+                return;
+            }
+
             const actor: Meta.WindowActor = win.get_compositor_private();
+            if (!actor) {
+                logDebug('No compositor private actor found for window');
+                return;
+            }
 
             // If wm_class_instance of Meta.Window is null, wait for it to be
             // set before applying the effect.
-            if (win?.get_wm_class_instance() == null) {
+            if (win.get_wm_class_instance() == null) {
                 const notifyId = win.connect('notify::wm-class', () => {
-                    applyEffectTo(actor);
-                    win.disconnect(notifyId);
+                    if (win.get_wm_class_instance() != null) {
+                        applyEffectTo(actor);
+                        win.disconnect(notifyId);
+                    }
                 });
             } else {
                 applyEffectTo(actor);
@@ -111,10 +122,26 @@ function connect(
  * @param object - If object is provided, only disconnect signals from it.
  */
 function disconnectAll(object?: GObject.Object) {
-    for (const connection of connections) {
+    const toRemove: number[] = [];
+
+    for (let i = 0; i < connections.length; i++) {
+        const connection = connections[i];
         if (object === undefined || connection.object === object) {
-            connection.object.disconnect(connection.id);
+            try {
+                // Check if the object still exists and has the signal handler
+                if (connection.object && typeof connection.object.disconnect === 'function') {
+                    connection.object.disconnect(connection.id);
+                }
+            } catch (e) {
+                logDebug(`Failed to disconnect signal ${connection.id}: ${e}`);
+            }
+            toRemove.push(i);
         }
+    }
+
+    // Remove disconnected connections from the array (in reverse order to maintain indices)
+    for (let i = toRemove.length - 1; i >= 0; i--) {
+        connections.splice(toRemove[i], 1);
     }
 }
 
@@ -128,15 +155,23 @@ function disconnectAll(object?: GObject.Object) {
  * @param actor - The window actor to apply the effect to.
  */
 function applyEffectTo(actor: RoundedWindowActor) {
+    if (!actor || !actor.metaWindow) {
+        logDebug('applyEffectTo called with null actor or metaWindow');
+        return;
+    }
+
     // In wayland sessions, the surface actor of XWayland clients is sometimes
     // not ready when the window is created. In this case, we wait until it is
     // ready before applying the effect.
     if (!actor.firstChild) {
-        const id = actor.connect('notify::first-child', () => {
-            applyEffectTo(actor);
-            actor.disconnect(id);
-        });
-
+        try {
+            const id = actor.connect('notify::first-child', () => {
+                applyEffectTo(actor);
+                actor.disconnect(id);
+            });
+        } catch (e) {
+            logDebug(`Failed to connect notify::first-child signal: ${e}`);
+        }
         return;
     }
 
@@ -175,8 +210,19 @@ function applyEffectTo(actor: RoundedWindowActor) {
  * @param actor - The window actor to remove the effect from.
  */
 function removeEffectFrom(actor: RoundedWindowActor) {
-    disconnectAll(actor);
-    disconnectAll(actor.metaWindow);
+    if (!actor) {
+        logDebug('removeEffectFrom called with null actor');
+        return;
+    }
+
+    try {
+        disconnectAll(actor);
+        if (actor.metaWindow) {
+            disconnectAll(actor.metaWindow);
+        }
+    } catch (e) {
+        logDebug(`Error disconnecting signals: ${e}`);
+    }
 
     handlers.onRemoveEffect(actor);
 }
