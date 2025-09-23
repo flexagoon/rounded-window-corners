@@ -3,18 +3,18 @@
  * There isn't much logic in this file.
  */
 
+import type Gtk from 'gi://Gtk';
+import type {PaddingsRowClass} from '../widgets/paddings_row.js';
+
 import Adw from 'gi://Adw';
-import GLib from 'gi://GLib';
-import GObject from 'gi://GObject';
 import Gdk from 'gi://Gdk';
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
 
 import {bindPref, getPref, setPref} from '../../utils/settings.js';
 import {EditShadowPage} from './edit_shadow.js';
 import {ResetPage} from './reset.js';
-
-import type Gtk from 'gi://Gtk';
-import type {PaddingsRowClass} from '../widgets/paddings_row.js';
 
 export const GeneralPage = GObject.registerClass(
     {

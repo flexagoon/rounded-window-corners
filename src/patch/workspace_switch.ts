@@ -1,13 +1,13 @@
 /** @file Provides functions for handling shadows during workspace switching. */
 
+import type GObject from 'gi://GObject';
+import type {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
+import type {RoundedWindowActor} from '../utils/types.js';
+
 import Clutter from 'gi://Clutter';
 
 import {getRoundedCornersEffect, windowScaleFactor} from '../manager/utils.js';
 import {SHADOW_PADDING} from '../utils/constants.js';
-
-import type GObject from 'gi://GObject';
-import type {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
-import type {RoundedWindowActor} from '../utils/types.js';
 
 type WsAnimationActor = Clutter.Actor & {shadowClone?: Clutter.Actor};
 

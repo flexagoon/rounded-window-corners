@@ -4,17 +4,17 @@
  * are used for storing GSettings.
  */
 
-import GLib from 'gi://GLib';
-
-import {logDebug} from './log.js';
-
-import type GObject from 'gi://GObject';
 import type Gio from 'gi://Gio';
+import type GObject from 'gi://GObject';
 import type {
     BoxShadow,
     CustomRoundedCornerSettings,
     RoundedCornerSettings,
 } from './types.js';
+
+import GLib from 'gi://GLib';
+
+import {logDebug} from './log.js';
 
 /** Mapping of schema keys to the JS representation of their type. */
 type Schema = {

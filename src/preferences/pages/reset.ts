@@ -4,21 +4,22 @@
  * and the UI is automatically generated from that.
  */
 
+import type Gtk from 'gi://Gtk';
+import type {RoundedCornerSettings} from '../../utils/types.js';
+
 import Adw from 'gi://Adw';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
 import {
-    Schema,
-    type SchemaKey,
     getPref,
     prefs,
+    Schema,
+    type SchemaKey,
     setPref,
 } from '../../utils/settings.js';
-
-import type Gtk from 'gi://Gtk';
-import type {RoundedCornerSettings} from '../../utils/types.js';
 
 type RoundedCorerSettingsKey = keyof RoundedCornerSettings;
 type ResetKey = SchemaKey | RoundedCorerSettingsKey;

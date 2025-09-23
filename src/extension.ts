@@ -1,3 +1,6 @@
+import type Gio from 'gi://Gio';
+import type GObject from 'gi://GObject';
+
 import {
     Extension,
     InjectionManager,
@@ -5,6 +8,7 @@ import {
 import {layoutManager} from 'resource:///org/gnome/shell/ui/main.js';
 import {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
 import {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
+
 import {disableEffect, enableEffect} from './manager/event_manager.js';
 import {addShadowInOverview} from './patch/add_shadow_in_overview.js';
 import {
@@ -18,9 +22,6 @@ import {
 import {logDebug} from './utils/log.js';
 import {getPref, initPrefs, prefs, uninitPrefs} from './utils/settings.js';
 import {WindowPicker} from './window_picker/service.js';
-
-import type GObject from 'gi://GObject';
-import type Gio from 'gi://Gio';
 
 export default class RoundedWindowCornersReborn extends Extension {
     // The extension works by overriding (monkey patching) the code of GNOME
@@ -58,9 +59,7 @@ export default class RoundedWindowCornersReborn extends Extension {
                     }
 
                     layoutManager.disconnect(
-                        // Since this happens inside of the connection, there
-                        // is no way for this to be null.
-                        // biome-ignore lint/style/noNonNullAssertion:
+                        // biome-ignore lint/style/noNonNullAssertion: Since this happens inside of the connection, there is no way for this to be null.
                         this.#layoutManagerStartupConnection!,
                     );
                 },

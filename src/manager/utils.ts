@@ -1,5 +1,9 @@
 /** @file Provides various utility functions used withing signal handling code. */
 
+import type Clutter from 'gi://Clutter';
+import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
+import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
+
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import St from 'gi://St';
@@ -13,10 +17,6 @@ import {
 import {readFile} from '../utils/file.js';
 import {logDebug} from '../utils/log.js';
 import {getPref} from '../utils/settings.js';
-
-import type Clutter from 'gi://Clutter';
-import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
-import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
 
 /**
  * Get the actor that rounded corners should be applied to.
@@ -114,19 +114,17 @@ export function computeBounds(
 
     // Kitty draws its window decoration by itself, so we need to manually
     // clip its shadow and recompute the outer bounds for it.
-    if (getPref('tweak-kitty-terminal')) {
-        if (
-            actor.metaWindow.get_client_type() ===
-                Meta.WindowClientType.WAYLAND &&
-            actor.metaWindow.get_wm_class_instance() === 'kitty'
-        ) {
-            const [x1, y1, x2, y2] = APP_SHADOWS.kitty;
-            const scale = windowScaleFactor(actor.metaWindow);
-            bounds.x1 += x1 * scale;
-            bounds.y1 += y1 * scale;
-            bounds.x2 -= x2 * scale;
-            bounds.y2 -= y2 * scale;
-        }
+    if (
+        getPref('tweak-kitty-terminal') &&
+        actor.metaWindow.get_client_type() === Meta.WindowClientType.WAYLAND &&
+        actor.metaWindow.get_wm_class_instance() === 'kitty'
+    ) {
+        const [x1, y1, x2, y2] = APP_SHADOWS.kitty;
+        const scale = windowScaleFactor(actor.metaWindow);
+        bounds.x1 += x1 * scale;
+        bounds.y1 += y1 * scale;
+        bounds.x2 -= x2 * scale;
+        bounds.y2 -= y2 * scale;
     }
 
     return bounds;

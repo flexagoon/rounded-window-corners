@@ -4,16 +4,16 @@
  * show what the shadow will look like.
  */
 
+import type {BoxShadow} from '../../utils/types.js';
+
 import Adw from 'gi://Adw';
+import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
-import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
 import {boxShadowCss} from '../../utils/box_shadow.js';
 import {getPref, setPref} from '../../utils/settings.js';
-
-import type {BoxShadow} from '../../utils/types.js';
 
 export const EditShadowPage = GObject.registerClass(
     {

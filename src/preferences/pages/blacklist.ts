@@ -3,15 +3,16 @@
  * Handles creating blacklist entries and binding them to settings.
  */
 
+import type Gtk from 'gi://Gtk';
+
 import Adw from 'gi://Adw';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
 import {getPref, setPref} from '../../utils/settings.js';
 import {AppRow, type AppRowClass} from '../widgets/app_row.js';
-
-import type Gtk from 'gi://Gtk';
 
 export const BlacklistPage = GObject.registerClass(
     {

@@ -4,6 +4,9 @@
  * in effect_manager.ts.
  */
 
+import type Meta from 'gi://Meta';
+import type {RoundedWindowActor} from '../utils/types.js';
+
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
@@ -28,9 +31,6 @@ import {
     updateShadowActorStyle,
     windowScaleFactor,
 } from './utils.js';
-
-import type Meta from 'gi://Meta';
-import type {RoundedWindowActor} from '../utils/types.js';
 
 export function onAddEffect(actor: RoundedWindowActor) {
     logDebug(`Adding effect to ${actor?.metaWindow.title}`);

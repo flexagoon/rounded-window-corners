@@ -3,14 +3,14 @@
  * effect. See {@link enableEffect} for more information.
  */
 
-import {logDebug} from '../utils/log.js';
-import {prefs} from '../utils/settings.js';
-import * as handlers from './event_handlers.js';
-
 import type GObject from 'gi://GObject';
 import type Meta from 'gi://Meta';
 import type Shell from 'gi://Shell';
 import type {RoundedWindowActor} from '../utils/types.js';
+
+import {logDebug} from '../utils/log.js';
+import {prefs} from '../utils/settings.js';
+import * as handlers from './event_handlers.js';
 
 /**
  * The rounded corners effect has to perform some actions when differen events
@@ -95,8 +95,7 @@ const connections: {object: GObject.Object; id: number}[] = [];
 function connect(
     object: GObject.Object,
     signal: string,
-    // Signal callbacks can have any return args and return types.
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: Signal callbacks can have any return args and return types.
     callback: (...args: any[]) => any,
 ) {
     connections.push({

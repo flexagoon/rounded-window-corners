@@ -1,18 +1,19 @@
 /** @file Provides a function to add a shadow actor to a window preview in the overview. */
 
+import type Meta from 'gi://Meta';
+import type {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
+import type {RoundedWindowActor} from '../utils/types.js';
+
 import Clutter from 'gi://Clutter';
 import GObject from 'gi://GObject';
 import Graphene from 'gi://Graphene';
 
 import {overview} from 'resource:///org/gnome/shell/ui/main.js';
+
 import {LinearFilterEffect} from '../effect/linear_filter_effect.js';
 import {shouldEnableEffect, windowScaleFactor} from '../manager/utils.js';
 import {OVERVIEW_SHADOW_ACTOR, SHADOW_PADDING} from '../utils/constants.js';
 import {logDebug} from '../utils/log.js';
-
-import type Meta from 'gi://Meta';
-import type {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
-import type {RoundedWindowActor} from '../utils/types.js';
 
 /**
  * Add a shadow actor to a window preview in the overview.
@@ -22,10 +23,6 @@ import type {RoundedWindowActor} from '../utils/types.js';
 export function addShadowInOverview(window: Meta.Window, self: WindowPreview) {
     // Create a new error object and use it to get the call stack of
     // the function.
-    //
-    // Since the error is not actually being raised, it doesn't need
-    // an error message.
-    // biome-ignore lint/suspicious/useErrorMessage:
     const stack = new Error().stack?.trim();
     if (
         stack === undefined ||

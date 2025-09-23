@@ -1,11 +1,13 @@
 /** @file Contains the implementation of the preferences page. */
 
 import type Adw from 'gi://Adw';
-import GLib from 'gi://GLib';
+
 import Gdk from 'gi://Gdk';
+import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
 import {prefsTabs} from './preferences/index.js';
 import {logDebug} from './utils/log.js';
 import {initPrefs, uninitPrefs} from './utils/settings.js';

@@ -6,6 +6,7 @@ import Gtk from 'gi://Gtk';
 
 import {PaddingsRow} from './paddings_row.js';
 import './app_row.js';
+
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 import {type AppRowCallbacks, AppRowClass} from './app_row.js';

@@ -1,13 +1,13 @@
 /** @file Binds the actual corner rounding shader to the windows. */
 
+import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
+
 import Cogl from 'gi://Cogl';
 import GObject from 'gi://GObject';
 import Shell from 'gi://Shell';
 
 import {readShader} from '../utils/file.js';
 import {getPref} from '../utils/settings.js';
-
-import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
 
 const [declarations, code] = readShader(
     import.meta.url,

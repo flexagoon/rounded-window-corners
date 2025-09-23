@@ -4,21 +4,22 @@
  * window.
  */
 
+import type Gtk from 'gi://Gtk';
+import type {AppRowCallbacks, AppRowClass} from '../widgets/app_row.js';
+import type {PaddingsRowClass} from '../widgets/paddings_row.js';
+
 import Adw from 'gi://Adw';
+import Gdk from 'gi://Gdk';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
-import Gdk from 'gi://Gdk';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
 import {getPref, setPref} from '../../utils/settings.js';
 import {
     CustomSettingsRow,
     CustomSettingsRowClass,
 } from '../widgets/custom_settings_row.js';
-
-import type Gtk from 'gi://Gtk';
-import type {AppRowCallbacks, AppRowClass} from '../widgets/app_row.js';
-import type {PaddingsRowClass} from '../widgets/paddings_row.js';
 
 export const CustomPage = GObject.registerClass(
     {

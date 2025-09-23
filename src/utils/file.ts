@@ -1,7 +1,7 @@
 /** @file Contains utility functions for reading file contents. */
 
-import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 
 /**
  * Read file contents as a string.
@@ -44,9 +44,6 @@ export function readRelativeFile(module: string, path: string) {
  */
 export function readShader(module: string, path: string) {
     const shader = readRelativeFile(module, path);
-    // This function isn't called very often, so creating the regex at the top
-    // level doesn't really make sense.
-    // biome-ignore lint/performance/useTopLevelRegex:
     let [declarations, code] = shader.split(/^.*?main\(\s?\)\s?/m);
     declarations = declarations.trim();
     code = code.trim().replace(/^[{}]/gm, '').trim();

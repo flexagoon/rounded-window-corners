@@ -8,6 +8,7 @@ import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
 import {onPicked, pick} from '../../window_picker/client.js';
 
 export class AppRowClass extends Adw.ExpanderRow {

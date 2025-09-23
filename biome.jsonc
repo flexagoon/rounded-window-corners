@@ -1,20 +1,57 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.7.2/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
     "files": {
-        "ignore": ["_build/*"]
+        "includes": ["**", "!**/_build/**/*"]
     },
-    "organizeImports": {
-        "enabled": true
+    "assist": {
+        "actions": {
+            "source": {
+                "organizeImports": {
+                    "level": "on",
+                    "options": {
+                        "groups": [
+                            { "type": true },
+                            ":BLANK_LINE:",
+                            "gi://**",
+                            ":BLANK_LINE:",
+                            "resource://**",
+                            ":BLANK_LINE:"
+                        ]
+                    }
+                }
+            }
+        }
     },
     "linter": {
-        "ignore": ["**/*.d.ts"],
+        "includes": ["**", "!**/*.d.ts"],
+        "domains": {
+            "project": "all"
+        },
         "rules": {
-            "all": true,
+            "recommended": true,
+            "complexity": {
+                "noExcessiveCognitiveComplexity": "error",
+                "useSimplifiedLogicExpression": "error",
+                "useWhile": "error"
+            },
+            "nursery": {
+                "useConsistentTypeDefinitions": {
+                    "level": "error",
+                    "options": {
+                        "style": "type"
+                    }
+                }
+            },
             "style": {
-                "noNamespaceImport": "off",
-                "noDefaultExport": "off",
+                "noUnusedTemplateLiteral": "error",
+                "noUselessElse": "error",
+                "useAtIndex": "error",
+                "useCollapsedIf": "error",
+                "useCollapsedElseIf": "error",
+                "useConsistentArrayType": "error",
+                "useForOf": "error",
                 "useNamingConvention": {
-                    "level": "warn",
+                    "level": "error",
                     "options": {
                         "conventions": [
                             {
@@ -26,11 +63,10 @@
                 }
             },
             "performance": {
-                "noDelete": "off"
+                "noAwaitInLoops": "error"
             },
-            "suspicious": {
-                "noConsole": "off",
-                "noConsoleLog": "off"
+            "correctness": {
+                "noUnknownTypeSelector": "off"
             }
         }
     },
