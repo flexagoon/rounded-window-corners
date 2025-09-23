@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-23 02:14+0200\n"
 "PO-Revision-Date: 2024-02-25 14:01+0000\n"
 "Last-Translator: repex97 <repetto.andrea025@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/rounded-window-"
@@ -58,8 +58,9 @@ msgid "Unfocused window"
 msgstr "Finestra in secondo piano"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "Reimposta Preferenze"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -91,8 +92,9 @@ msgid "Opacity"
 msgstr "Opacità"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "Reimposta Preferenze"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"
@@ -138,19 +140,19 @@ msgid "Border width"
 msgstr "Larghezza del bordo"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:20
 #, fuzzy
 msgid "Border color"
 msgstr "Colore del bordo"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:27
+#: src/preferences/widgets/custom_settings_row.ts:28
 #, fuzzy
 msgid "Corner radius"
 msgstr "Raggio del bordo"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:37
+#: src/preferences/widgets/custom_settings_row.ts:38
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Smussamento del bordo"
@@ -266,42 +268,42 @@ msgstr "Sinistra"
 msgid "Right"
 msgstr "Destra"
 
-#: src/preferences/widgets/app_row.ts:33
+#: src/preferences/widgets/app_row.ts:34
 #, fuzzy
 msgid "Window class"
 msgstr "Ombra della Finestra"
 
-#: src/preferences/widgets/app_row.ts:54
+#: src/preferences/widgets/app_row.ts:55
 #, fuzzy
 msgid "Expand this row, to pick a window"
 msgstr "Espandi questa riga per selezionare una finestra."
 
-#: src/preferences/widgets/app_row.ts:94
+#: src/preferences/widgets/app_row.ts:95
 #, fuzzy
 msgid "Can't pick window from this position"
 msgstr "Impossibile selezionare la finestra da questa posizione"
 
-#: src/preferences/widgets/custom_settings_row.ts:15
+#: src/preferences/widgets/custom_settings_row.ts:16
 #, fuzzy
 msgid "Enabled"
 msgstr "Abilita"
 
-#: src/preferences/widgets/custom_settings_row.ts:47
+#: src/preferences/widgets/custom_settings_row.ts:48
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "Mantieni I Bordi Arrotondati quando Massimizzato"
 
-#: src/preferences/widgets/custom_settings_row.ts:49
+#: src/preferences/widgets/custom_settings_row.ts:50
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr "Tieni i bordi arrotondati quando la finestra è massimizzata."
 
-#: src/preferences/widgets/custom_settings_row.ts:53
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "Mantieni I Bordi Arrotondati In Schermo Intero"
 
-#: src/preferences/widgets/custom_settings_row.ts:54
+#: src/preferences/widgets/custom_settings_row.ts:55
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Tieni i bordi arrotondati quando la finestra è a schermo intero."

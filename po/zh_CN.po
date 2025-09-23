@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-23 02:14+0200\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: Yi <yilozt@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -56,8 +56,9 @@ msgid "Unfocused window"
 msgstr "未获取焦点的窗口"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "重置设置"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -89,8 +90,9 @@ msgid "Opacity"
 msgstr "透明度"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "重置设置"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"
@@ -136,19 +138,19 @@ msgid "Border width"
 msgstr "边框大小"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:20
 #, fuzzy
 msgid "Border color"
 msgstr "边框颜色"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:27
+#: src/preferences/widgets/custom_settings_row.ts:28
 #, fuzzy
 msgid "Corner radius"
 msgstr "圆角半径"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:37
+#: src/preferences/widgets/custom_settings_row.ts:38
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "圆角平滑程度"
@@ -261,42 +263,42 @@ msgstr "左边距"
 msgid "Right"
 msgstr "右边距"
 
-#: src/preferences/widgets/app_row.ts:33
+#: src/preferences/widgets/app_row.ts:34
 #, fuzzy
 msgid "Window class"
 msgstr "窗口阴影"
 
-#: src/preferences/widgets/app_row.ts:54
+#: src/preferences/widgets/app_row.ts:55
 #, fuzzy
 msgid "Expand this row, to pick a window"
 msgstr "展开此控件以选取窗口。"
 
-#: src/preferences/widgets/app_row.ts:94
+#: src/preferences/widgets/app_row.ts:95
 #, fuzzy
 msgid "Can't pick window from this position"
 msgstr "无法从此位置选取窗口"
 
-#: src/preferences/widgets/custom_settings_row.ts:15
+#: src/preferences/widgets/custom_settings_row.ts:16
 #, fuzzy
 msgid "Enabled"
 msgstr "启用"
 
-#: src/preferences/widgets/custom_settings_row.ts:47
+#: src/preferences/widgets/custom_settings_row.ts:48
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "最大化时保留圆角"
 
-#: src/preferences/widgets/custom_settings_row.ts:49
+#: src/preferences/widgets/custom_settings_row.ts:50
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr "窗口最大化或垂直平铺时保留圆角。"
 
-#: src/preferences/widgets/custom_settings_row.ts:53
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "窗口全屏时保留圆角"
 
-#: src/preferences/widgets/custom_settings_row.ts:54
+#: src/preferences/widgets/custom_settings_row.ts:55
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "当窗口全屏时保留圆角效果。"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-23 02:14+0200\n"
 "PO-Revision-Date: 2022-09-15 06:16+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/rounded-"
@@ -48,7 +48,7 @@ msgid "Unfocused window"
 msgstr ""
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
+msgid "Focused shadow preferences"
 msgstr ""
 
 #: src/preferences/pages/edit-shadow.ui:69
@@ -77,7 +77,7 @@ msgid "Opacity"
 msgstr ""
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
+msgid "Unfocused shadow preferences"
 msgstr ""
 
 #: src/preferences/pages/general.ui:6
@@ -117,17 +117,17 @@ msgid "Border width"
 msgstr ""
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:20
 msgid "Border color"
 msgstr ""
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:27
+#: src/preferences/widgets/custom_settings_row.ts:28
 msgid "Corner radius"
 msgstr ""
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:37
+#: src/preferences/widgets/custom_settings_row.ts:38
 msgid "Corner smoothing"
 msgstr ""
 
@@ -231,38 +231,38 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: src/preferences/widgets/app_row.ts:33
+#: src/preferences/widgets/app_row.ts:34
 msgid "Window class"
 msgstr ""
 
-#: src/preferences/widgets/app_row.ts:54
+#: src/preferences/widgets/app_row.ts:55
 msgid "Expand this row, to pick a window"
 msgstr ""
 
-#: src/preferences/widgets/app_row.ts:94
+#: src/preferences/widgets/app_row.ts:95
 msgid "Can't pick window from this position"
 msgstr ""
 
-#: src/preferences/widgets/custom_settings_row.ts:15
+#: src/preferences/widgets/custom_settings_row.ts:16
 msgid "Enabled"
 msgstr ""
 
-#: src/preferences/widgets/custom_settings_row.ts:47
+#: src/preferences/widgets/custom_settings_row.ts:48
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "Behold avrundede hjørner når vinduet er maksimert eller flislagt."
 
-#: src/preferences/widgets/custom_settings_row.ts:49
+#: src/preferences/widgets/custom_settings_row.ts:50
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr "Behold avrundede hjørner når vinduet er maksimert eller flislagt."
 
-#: src/preferences/widgets/custom_settings_row.ts:53
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "Behold avrundede vinduer når vindu er i fullskjermsvisning."
 
-#: src/preferences/widgets/custom_settings_row.ts:54
+#: src/preferences/widgets/custom_settings_row.ts:55
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Behold avrundede vinduer når vindu er i fullskjermsvisning."

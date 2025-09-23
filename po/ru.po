@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-23 02:14+0200\n"
 "PO-Revision-Date: 2023-03-09 15:37+0000\n"
 "Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/rounded-window-"
@@ -58,8 +58,9 @@ msgid "Unfocused window"
 msgstr "Неактивное окно"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "Сбросить настройки"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -91,8 +92,9 @@ msgid "Opacity"
 msgstr "Непрозрачность"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "Сбросить настройки"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"
@@ -139,19 +141,19 @@ msgid "Border width"
 msgstr "Ширина границы"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:20
 #, fuzzy
 msgid "Border color"
 msgstr "Цвет границы"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:27
+#: src/preferences/widgets/custom_settings_row.ts:28
 #, fuzzy
 msgid "Corner radius"
 msgstr "Радиус границы"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:37
+#: src/preferences/widgets/custom_settings_row.ts:38
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Сглаживание углов"
@@ -265,43 +267,43 @@ msgstr "Слева"
 msgid "Right"
 msgstr "Справа"
 
-#: src/preferences/widgets/app_row.ts:33
+#: src/preferences/widgets/app_row.ts:34
 #, fuzzy
 msgid "Window class"
 msgstr "Тень окна"
 
-#: src/preferences/widgets/app_row.ts:54
+#: src/preferences/widgets/app_row.ts:55
 #, fuzzy
 msgid "Expand this row, to pick a window"
 msgstr "Разверните этот ряд, чтобы выбрать окно."
 
-#: src/preferences/widgets/app_row.ts:94
+#: src/preferences/widgets/app_row.ts:95
 #, fuzzy
 msgid "Can't pick window from this position"
 msgstr "Невозможно выбрать окно с этой позиции"
 
-#: src/preferences/widgets/custom_settings_row.ts:15
+#: src/preferences/widgets/custom_settings_row.ts:16
 #, fuzzy
 msgid "Enabled"
 msgstr "Включить"
 
-#: src/preferences/widgets/custom_settings_row.ts:47
+#: src/preferences/widgets/custom_settings_row.ts:48
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "Сохранить закругленные углы, когда они развернуты"
 
-#: src/preferences/widgets/custom_settings_row.ts:49
+#: src/preferences/widgets/custom_settings_row.ts:50
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr ""
 "Всегда сохранять закругленные углы, когда окно максимизировано или свернуто."
 
-#: src/preferences/widgets/custom_settings_row.ts:53
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "Сохранить закругленные углы при полноэкранном режиме"
 
-#: src/preferences/widgets/custom_settings_row.ts:54
+#: src/preferences/widgets/custom_settings_row.ts:55
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Всегда сохранять закругленные углы при полноэкранном режиме окна."

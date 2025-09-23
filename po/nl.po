@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 10:38+0100\n"
+"POT-Creation-Date: 2025-09-23 02:14+0200\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/rounded-window-"
@@ -57,8 +57,9 @@ msgid "Unfocused window"
 msgstr "Ongefocust venster"
 
 #: src/preferences/pages/edit-shadow.ui:66
-msgid "Focused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Focused shadow preferences"
+msgstr "Voorkeuren herstellen"
 
 #: src/preferences/pages/edit-shadow.ui:69
 #: src/preferences/pages/edit-shadow.ui:209
@@ -90,8 +91,9 @@ msgid "Opacity"
 msgstr "Doorzichtigheid"
 
 #: src/preferences/pages/edit-shadow.ui:206
-msgid "Unfocused shadow prefrences"
-msgstr ""
+#, fuzzy
+msgid "Unfocused shadow preferences"
+msgstr "Voorkeuren herstellen"
 
 #: src/preferences/pages/general.ui:6
 msgid "General"
@@ -137,19 +139,19 @@ msgid "Border width"
 msgstr "Randbreedte"
 
 #: src/preferences/pages/general.ui:57 src/preferences/pages/general.ui:65
-#: src/preferences/widgets/custom_settings_row.ts:19
+#: src/preferences/widgets/custom_settings_row.ts:20
 #, fuzzy
 msgid "Border color"
 msgstr "Randkleur"
 
 #: src/preferences/pages/general.ui:74
-#: src/preferences/widgets/custom_settings_row.ts:27
+#: src/preferences/widgets/custom_settings_row.ts:28
 #, fuzzy
 msgid "Corner radius"
 msgstr "Randstraal"
 
 #: src/preferences/pages/general.ui:101
-#: src/preferences/widgets/custom_settings_row.ts:37
+#: src/preferences/widgets/custom_settings_row.ts:38
 #, fuzzy
 msgid "Corner smoothing"
 msgstr "Hoeken gladstrijken"
@@ -263,44 +265,44 @@ msgstr "Links"
 msgid "Right"
 msgstr "Rechts"
 
-#: src/preferences/widgets/app_row.ts:33
+#: src/preferences/widgets/app_row.ts:34
 #, fuzzy
 msgid "Window class"
 msgstr "Vensterschaduw"
 
-#: src/preferences/widgets/app_row.ts:54
+#: src/preferences/widgets/app_row.ts:55
 #, fuzzy
 msgid "Expand this row, to pick a window"
 msgstr "Klap deze rij uit om een venster te kiezen."
 
-#: src/preferences/widgets/app_row.ts:94
+#: src/preferences/widgets/app_row.ts:95
 #, fuzzy
 msgid "Can't pick window from this position"
 msgstr "Er kan vanaf deze positie geen venster worden gekozen"
 
-#: src/preferences/widgets/custom_settings_row.ts:15
+#: src/preferences/widgets/custom_settings_row.ts:16
 #, fuzzy
 msgid "Enabled"
 msgstr "Inschakelen"
 
-#: src/preferences/widgets/custom_settings_row.ts:47
+#: src/preferences/widgets/custom_settings_row.ts:48
 #, fuzzy
 msgid "Keep rounded corners when maximized"
 msgstr "Afgeronde hoeken van gemaximaliseerde vensters behouden"
 
-#: src/preferences/widgets/custom_settings_row.ts:49
+#: src/preferences/widgets/custom_settings_row.ts:50
 #, fuzzy
 msgid "Always clip rounded corners even if window is maximized or tiled"
 msgstr ""
 "Behoud afgeronde hoeken als het venster in kwestie gemaximaliseerd of "
 "getegeld is."
 
-#: src/preferences/widgets/custom_settings_row.ts:53
+#: src/preferences/widgets/custom_settings_row.ts:54
 #, fuzzy
 msgid "Keep rounded corners when in fullscreen"
 msgstr "Afgeronde hoeken van schermvullende vensters behouden"
 
-#: src/preferences/widgets/custom_settings_row.ts:54
+#: src/preferences/widgets/custom_settings_row.ts:55
 #, fuzzy
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Behoud afgeronde hoeken als het venster in kwestie schermvullend is."
