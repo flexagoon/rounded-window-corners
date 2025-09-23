@@ -157,8 +157,10 @@ function applyEffectTo(actor: RoundedWindowActor) {
 
     // Get notified about fullscreen explicitly, since a window must not change in
     // size to go fullscreen
-    connect(actor.metaWindow, 'notify::fullscreen', () => handlers.onSizeChanged(actor));
-    
+    connect(actor.metaWindow, 'notify::fullscreen', () =>
+        handlers.onSizeChanged(actor),
+    );
+
     // Window focus changed.
     connect(actor.metaWindow, 'notify::appears-focused', () =>
         handlers.onFocusChanged(actor),
