@@ -294,15 +294,6 @@ type AppType = 'LibAdwaita' | 'LibHandy' | 'Other';
  * @returns the type of the application.
  */
 function getAppType(win: Meta.Window): AppType {
-    // Calling win.get_pid() on Nauilus (Files app) returns the PID of
-    // Gnome Shell instead of Nautilus itself, so checking it's maps file for
-    // libadwaita doesn't work.
-    //
-    // See https://gitlab.gnome.org/GNOME/mutter/-/issues/4038
-    if (win.wmClass === 'org.gnome.Nautilus') {
-        return 'LibAdwaita';
-    }
-
     try {
         // May throw a permission error.
         const contents = readFile(`/proc/${win.get_pid()}/maps`);

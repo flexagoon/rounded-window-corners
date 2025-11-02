@@ -5,5 +5,5 @@
     "url": "https://github.com/flexagoon/rounded-window-corners",
     "gettext-domain": "rounded-window-corners@fxgn",
     "settings-schema": "org.gnome.shell.extensions.rounded-window-corners-reborn",
-    "shell-version": ["46", "47", "48", "49"]
+    "shell-version": ["49"]
 }
