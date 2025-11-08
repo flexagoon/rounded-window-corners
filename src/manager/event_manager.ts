@@ -150,9 +150,15 @@ function applyEffectTo(actor: RoundedWindowActor) {
     // that? I have no idea. But without that, weird bugs can happen. For
     // example, when using Dash to Dock, all opened windows will be invisible
     // *unless they are pinned in the dock*. So yeah, GNOME is magic.
-    connect(actor, 'notify::size', () => handlers.onSizeChanged(actor));
+    connect(actor, 'notify::size', () => {
+        if (actor.metaWindow) {
+             handlers.onSizeChanged(actor);
+        }
+    });
     connect(texture, 'size-changed', () => {
-        handlers.onSizeChanged(actor);
+        if (actor.metaWindow) {
+            handlers.onSizeChanged(actor);
+        }
     });
 
     // Get notified about fullscreen explicitly, since a window must not change in
