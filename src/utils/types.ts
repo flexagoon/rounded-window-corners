@@ -1,5 +1,6 @@
 /** @file Provides types used throughout the codebase, mostly for storing settings. */
 
+import type GObject from 'gi://GObject';
 import type Meta from 'gi://Meta';
 import type St from 'gi://St';
 
@@ -52,5 +53,6 @@ export type RoundedWindowActor = Meta.WindowActor & {
     rwcCustomData?: {
         shadow: St.Bin;
         unminimizedTimeoutId: number;
+        propertyBindings: GObject.Binding[];
     };
 };
