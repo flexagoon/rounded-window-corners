@@ -50,6 +50,7 @@ export function onAddEffect(actor: RoundedWindowActor) {
     const shadow = createShadow(actor);
 
     // Bind properties of the window to the shadow actor.
+    const propertyBindings: GObject.Binding[] = [];
     for (const prop of [
         'pivot-point',
         'translation-x',
@@ -58,18 +59,20 @@ export function onAddEffect(actor: RoundedWindowActor) {
         'scale-y',
         'visible',
     ]) {
-        actor.bind_property(
+        const binding = actor.bind_property(
             prop,
             shadow,
             prop,
             GObject.BindingFlags.SYNC_CREATE,
         );
+        propertyBindings.push(binding);
     }
 
     // Store shadow, app type, visible binding, so that we can access them later
     actor.rwcCustomData = {
         shadow,
         unminimizedTimeoutId: 0,
+        propertyBindings,
     };
 
     // Make sure the effect is applied correctly.
@@ -79,6 +82,11 @@ export function onAddEffect(actor: RoundedWindowActor) {
 export function onRemoveEffect(actor: RoundedWindowActor): void {
     const name = ROUNDED_CORNERS_EFFECT;
     unwrapActor(actor)?.remove_effect_by_name(name);
+
+    // Unbind all properties
+    for (const binding of actor.rwcCustomData?.propertyBindings || []) {
+        binding.unbind();
+    }
 
     // Remove shadow actor
     const shadow = actor.rwcCustomData?.shadow;
