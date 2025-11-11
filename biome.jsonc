@@ -65,7 +65,12 @@
                 "noAwaitInLoops": "error"
             },
             "correctness": {
-                "noUnknownTypeSelector": "off"
+                "noUnknownTypeSelector": "off",
+                "useImportExtensions": {
+                    "options": {
+                        "forceJsExtensions": true
+                    }
+                }
             }
         }
     },
