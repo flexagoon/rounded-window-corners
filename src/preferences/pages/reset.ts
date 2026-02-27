@@ -51,6 +51,8 @@ export const ResetPage = GObject.registerClass(
             'skip-libhandy-app': 'Skip LibHandy Applications',
             'focused-shadow': 'Focus Window Shadow Style',
             'unfocused-shadow': 'Unfocus Window Shadow Style',
+            'keep-shadow-for-maximized-fullscreen':
+                'Keep Window Shadows when Maximized or Fullscreen',
             'border-width': 'Border Width',
             'debug-mode': 'Enable Log',
 

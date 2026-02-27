@@ -35,6 +35,7 @@ export const GeneralPage = GObject.registerClass(
             'borderColor',
             'cornerRadius',
             'cornerSmoothing',
+            'keepShadowForMaximizedFullscreen',
             'keepForMaximized',
             'keepForFullscreen',
             'paddings',
@@ -50,6 +51,7 @@ export const GeneralPage = GObject.registerClass(
         private declare _borderColor: Gtk.ColorDialogButton;
         private declare _cornerRadius: Gtk.Adjustment;
         private declare _cornerSmoothing: Gtk.Adjustment;
+        private declare _keepShadowForMaximizedFullscreen: Adw.SwitchRow;
         private declare _keepForMaximized: Adw.SwitchRow;
         private declare _keepForFullscreen: Adw.SwitchRow;
         private declare _paddings: PaddingsRowClass;
@@ -117,6 +119,13 @@ export const GeneralPage = GObject.registerClass(
                     this.#settings.smoothing = adj.get_value();
                     this.#updateGlobalConfig();
                 },
+            );
+
+            bindPref(
+                'keep-shadow-for-maximized-fullscreen',
+                this._keepShadowForMaximizedFullscreen,
+                'active',
+                Gio.SettingsBindFlags.DEFAULT,
             );
 
             this._keepForMaximized.set_active(

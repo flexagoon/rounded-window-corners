@@ -94,6 +94,11 @@
       </default>
     </key>
 
+    <key name="keep-shadow-for-maximized-fullscreen" type="b">
+      <summary>Keep shadows for maximized and fullscreen windows</summary>
+      <default>false</default>
+    </key>
+
     <key name="debug-mode" type="b">
       <summary>If enabled, extension will show debug info into journalctl</summary>
       <default>false</default>

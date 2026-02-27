@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 02:14+0200\n"
+"POT-Creation-Date: 2026-02-26 22:01-0500\n"
 "PO-Revision-Date: 2022-11-12 07:50+0000\n"
 "Last-Translator: Ilari Suhonen <ilari.suhonen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/rounded-window-"
@@ -167,42 +167,47 @@ msgstr "Mukauta pyöristetyn kulman varjoa"
 
 #: src/preferences/pages/general.ui:140
 #, fuzzy
+msgid "Keep shadows for maximized and fullscreen windows"
+msgstr "Pidä pyöristetyt kulmat kokonäytön tilassa"
+
+#: src/preferences/pages/general.ui:145
+#, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Pidä pyöristetyt kulmat maksimoidussa tilassa"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:150
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Pidä pyöristetyt kulmat kokonäytön tilassa"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:160
 msgid "Tweaks"
 msgstr "Hienosäädöt"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:163
 #, fuzzy
 msgid "Add rounded corners to Kitty Terminal on Wayland"
 msgstr "Koita pyöristää Kitty-pääteohjelman kulmat Waylandissa"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:164
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:169
 #, fuzzy
 msgid "Add a settings entry in right-click menu of the desktop"
 msgstr "Lisää asetukset-rivi taustan kontekstivalikkoon"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:176
 msgid "Debug"
 msgstr "Vianetsintä"
 
-#: src/preferences/pages/general.ui:174
+#: src/preferences/pages/general.ui:179
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Kirjoita lokiin"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:180
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -210,7 +215,7 @@ msgstr ""
 "Suorita <i>journalctl -o cat -f /usr/bin/gnome-shell</i> komentopäätteessä "
 "nähdäksesi lokin"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:189
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Nollaa asetukset"
