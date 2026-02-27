@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 02:14+0200\n"
+"POT-Creation-Date: 2026-02-26 22:01-0500\n"
 "PO-Revision-Date: 2023-03-09 15:37+0000\n"
 "Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/rounded-window-"
@@ -169,42 +169,47 @@ msgstr "Настроить тень окна с закругленными уг�
 
 #: src/preferences/pages/general.ui:140
 #, fuzzy
+msgid "Keep shadows for maximized and fullscreen windows"
+msgstr "Сохранить закругленные углы при полноэкранном режиме"
+
+#: src/preferences/pages/general.ui:145
+#, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "Сохранить закругленные углы, когда они развернуты"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:150
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "Сохранить закругленные углы при полноэкранном режиме"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:160
 msgid "Tweaks"
 msgstr "Твики"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:163
 #, fuzzy
 msgid "Add rounded corners to Kitty Terminal on Wayland"
 msgstr "Попробовать добавить закругленные углы в Kitty Terminal в Wayland"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:164
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:169
 #, fuzzy
 msgid "Add a settings entry in right-click menu of the desktop"
 msgstr "Добавить запись настроек в меню правой кнопки мыши фона"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:176
 msgid "Debug"
 msgstr "Отладка"
 
-#: src/preferences/pages/general.ui:174
+#: src/preferences/pages/general.ui:179
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Включить журнал"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:180
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -212,7 +217,7 @@ msgstr ""
 "Запустите <i>journalctl -o cat -f /usr/bin/gnome-shell</i> в терминале, "
 "чтобы посмотреть журнал"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:189
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Сбросить настройки"

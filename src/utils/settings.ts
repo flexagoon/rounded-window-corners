@@ -27,6 +27,7 @@ type Schema = {
     'custom-rounded-corner-settings': CustomRoundedCornerSettings;
     'focused-shadow': BoxShadow;
     'unfocused-shadow': BoxShadow;
+    'keep-shadow-for-maximized-fullscreen': boolean;
     'debug-mode': boolean;
     'tweak-kitty-terminal': boolean;
     'enable-preferences-entry': boolean;
@@ -46,6 +47,7 @@ export const Schema = {
     'custom-rounded-corner-settings': 'a{sv}',
     'focused-shadow': 'a{si}',
     'unfocused-shadow': 'a{si}',
+    'keep-shadow-for-maximized-fullscreen': 'b',
     'debug-mode': 'b',
     'tweak-kitty-terminal': 'b',
     'enable-preferences-entry': 'b',

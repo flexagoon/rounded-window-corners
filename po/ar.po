@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 02:14+0200\n"
+"POT-Creation-Date: 2026-02-26 22:01-0500\n"
 "PO-Revision-Date: 2023-12-10 10:05+0000\n"
 "Last-Translator: Nadjib Chergui <chergui.cnadjib@outlook.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/rounded-window-"
@@ -165,42 +165,47 @@ msgstr "تخصيص نمط ظل النافذة ذات الزوايا المدور
 
 #: src/preferences/pages/general.ui:140
 #, fuzzy
+msgid "Keep shadows for maximized and fullscreen windows"
+msgstr "إبقاء الزوايا المدورة في وضع ملء الشاشة"
+
+#: src/preferences/pages/general.ui:145
+#, fuzzy
 msgid "Keep rounded corners for maximized windows"
 msgstr "إبقاء الزوايا المدورة في وضع التكبير"
 
-#: src/preferences/pages/general.ui:145
+#: src/preferences/pages/general.ui:150
 #, fuzzy
 msgid "Keep rounded corners for fullscreen windows"
 msgstr "إبقاء الزوايا المدورة في وضع ملء الشاشة"
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:160
 msgid "Tweaks"
 msgstr "تعديلات"
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:163
 #, fuzzy
 msgid "Add rounded corners to Kitty Terminal on Wayland"
 msgstr "حاول إضافة الزوايا المدورة لطرفية كيتي (Kitty) في وايلاند (Wayland)"
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:164
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:169
 #, fuzzy
 msgid "Add a settings entry in right-click menu of the desktop"
 msgstr "أضف بند الإعدادات في قائمة النقرة اليمنى للخلفية"
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:176
 msgid "Debug"
 msgstr "تصحيح الأخطاء"
 
-#: src/preferences/pages/general.ui:174
+#: src/preferences/pages/general.ui:179
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "تفعيل التسجيلات التقنية"
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:180
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -208,7 +213,7 @@ msgstr ""
 "شغل <i>journalctl -o cat -f /usr/bin/gnome-shell</i> في الطرفية لتظهر "
 "التسجيلات"
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:189
 #, fuzzy
 msgid "Reset preferences"
 msgstr "إعادة ضبط الإعدادات"

@@ -213,10 +213,15 @@ export function updateShadowActorStyle(
 
     const child = actor.firstChild as St.Bin;
 
-    child.style =
-        win.maximizedHorizontally || win.maximizedVertically || win.fullscreen
-            ? 'opacity: 0;'
-            : `background: white;
+    const hideShadowForMaximizedFullscreen =
+        !getPref('keep-shadow-for-maximized-fullscreen') &&
+        (win.maximizedHorizontally ||
+            win.maximizedVertically ||
+            win.fullscreen);
+
+    child.style = hideShadowForMaximizedFullscreen
+        ? 'opacity: 0;'
+        : `background: white;
                border-radius: ${adjustedBorderRadius * scale}px;
                ${boxShadowCss(shadow, scale)};
                margin: ${top * scale}px

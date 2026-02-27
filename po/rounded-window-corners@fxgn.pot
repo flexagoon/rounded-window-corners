@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 02:40+0200\n"
+"POT-Creation-Date: 2026-02-26 22:01-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,43 +143,47 @@ msgid "Customize the shadow of the rounded corner window"
 msgstr ""
 
 #: src/preferences/pages/general.ui:140
-msgid "Keep rounded corners for maximized windows"
+msgid "Keep shadows for maximized and fullscreen windows"
 msgstr ""
 
 #: src/preferences/pages/general.ui:145
+msgid "Keep rounded corners for maximized windows"
+msgstr ""
+
+#: src/preferences/pages/general.ui:150
 msgid "Keep rounded corners for fullscreen windows"
 msgstr ""
 
-#: src/preferences/pages/general.ui:155
+#: src/preferences/pages/general.ui:160
 msgid "Tweaks"
 msgstr ""
 
-#: src/preferences/pages/general.ui:158
+#: src/preferences/pages/general.ui:163
 msgid "Add rounded corners to Kitty Terminal on Wayland"
 msgstr ""
 
-#: src/preferences/pages/general.ui:159
+#: src/preferences/pages/general.ui:164
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:164
+#: src/preferences/pages/general.ui:169
 msgid "Add a settings entry in right-click menu of the desktop"
 msgstr ""
 
-#: src/preferences/pages/general.ui:171
+#: src/preferences/pages/general.ui:176
 msgid "Debug"
 msgstr ""
 
-#: src/preferences/pages/general.ui:174
+#: src/preferences/pages/general.ui:179
 msgid "Enable debug logs"
 msgstr ""
 
-#: src/preferences/pages/general.ui:175
+#: src/preferences/pages/general.ui:180
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
 msgstr ""
 
-#: src/preferences/pages/general.ui:184
+#: src/preferences/pages/general.ui:189
 msgid "Reset preferences"
 msgstr ""
 
