@@ -124,22 +124,39 @@ export function bindPref(
  * @param prefs the GSettings object to clean.
  */
 function resetOutdated(prefs: Gio.Settings) {
-    const lastVersion = 7;
-    const currentVersion = prefs
+    const lastVersion = 8;
+    const prefsCurrentVersion = prefs
         .get_user_value('settings-version')
         ?.recursiveUnpack() as number | undefined;
+    const currentVersion = prefsCurrentVersion ?? 0;
 
-    if (!currentVersion || currentVersion < lastVersion) {
-        if (prefs.list_keys().includes('black-list')) {
-            prefs.reset('black-list');
+    if (currentVersion < lastVersion) {
+        if (currentVersion < 7) {
+            if (prefs.list_keys().includes('black-list')) {
+                prefs.reset('black-list');
+            }
+            prefs.reset('global-rounded-corner-settings');
+            prefs.reset('custom-rounded-corner-settings');
+            if (prefs.list_keys().includes('border-color')) {
+                prefs.reset('border-color');
+            }
+            prefs.reset('focused-shadow');
+            prefs.reset('unfocused-shadow');
         }
-        prefs.reset('global-rounded-corner-settings');
-        prefs.reset('custom-rounded-corner-settings');
-        if (prefs.list_keys().includes('border-color')) {
-            prefs.reset('border-color');
+
+        if (currentVersion < 8) {
+            const roundedCornerSettings = prefs
+                .get_value('global-rounded-corner-settings')
+                .recursiveUnpack() as RoundedCornerSettings;
+            if (roundedCornerSettings.borderRadius === 12) {
+                roundedCornerSettings.borderRadius = 15;
+                prefs.set_value(
+                    'global-rounded-corner-settings',
+                    packRoundedCornerSettings(roundedCornerSettings),
+                );
+            }
         }
-        prefs.reset('focused-shadow');
-        prefs.reset('unfocused-shadow');
+
         prefs.set_uint('settings-version', lastVersion);
     }
 }

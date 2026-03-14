@@ -82,7 +82,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="value-pos">left</property>
                 <marks>
-                  <mark value="12" position="bottom">12</mark>
+                  <mark value="15" position="bottom">15</mark>
                 </marks>
                 <property name="adjustment">
                   <object class="GtkAdjustment" id="cornerRadius">

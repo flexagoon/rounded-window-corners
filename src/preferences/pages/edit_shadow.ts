@@ -167,7 +167,7 @@ export const EditShadowPage = GObject.registerClass(
                 `.preview {
                    transition: box-shadow 200ms;
                    ${boxShadowCss(this.#unfocusedShadowSettings)};
-                   border-radius: 12px;
+                   border-radius: 15px;
                  }
                  .preview:hover {
                    ${boxShadowCss(this.#focusedShadowSettings)};
@@ -177,7 +177,7 @@ export const EditShadowPage = GObject.registerClass(
                 `.preview {
                    transition: box-shadow 200ms;
                    ${boxShadowCss(this.#focusedShadowSettings)};
-                   border-radius: 12px;
+                   border-radius: 15px;
                  }
                  .preview:hover {
                    ${boxShadowCss(this.#unfocusedShadowSettings)};
