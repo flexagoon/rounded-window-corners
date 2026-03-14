@@ -195,5 +195,10 @@ function removeEffectFrom(actor: RoundedWindowActor) {
     disconnectAll(actor);
     disconnectAll(actor.metaWindow);
 
+    const texture = actor.get_texture();
+    if (texture) {
+        disconnectAll(texture);
+    }
+
     handlers.onRemoveEffect(actor);
 }

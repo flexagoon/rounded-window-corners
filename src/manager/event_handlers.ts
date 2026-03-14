@@ -91,6 +91,9 @@ export function onRemoveEffect(actor: RoundedWindowActor): void {
     // Remove shadow actor
     const shadow = actor.rwcCustomData?.shadow;
     if (shadow) {
+        shadow.get_constraints().forEach(constraint => {
+            shadow.remove_constraint(constraint);
+        });
         global.windowGroup.remove_child(shadow);
         shadow.clear_effects();
         shadow.destroy();
