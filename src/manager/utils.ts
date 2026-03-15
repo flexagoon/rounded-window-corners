@@ -8,6 +8,36 @@ import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import St from 'gi://St';
 
+// Cache mutter settings to avoid creating a new Gio.Settings object on every
+// call to windowScaleFactor (which is called per-frame during overview animations).
+let _mutterSettings: Gio.Settings | null = null;
+let _fractionalScalingEnabled: boolean | null = null;
+
+function getMutterSettings(): Gio.Settings {
+    if (_mutterSettings === null) {
+        _mutterSettings = Gio.Settings.new('org.gnome.mutter');
+        _mutterSettings.connect('changed::experimental-features', () => {
+            _fractionalScalingEnabled = null;
+        });
+    }
+    return _mutterSettings;
+}
+
+function isFractionalScalingEnabled(): boolean {
+    if (_fractionalScalingEnabled === null) {
+        const features = getMutterSettings().get_strv('experimental-features');
+        _fractionalScalingEnabled =
+            Meta.is_wayland_compositor() &&
+            features.includes('scale-monitor-framebuffer');
+    }
+    return _fractionalScalingEnabled;
+}
+
+export function clearMutterSettingsCache() {
+    _mutterSettings = null;
+    _fractionalScalingEnabled = null;
+}
+
 import {boxShadowCss} from '../utils/box_shadow.js';
 import {
     APP_SHADOWS,
@@ -81,14 +111,9 @@ export function getRoundedCornersEffect(
  * @returns The scaling factor of the window.
  */
 export function windowScaleFactor(win: Meta.Window) {
-    // When fractional scaling is enabled, always return 1
-    const features = Gio.Settings.new('org.gnome.mutter').get_strv(
-        'experimental-features',
-    );
-    if (
-        Meta.is_wayland_compositor() &&
-        features.includes('scale-monitor-framebuffer')
-    ) {
+    // When fractional scaling is enabled, always return 1.
+    // Use cached settings to avoid creating a new Gio.Settings object per call.
+    if (isFractionalScalingEnabled()) {
         return 1;
     }
 
@@ -192,11 +217,12 @@ export function updateShadowActorStyle(
 ) {
     const {left, right, top, bottom} = padding;
 
-    // Increase border_radius when smoothing is on
+    // Increase border_radius when smoothing is on.
+    // Read global settings once to avoid repeated GSettings deserializations.
     let adjustedBorderRadius = borderRadius;
-    if (getPref('global-rounded-corner-settings') !== null) {
-        adjustedBorderRadius *=
-            1.0 + getPref('global-rounded-corner-settings').smoothing;
+    const globalCfg = getPref('global-rounded-corner-settings');
+    if (globalCfg !== null) {
+        adjustedBorderRadius *= 1.0 + globalCfg.smoothing;
     }
 
     // If there are two monitors with different scale factors, the scale of
@@ -219,7 +245,7 @@ export function updateShadowActorStyle(
             win.maximizedVertically ||
             win.fullscreen);
 
-    child.style = hideShadowForMaximizedFullscreen
+    const newChildStyle = hideShadowForMaximizedFullscreen
         ? 'opacity: 0;'
         : `background: white;
                border-radius: ${adjustedBorderRadius * scale}px;
@@ -229,7 +255,11 @@ export function updateShadowActorStyle(
                        ${bottom * scale}px
                        ${left * scale}px;`;
 
-    child.queue_redraw();
+    // Only update style and queue a redraw when the style actually changed.
+    if (child.style !== newChildStyle) {
+        child.style = newChildStyle;
+        child.queue_redraw();
+    }
 }
 
 /**

@@ -21,15 +21,11 @@ import {logDebug} from '../utils/log.js';
  * @param self - The window preview that the shadow actor is added to.
  */
 export function addShadowInOverview(window: Meta.Window, self: WindowPreview) {
-    // Create a new error object and use it to get the call stack of
-    // the function.
-    const stack = new Error().stack?.trim();
-    if (
-        stack === undefined ||
-        stack.indexOf('_updateAttachedDialogs') !== -1 ||
-        stack.indexOf('addDialog') !== -1
-    ) {
-        // If the window is an attached dialog, skip it.
+    // Skip attached dialogs — they are added via _updateAttachedDialogs/addDialog
+    // and should not get their own shadow clone in the overview.
+    // We detect them by checking if the window is transient-for another window,
+    // which is always the case for attached dialogs but not for top-level windows.
+    if (window.get_transient_for() !== null) {
         return;
     }
 
