@@ -117,6 +117,10 @@ function disconnectAll(object?: GObject.Object) {
         const connection = connections[i];
         if (object === undefined || connection.object === object) {
             connection.object.disconnect(connection.id);
+            // Over time as windows open and close, connections would grow
+            // indefinitely with stale entries pointing to dead window objects
+            // Release the reference to the GObject so it can be garbage
+            // collected after the window is closed, preventing a memory leak.
             connections.splice(i, 1);
         }
     }
