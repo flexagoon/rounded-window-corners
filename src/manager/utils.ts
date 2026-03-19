@@ -8,36 +8,6 @@ import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import St from 'gi://St';
 
-// Cache mutter settings to avoid creating a new Gio.Settings object on every
-// call to windowScaleFactor (which is called per-frame during overview animations).
-let _mutterSettings: Gio.Settings | null = null;
-let _fractionalScalingEnabled: boolean | null = null;
-
-function getMutterSettings(): Gio.Settings {
-    if (_mutterSettings === null) {
-        _mutterSettings = Gio.Settings.new('org.gnome.mutter');
-        _mutterSettings.connect('changed::experimental-features', () => {
-            _fractionalScalingEnabled = null;
-        });
-    }
-    return _mutterSettings;
-}
-
-function isFractionalScalingEnabled(): boolean {
-    if (_fractionalScalingEnabled === null) {
-        const features = getMutterSettings().get_strv('experimental-features');
-        _fractionalScalingEnabled =
-            Meta.is_wayland_compositor() &&
-            features.includes('scale-monitor-framebuffer');
-    }
-    return _fractionalScalingEnabled;
-}
-
-export function clearMutterSettingsCache() {
-    _mutterSettings = null;
-    _fractionalScalingEnabled = null;
-}
-
 import {boxShadowCss} from '../utils/box_shadow.js';
 import {
     APP_SHADOWS,
@@ -47,6 +17,46 @@ import {
 import {readFile} from '../utils/file.js';
 import {logDebug} from '../utils/log.js';
 import {getPref} from '../utils/settings.js';
+
+// Cache mutter settings to avoid creating a new Gio.Settings object on every
+// call to windowScaleFactor (which is called per-frame during overview animations).
+let mutterSettings: Gio.Settings | null = null;
+let fractionalScalingEnabled: boolean | null = null;
+
+/**
+ * Check whether fractional scaling is enabled in the GNOME mutter settings.
+ * The result is cached and invalidated when the `experimental-features` setting
+ * changes.
+ *
+ * @returns Whether fractional scaling is currently enabled.
+ */
+function isFractionalScalingEnabled(): boolean {
+    if (mutterSettings === null) {
+        mutterSettings = Gio.Settings.new('org.gnome.mutter');
+        mutterSettings.connect('changed::experimental-features', () => {
+            fractionalScalingEnabled = null;
+        });
+    }
+    if (fractionalScalingEnabled === null) {
+        const features = mutterSettings.get_strv('experimental-features');
+        fractionalScalingEnabled =
+            Meta.is_wayland_compositor() &&
+            features.includes('scale-monitor-framebuffer');
+    }
+    return fractionalScalingEnabled;
+}
+
+/**
+ * Clear the cached mutter settings and fractional scaling state.
+ * Should be called when the extension is disabled to release the
+ * {@link https://docs.gtk.org/gio/class.Settings.html Gio.Settings} object
+ * and its D-Bus signal subscription.
+ */
+export function clearMutterSettingsCache() {
+    mutterSettings = null;
+    fractionalScalingEnabled = null;
+}
+
 
 /**
  * Get the actor that rounded corners should be applied to.
