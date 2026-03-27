@@ -39,8 +39,13 @@ function isFractionalScalingEnabled(): boolean {
     }
     if (fractionalScalingEnabled === null) {
         const features = mutterSettings.get_strv('experimental-features');
+
+        // The method doesn't exist on GNOME 50+ because it's Wayland-only
+        const isWaylandCompositor =
+            !Meta.is_wayland_compositor || Meta.is_wayland_compositor();
+
         fractionalScalingEnabled =
-            Meta.is_wayland_compositor() &&
+            isWaylandCompositor &&
             features.includes('scale-monitor-framebuffer');
     }
     return fractionalScalingEnabled;
