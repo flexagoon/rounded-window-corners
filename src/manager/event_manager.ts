@@ -106,13 +106,22 @@ function connect(
 
 /**
  * Disconnect all connected signals from all actors or a specific object.
+ * Pruning disconnected entries keeps the array from growing unboundedly as
+ * windows are opened and closed over the lifetime of the session.
  *
  * @param object - If object is provided, only disconnect signals from it.
  */
 function disconnectAll(object?: GObject.Object) {
-    for (const connection of connections) {
+    let i = connections.length;
+    while (i--) {
+        const connection = connections[i];
         if (object === undefined || connection.object === object) {
             connection.object.disconnect(connection.id);
+            // Over time as windows open and close, connections would grow
+            // indefinitely with stale entries pointing to dead window objects
+            // Release the reference to the GObject so it can be garbage
+            // collected after the window is closed, preventing a memory leak.
+            connections.splice(i, 1);
         }
     }
 }

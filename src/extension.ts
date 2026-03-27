@@ -10,6 +10,7 @@ import {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
 import {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
 
 import {disableEffect, enableEffect} from './manager/event_manager.js';
+import {clearMutterSettingsCache} from './manager/utils.js';
 import {addShadowInOverview} from './patch/add_shadow_in_overview.js';
 import {
     addShadowsInWorkspaceSwitch,
@@ -133,6 +134,7 @@ export default class RoundedWindowCornersReborn extends Extension {
 
         this.#windowPicker?.unexport();
         disableEffect();
+        clearMutterSettingsCache();
 
         // Set all props to null
         this.#windowPicker = null;

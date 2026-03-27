@@ -18,6 +18,44 @@ import {readFile} from '../utils/file.js';
 import {logDebug} from '../utils/log.js';
 import {getPref} from '../utils/settings.js';
 
+// Cache mutter settings to avoid creating a new Gio.Settings object on every
+// call to windowScaleFactor (which is called per-frame during overview animations).
+let mutterSettings: Gio.Settings | null = null;
+let fractionalScalingEnabled: boolean | null = null;
+
+/**
+ * Check whether fractional scaling is enabled in the GNOME mutter settings.
+ * The result is cached and invalidated when the `experimental-features` setting
+ * changes.
+ *
+ * @returns Whether fractional scaling is currently enabled.
+ */
+function isFractionalScalingEnabled(): boolean {
+    if (mutterSettings === null) {
+        mutterSettings = Gio.Settings.new('org.gnome.mutter');
+        mutterSettings.connect('changed::experimental-features', () => {
+            fractionalScalingEnabled = null;
+        });
+    }
+    if (fractionalScalingEnabled === null) {
+        const features = mutterSettings.get_strv('experimental-features');
+        fractionalScalingEnabled =
+            Meta.is_wayland_compositor() &&
+            features.includes('scale-monitor-framebuffer');
+    }
+    return fractionalScalingEnabled;
+}
+
+/**
+ * Clear the cached mutter settings and fractional scaling state.
+ * Should be called when the extension is disabled to release the
+ * {@link Gio.Settings} object and its D-Bus signal subscription.
+ */
+export function clearMutterSettingsCache() {
+    mutterSettings = null;
+    fractionalScalingEnabled = null;
+}
+
 /**
  * Get the actor that rounded corners should be applied to.
  * In Wayland, the effect is applied to WindowActor, but in X11, it is applied
@@ -81,14 +119,9 @@ export function getRoundedCornersEffect(
  * @returns The scaling factor of the window.
  */
 export function windowScaleFactor(win: Meta.Window) {
-    // When fractional scaling is enabled, always return 1
-    const features = Gio.Settings.new('org.gnome.mutter').get_strv(
-        'experimental-features',
-    );
-    if (
-        Meta.is_wayland_compositor() &&
-        features.includes('scale-monitor-framebuffer')
-    ) {
+    // When fractional scaling is enabled, always return 1.
+    // Use cached settings to avoid creating a new Gio.Settings object per call.
+    if (isFractionalScalingEnabled()) {
         return 1;
     }
 
@@ -192,11 +225,12 @@ export function updateShadowActorStyle(
 ) {
     const {left, right, top, bottom} = padding;
 
-    // Increase border_radius when smoothing is on
+    // Increase border_radius when smoothing is on.
+    // Read global settings once to avoid repeated GSettings deserializations.
     let adjustedBorderRadius = borderRadius;
-    if (getPref('global-rounded-corner-settings') !== null) {
-        adjustedBorderRadius *=
-            1.0 + getPref('global-rounded-corner-settings').smoothing;
+    const globalCfg = getPref('global-rounded-corner-settings');
+    if (globalCfg !== null) {
+        adjustedBorderRadius *= 1.0 + globalCfg.smoothing;
     }
 
     // If there are two monitors with different scale factors, the scale of
@@ -219,7 +253,7 @@ export function updateShadowActorStyle(
             win.maximizedVertically ||
             win.fullscreen);
 
-    child.style = hideShadowForMaximizedFullscreen
+    const newChildStyle = hideShadowForMaximizedFullscreen
         ? 'opacity: 0;'
         : `background: white;
                border-radius: ${adjustedBorderRadius * scale}px;
@@ -229,7 +263,11 @@ export function updateShadowActorStyle(
                        ${bottom * scale}px
                        ${left * scale}px;`;
 
-    child.queue_redraw();
+    // Only update style and queue a redraw when the style actually changed.
+    if (child.style !== newChildStyle) {
+        child.style = newChildStyle;
+        child.queue_redraw();
+    }
 }
 
 /**
