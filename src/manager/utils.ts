@@ -49,14 +49,13 @@ function isFractionalScalingEnabled(): boolean {
 /**
  * Clear the cached mutter settings and fractional scaling state.
  * Should be called when the extension is disabled to release the
- * {@link https://docs.gtk.org/gio/class.Settings.html Gio.Settings} object
+ * {@link Gio.Settings} object
  * and its D-Bus signal subscription.
  */
 export function clearMutterSettingsCache() {
     mutterSettings = null;
     fractionalScalingEnabled = null;
 }
-
 
 /**
  * Get the actor that rounded corners should be applied to.
