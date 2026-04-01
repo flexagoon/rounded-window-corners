@@ -1,119 +1,78 @@
-![2022-07-29 23-49-57][6]
+# Rounded Window Corners Reborn — GNOME 49 crash fix
 
-<div align="center">
-  <h1>Rounded Window Corners Reborn</h1>
-  <p><i>A GNOME extension that adds rounded corners to all windows</i></p>
-  <a href="https://extensions.gnome.org/extension/7048/rounded-window-corners-reborn">
-    <img src="https://img.shields.io/badge/Install%20from-extensions.gnome.org-4A86CF?style=for-the-badge&logo=Gnome&logoColor=white"/>
-  </a>
-</div>
-<br>
+Fork di [flexagoon/rounded-window-corners](https://github.com/flexagoon/rounded-window-corners) con fix per un crash critico su GNOME 49.
 
-> [!NOTE]
-> This is the fork of the [original rounded-window-corners extension][14] by @yilozt, which is no longer maintained.
+## Il problema
 
-## Features
+Su GNOME Shell 49.x, cliccare sull'icona di un'app già aperta in background (es. Telegram, Materialgram) causava il crash immediato della sessione GNOME con `SIGABRT`.
 
-- Works with Gnome 46+
-- Custom border radius and clip paddings for windows
-- Blocklist for applications that draw their own window decorations
-- Custom shadow for windows with rounded corners
-- Option to skip libadwaita / libhandy application
-- [Superelliptical][1] shape for rounded corners, thanks to [@YuraIz][2]
-- A simple reset preferences dialog
+Il crash avveniva in `libmutter-clutter` durante il paint dell'effetto rounded corners, quando una finestra si trovava in una **transizione di stato** (maximize/restore/raise) con dimensioni temporaneamente pari a zero.
 
-## Installation
-
-### From Gnome Extensions
-
-The extension is available on [extensions.gnome.org](https://extensions.gnome.org). You can install it directly [from here](https://extensions.gnome.org/extension/7048/rounded-window-corners-reborn/), or from the Extension Manager app.
-
-### From pre-built archives
-
-If you want to install the latest commit of the extension, you can get a
-pre-built archive from GitHub Actions.
-
-1. Sign in to GitHub.
-2. Go to [the build action page](https://github.com/flexagoon/rounded-window-corners/actions/workflows/build.yml)
-3. Click on the latest workflow run
-4. Download the extension from the "artifacts" section at the bottom
-5. Install it with the `gnome-extensions install` command
-
-### From source code
-
-1. Install the dependencies:
-    - Node.js
-    - npm
-    - gettext
-    - [just](https://just.systems)
-
-    Those packages are available in the repositories of most linux distros, so
-    you can simply install them with your package manager.
-
-2. Build the extension
-
-    ```bash
-    git clone https://github.com/flexagoon/rounded-window-corners
-    cd rounded-window-corners
-    just install
-    ```
-
-After this, the extension will be installed to
-`~/.local/share/gnome-shell/extensions`.
-
-### From unofficial AUR packages on Arch Linux
-
-If you use Arch, by the way, you can also install from the provided [AUR](https://aur.archlinux.org/) packages using [paru](https://github.com/Morganamilo/paru) or [yay](https://github.com/Jguer/yay). Two packages are available:
-
-- [gnome-shell-extension-rounded-window-corners-reborn](https://aur.archlinux.org/packages/gnome-shell-extension-rounded-window-corners-reborn) uses the pre-build archives
-- [gnome-shell-extension-rounded-window-corners-reborn-git](https://aur.archlinux.org/packages/gnome-shell-extension-rounded-window-corners-reborn-git) builds on your machine
-
-Installation:
-
-```zsh
-paru gnome-shell-extension-rounded-window-corners-reborn
+Stack trace del crash:
+```
+g_assertion_message_expr (libglib-2.0.so.0)
+  → libmutter-clutter-17.so.0 (clutter_actor_continue_paint)
+  → clutter_paint_node_paint
+  → clutter_actor_paint
+  → meta_window_actor_paint_to_content (libmutter-17.so.0)
+  → GJS / JavaScript callback
 ```
 
-Note these packages are not official.
+## Fix applicati
 
-## Translation
+### 1. `effect/rounded_corners_effect.js` — crash principale
 
-You can help with the translation of the extension by submitting translations
-on [Weblate](https://hosted.weblate.org/engage/rounded-window-corners-reborn)
+**Problema**: `vfunc_paint_target` veniva chiamato con l'attore a dimensioni 0x0, causando un'assertion failure in Clutter (`width > 0 && height > 0`). Inoltre `updateUniforms` calcolava `1 / width` e `1 / height` con divisione per zero, e usava `bounds[4]` (fuori bounds, sempre `undefined`).
 
-[![Translation status](https://hosted.weblate.org/widget/rounded-window-corners-reborn/multi-auto.svg)](https://hosted.weblate.org/engage/rounded-window-corners-reborn/)
+**Fix**:
+- Aggiunto override di `vfunc_paint_target` con guardia sulle dimensioni
+- Aggiunta guardia in `updateUniforms` sulle dimensioni prima di procedere
+- Corretta divisione per zero in `pixelStep`
+- Corretto indice `bounds[4]` → `bounds[3]` nel calcolo di `maxRadius`
 
-You can also manually edit .po files and submit a PR if you know how to do that.
+### 2. `manager/utils.js` — null safety
 
-## Development
+**Problema**: `unwrapActor()` e `getRoundedCornersEffect()` accedevano a `actor.metaWindow.get_client_type()` senza verificare che `metaWindow` non fosse `null`, causando errori JS visibili nei log.
 
-Here are the avaliable `just` commands (run `just --list` to see this message):
+**Fix**: Aggiunto controllo `if (!actor?.metaWindow) return null` in entrambe le funzioni.
+
+### 3. `manager/event_handlers.js` — null safety
+
+**Problema**: `onAddEffect()`, `refreshShadow()` e `refreshRoundedCorners()` usavano `actor.metaWindow` senza null check, portando a `TypeError: can't access property "get_client_type", win is null` nei log di GNOME Shell.
+
+**Fix**: Aggiunto `if (!win) return` all'inizio di ciascuna funzione dopo aver letto `actor?.metaWindow`.
+
+## Versioni interessate
+
+- GNOME Shell **49.x** (confermato su 49.5)
+- Estensione versione **14** (`rounded-window-corners@fxgn`)
+- Distribuzione testata: **CachyOS** (Arch-based)
+
+## Installazione manuale
 
 ```bash
-Available recipes:
-    build   # Compile the extension and all resources
-    clean   # Delete the build directory
-    install # Build and install the extension from source
-    pack    # Build and pack the extension
-    pot     # Update and compile the translation files
+# Backup dell'estensione originale
+cp -r ~/.local/share/gnome-shell/extensions/rounded-window-corners@fxgn \
+      ~/.local/share/gnome-shell/extensions/rounded-window-corners@fxgn.bak
+
+# Clona questo fork
+git clone https://github.com/TUO_USERNAME/rounded-window-corners.git
+cd rounded-window-corners
+
+# Copia i file patchati
+cp effect/rounded_corners_effect.js \
+   manager/utils.js \
+   manager/event_handlers.js \
+   ~/.local/share/gnome-shell/extensions/rounded-window-corners@fxgn/effect/
+cp manager/utils.js manager/event_handlers.js \
+   ~/.local/share/gnome-shell/extensions/rounded-window-corners@fxgn/manager/
+
+# Ricarica l'estensione
+gnome-extensions disable rounded-window-corners@fxgn
+gnome-extensions enable rounded-window-corners@fxgn
 ```
 
-## Credits
+## Upstream
 
-Thanks to [yotamguttman](https://github.com/yotamguttman) for making an icon for the extension!
-
-<!-- links -->
-
-[1]: https://en.wikipedia.org/wiki/Superellipse
-[2]: https://github.com/YuraIz
-[3]: https://extensions.gnome.org/extension/3740/compiz-alike-magic-lamp-effect/
-[4]: https://gitlab.gnome.org/GNOME/mutter/-/blob/main/src/compositor/meta-background-content.c#L138
-[6]: https://user-images.githubusercontent.com/32430186/181902857-d4d10740-82fe-4941-b064-d436b9ea7317.png
-[7]: https://extensions.gnome.org/extension/5237/rounded-window-corners/
-[8]: https://github.com/yilozt/rounded-window-corners/releases
-[9]: https://github.com/yilozt/rounded-window-corners/actions/workflows/pack.yml
-[10]: https://img.shields.io/github/v/release/yilozt/rounded-window-corners?style=flat-square
-[11]: https://img.shields.io/github/actions/workflow/status/yilozt/rounded-window-corners/pack.yml?branch=main&style=flat-square
-[12]: https://hosted.weblate.org/widgets/rounded-window-corners/-/rounded-window-corners/multi-auto.svg
-[13]: https://hosted.weblate.org/engage/rounded-window-corners/
-[14]: https://github.com/yilozt/rounded-window-corners
+Il fix è stato sviluppato analizzando i coredump prodotti dal crash. Si raccomanda di aprire una PR sul repository originale:
+[https://github.com/flexagoon/rounded-window-corners](https://github.com/flexagoon/rounded-window-corners)
