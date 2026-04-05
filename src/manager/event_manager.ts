@@ -136,6 +136,10 @@ function disconnectAll(object?: GObject.Object) {
  * @param actor - The window actor to apply the effect to.
  */
 function applyEffectTo(actor: RoundedWindowActor) {
+    if (!actor?.metaWindow) {
+        return;
+    }
+
     // In wayland sessions, the surface actor of XWayland clients is sometimes
     // not ready when the window is created. In this case, we wait until it is
     // ready before applying the effect.

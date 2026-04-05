@@ -113,7 +113,7 @@ export function getRoundedCornersEffect(
     const win = actor.metaWindow;
     const name = ROUNDED_CORNERS_EFFECT;
     return win.get_client_type() === Meta.WindowClientType.X11
-        ? (actor.firstChild.get_effect(name) as RoundedCornersEffectType)
+        ? (actor.firstChild?.get_effect(name) as RoundedCornersEffectType)
         : (actor.get_effect(name) as RoundedCornersEffectType);
 }
 
