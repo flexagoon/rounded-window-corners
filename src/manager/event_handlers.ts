@@ -33,12 +33,14 @@ import {
 } from './utils.js';
 
 export function onAddEffect(actor: RoundedWindowActor) {
-    logDebug(`Adding effect to ${actor?.metaWindow.title}`);
-
     const win = actor.metaWindow;
 
     if (!shouldEnableEffect(win)) {
-        logDebug(`Skipping ${win.title}`);
+        return;
+    }
+
+    // Check if effect already exists to prevent duplicates
+    if (actor.rwcCustomData) {
         return;
     }
 
@@ -80,30 +82,48 @@ export function onAddEffect(actor: RoundedWindowActor) {
 }
 
 export function onRemoveEffect(actor: RoundedWindowActor): void {
-    const name = ROUNDED_CORNERS_EFFECT;
-    unwrapActor(actor)?.remove_effect_by_name(name);
-
-    // Unbind all properties
-    for (const binding of actor.rwcCustomData?.propertyBindings || []) {
-        binding.unbind();
+    if (!actor?.rwcCustomData) {
+        return;
     }
 
-    // Remove shadow actor
-    const shadow = actor.rwcCustomData?.shadow;
+    const customData = actor.rwcCustomData;
+    const name = ROUNDED_CORNERS_EFFECT;
+
+    // Remove the rounded corners effect
+    unwrapActor(actor)?.remove_effect_by_name(name);
+
+    // Clean up property bindings (KEY FIX for VRAM leak!)
+    if (customData.propertyBindings) {
+        for (const binding of customData.propertyBindings) {
+            binding.unbind();
+        }
+    }
+
+    // Remove shadow actor and its constraints
+    const shadow = customData.shadow;
     if (shadow) {
-        shadow.get_constraints().forEach(constraint => {
+        // Clear all constraints (KEY FIX for VRAM leak!)
+        const constraints = shadow.get_constraints();
+        for (const constraint of constraints) {
             shadow.remove_constraint(constraint);
-        });
-        global.windowGroup.remove_child(shadow);
+        }
+
+        // Check if parent exists
+        if (shadow.get_parent()) {
+            global.windowGroup.remove_child(shadow);
+        }
+
         shadow.clear_effects();
         shadow.destroy();
     }
 
-    // Remove all timeout handler
-    const timeoutId = actor.rwcCustomData?.unminimizedTimeoutId;
+    // Remove timeout handler
+    const timeoutId = customData.unminimizedTimeoutId;
     if (timeoutId) {
         GLib.source_remove(timeoutId);
     }
+
+    // Clear the custom data
     delete actor.rwcCustomData;
 }
 
@@ -208,6 +228,10 @@ function createShadow(actor: Meta.WindowActor): St.Bin {
  * @param actor - The window actor to refresh the shadow for.
  */
 function refreshShadow(actor: RoundedWindowActor) {
+    if (!actor?.metaWindow) {
+        return;
+    }
+
     const win = actor.metaWindow;
     const shadow = actor.rwcCustomData?.shadow;
     if (!shadow) {
@@ -229,12 +253,16 @@ function refreshShadow(actor: RoundedWindowActor) {
  * @param actor - The window actor to refresh the rounded corners settings for.
  */
 function refreshRoundedCorners(actor: RoundedWindowActor): void {
+    if (!actor?.metaWindow) {
+        return;
+    }
+
     const win = actor.metaWindow;
 
     const windowInfo = actor.rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
 
-    const hasEffect = effect && windowInfo;
+    const hasEffect = !!(effect && windowInfo);
     const shouldHaveEffect = shouldEnableEffect(win);
 
     if (!hasEffect) {
