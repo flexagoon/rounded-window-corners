@@ -22,6 +22,8 @@ import {getPref} from '../utils/settings.js';
 // call to windowScaleFactor (which is called per-frame during overview animations).
 let mutterSettings: Gio.Settings | null = null;
 let fractionalScalingEnabled: boolean | null = null;
+// Gnome 50 support
+let isWaylandCompositor = !Meta.is_wayland_compositor || Meta.is_wayland_compositor();
 
 /**
  * Check whether fractional scaling is enabled in the GNOME mutter settings.
