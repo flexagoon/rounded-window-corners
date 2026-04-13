@@ -1,4 +1,3 @@
-import type Gio from 'gi://Gio';
 import type GObject from 'gi://GObject';
 
 import {
@@ -16,12 +15,8 @@ import {
     addShadowsInWorkspaceSwitch,
     removeShadowsAfterWorkspaceSwitch,
 } from './patch/workspace_switch.js';
-import {
-    disableBackgroundMenuItem,
-    enableBackgroundMenuItem,
-} from './utils/background_menu.js';
 import {logDebug} from './utils/log.js';
-import {getPref, initPrefs, prefs, uninitPrefs} from './utils/settings.js';
+import {initPrefs, uninitPrefs} from './utils/settings.js';
 import {WindowPicker} from './window_picker/service.js';
 
 export default class RoundedWindowCornersReborn extends Extension {
@@ -55,10 +50,6 @@ export default class RoundedWindowCornersReborn extends Extension {
                 () => {
                     enableEffect();
 
-                    if (getPref('enable-preferences-entry')) {
-                        enableBackgroundMenuItem();
-                    }
-
                     layoutManager.disconnect(
                         // biome-ignore lint/style/noNonNullAssertion: Since this happens inside of the connection, there is no way for this to be null.
                         this.#layoutManagerStartupConnection!,
@@ -67,10 +58,6 @@ export default class RoundedWindowCornersReborn extends Extension {
             );
         } else {
             enableEffect();
-
-            if (getPref('enable-preferences-entry')) {
-                enableBackgroundMenuItem();
-            }
         }
 
         const self = this;
@@ -112,15 +99,6 @@ export default class RoundedWindowCornersReborn extends Extension {
                 },
         );
 
-        // Watch for changes of the `enable-preferences-entry` prefs key.
-        prefs.connect('changed', (_: Gio.Settings, key: string) => {
-            if (key === 'enable-preferences-entry') {
-                getPref('enable-preferences-entry')
-                    ? enableBackgroundMenuItem()
-                    : disableBackgroundMenuItem();
-            }
-        });
-
         logDebug('Enabled');
     }
 
@@ -128,9 +106,6 @@ export default class RoundedWindowCornersReborn extends Extension {
         // Restore patched methods
         this.#injectionManager?.clear();
         this.#injectionManager = null;
-
-        // Remove the item to open preferences page in background menu
-        disableBackgroundMenuItem();
 
         this.#windowPicker?.unexport();
         disableEffect();

@@ -31,7 +31,6 @@ type Schema = {
     'keep-shadow-for-maximized-fullscreen': boolean;
     'debug-mode': boolean;
     'tweak-kitty-terminal': boolean;
-    'enable-preferences-entry': boolean;
 };
 
 /** All existing schema keys. */
@@ -52,7 +51,6 @@ export const Schema = {
     'keep-shadow-for-maximized-fullscreen': 'b',
     'debug-mode': 'b',
     'tweak-kitty-terminal': 'b',
-    'enable-preferences-entry': 'b',
 };
 
 /** The raw GSettings object for direct manipulation. */
@@ -125,8 +123,9 @@ export function bindPref(
  *
  * @param prefs the GSettings object to clean.
  */
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: The function is inherently a huge if block.
 function resetOutdated(prefs: Gio.Settings) {
-    const lastVersion = 8;
+    const lastVersion = 9;
     const prefsCurrentVersion = prefs
         .get_user_value('settings-version')
         ?.recursiveUnpack() as number | undefined;
@@ -156,6 +155,13 @@ function resetOutdated(prefs: Gio.Settings) {
                     'global-rounded-corner-settings',
                     packRoundedCornerSettings(roundedCornerSettings),
                 );
+            }
+        }
+
+        if (currentVersion < 9) {
+            // biome-ignore lint/style/useCollapsedIf: Match the format of other checks
+            if (prefs.list_keys().includes('enable-preferences-entry')) {
+                prefs.reset('enable-preferences-entry');
             }
         }
 

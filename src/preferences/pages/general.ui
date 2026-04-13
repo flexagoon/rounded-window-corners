@@ -164,11 +164,6 @@
             <property name="subtitle" translatable="yes">Adjust paddings for Kitty Terminal to correctly round its corners</property>
           </object>
         </child>
-        <child>
-          <object class="AdwSwitchRow" id="rightClickMenu">
-            <property name="title" translatable="yes">Add a settings entry in right-click menu of the desktop</property>
-          </object>
-        </child>
       </object>
     </child>
     <child>

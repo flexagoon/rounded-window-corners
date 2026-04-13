@@ -196,13 +196,6 @@ export const GeneralPage = GObject.registerClass(
             );
 
             bindPref(
-                'enable-preferences-entry',
-                this._rightClickMenu,
-                'active',
-                Gio.SettingsBindFlags.DEFAULT,
-            );
-
-            bindPref(
                 'debug-mode',
                 this._enableDebugLogs,
                 'active',
