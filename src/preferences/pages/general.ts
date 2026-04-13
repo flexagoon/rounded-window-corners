@@ -40,7 +40,6 @@ export const GeneralPage = GObject.registerClass(
             'keepForFullscreen',
             'paddings',
             'tweakKitty',
-            'rightClickMenu',
             'enableDebugLogs',
         ],
     },
@@ -56,7 +55,6 @@ export const GeneralPage = GObject.registerClass(
         private declare _keepForFullscreen: Adw.SwitchRow;
         private declare _paddings: PaddingsRowClass;
         private declare _tweakKitty: Adw.SwitchRow;
-        private declare _rightClickMenu: Adw.SwitchRow;
         private declare _enableDebugLogs: Adw.SwitchRow;
 
         #settings = getPref('global-rounded-corner-settings');
