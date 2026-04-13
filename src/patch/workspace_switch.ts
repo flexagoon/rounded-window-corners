@@ -1,6 +1,5 @@
 /** @file Provides functions for handling shadows during workspace switching. */
 
-import type GObject from 'gi://GObject';
 import type {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
 import type {RoundedWindowActor} from '../utils/types.js';
 
@@ -14,13 +13,10 @@ type WsAnimationActor = Clutter.Actor & {shadowClone?: Clutter.Actor};
 /**
  * Add shadows to windows when switching workspaces.
  * @param self - The workspace animation controller.
- * @returns A set of connections to be disconnected on extension disable.
  */
 export function addShadowsInWorkspaceSwitch(
     self: WorkspaceAnimationController,
 ) {
-    const connections: {object: GObject.Object; id: number}[] = [];
-
     for (const monitor of self._switchData.monitors) {
         for (const workspace of monitor._workspaceGroups) {
             const windowRecords = workspace._windowRecords;
@@ -43,9 +39,6 @@ export function addShadowsInWorkspaceSwitch(
                 global.display.disconnect(restackedConnection);
                 workspace.disconnect(destroyConnection);
             });
-
-            connections.push({object: global.display, id: restackedConnection});
-            connections.push({object: workspace, id: destroyConnection});
 
             for (const {windowActor: actor, clone} of windowRecords) {
                 const win = actor.metaWindow;
@@ -81,9 +74,6 @@ export function addShadowsInWorkspaceSwitch(
                     clone.disconnect(destroyConnection);
                 });
 
-                connections.push({object: clone, id: notifyId});
-                connections.push({object: clone, id: destroyConnection});
-
                 // Store the reference to the shadow clone. This allows restacking
                 // them, as you can see at the top of this function.
                 (clone as WsAnimationActor).shadowClone = shadowClone;
@@ -93,8 +83,6 @@ export function addShadowsInWorkspaceSwitch(
             }
         }
     }
-
-    return connections;
 }
 
 /**

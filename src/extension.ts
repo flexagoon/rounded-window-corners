@@ -1,5 +1,3 @@
-import type GObject from 'gi://GObject';
-
 import {
     Extension,
     InjectionManager,
@@ -29,8 +27,6 @@ export default class RoundedWindowCornersReborn extends Extension {
     #windowPicker: WindowPicker | null = null;
 
     #layoutManagerStartupConnection: number | null = null;
-    #workspaceSwitchConnections: {object: GObject.Object; id: number}[] | null =
-        null;
 
     enable() {
         // Initialize extension preferences
@@ -60,8 +56,6 @@ export default class RoundedWindowCornersReborn extends Extension {
             enableEffect();
         }
 
-        const self = this;
-
         // WindowPreview is a widget that shows a window in the overview.
         // We need to override its `_addWindow` method to add a shadow actor
         // to the preview, otherwise overview windows won't have custom
@@ -85,8 +79,7 @@ export default class RoundedWindowCornersReborn extends Extension {
             prepareWorkspaceSwitch =>
                 function (workspaceIndices) {
                     prepareWorkspaceSwitch.call(this, workspaceIndices);
-                    self.#workspaceSwitchConnections =
-                        addShadowsInWorkspaceSwitch(this);
+                    addShadowsInWorkspaceSwitch(this);
                 },
         );
         this.#injectionManager.overrideMethod(
@@ -117,10 +110,6 @@ export default class RoundedWindowCornersReborn extends Extension {
         if (this.#layoutManagerStartupConnection !== null) {
             layoutManager.disconnect(this.#layoutManagerStartupConnection);
             this.#layoutManagerStartupConnection = null;
-        }
-
-        for (const connection of this.#workspaceSwitchConnections ?? []) {
-            connection.object.disconnect(connection.id);
         }
 
         logDebug('Disabled');
