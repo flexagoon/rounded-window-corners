@@ -18,11 +18,9 @@ build: clean && pot
     cp src/$file $path; \
   done;
 
-  # Compile schemas
-  glib-compile-schemas {{buildDir}}/schemas
-
 # Build and install the extension from source
 install: build
+  glib-compile-schemas {{buildDir}}/schemas
   rm -rf ~/.local/share/gnome-shell/extensions/{{uuid}}
   cp -r {{buildDir}} ~/.local/share/gnome-shell/extensions/{{uuid}}
 
