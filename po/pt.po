@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-12-21 14:06+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/rounded-"
@@ -206,22 +206,16 @@ msgstr "Tente adicionar cantos arredondados ao Terminal Kitty em Wayland"
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr ""
-"Adicionar entrada de configurações no menu de fundo do botão direito do rato"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Debug"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Ativar Log"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -229,7 +223,7 @@ msgstr ""
 "Execute <i>journalctl -o cat -f /usr/bin/gnome-shell</i> no terminal para "
 "ver o log"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Redefinir Preferências"
@@ -337,9 +331,14 @@ msgstr ""
 "Sempre mantenha os cantos arredondados quando a janela estiver em ecrã "
 "inteiro."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Configurações de Cantos Arredondados..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Configurações de Cantos Arredondados..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr ""
+#~ "Adicionar entrada de configurações no menu de fundo do botão direito do "
+#~ "rato"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Ajustar preenchimento de clipe para o Kitty Terminal"

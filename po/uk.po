@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-03-27 22:37+0000\n"
 "Last-Translator: Dan <denqwerta@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/rounded-window-"
@@ -208,21 +208,16 @@ msgstr "Спробувати додати заокруглені кути до �
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "Додати запис налаштувань у меню фону правою кнопкою миші"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Налагодження"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Увімкнути журнал"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -230,7 +225,7 @@ msgstr ""
 "Запустіть <i>journalctl -o cat -f /usr/bin/gnome-shell</i> у терміналі, щоб "
 "переглянути журнал"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Скинути налаштування"
@@ -337,9 +332,12 @@ msgid "Always clip rounded corners even for fullscreen window"
 msgstr ""
 "Завжди зберігати заокруглені кути, коли вікно розгорнуто на весь екран."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Налаштування заокруглених кутів..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Налаштування заокруглених кутів..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "Додати запис налаштувань у меню фону правою кнопкою миші"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Налаштувати внутрішній відступ для терміналу Kitty"

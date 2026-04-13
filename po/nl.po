@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/rounded-window-"
@@ -205,21 +205,16 @@ msgstr "Kitty Terminal voorzien van afgeronde hoeken op Wayland"
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "Voorkeurenitem tonen in rechtermuisknopmenu van achtergrond"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Foutopsporing"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Logboek bijhouden"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -227,7 +222,7 @@ msgstr ""
 "Voer <i>journalctl -o cat -f /usr/bin/gnome-shell</i> uit in een "
 "terminalvenster om het logboek te bekijken"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Voorkeuren herstellen"
@@ -333,9 +328,12 @@ msgstr "Afgeronde hoeken van schermvullende vensters behouden"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Behoud afgeronde hoeken als het venster in kwestie schermvullend is."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Afgeronde hoeken-voorkeuren…"
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Afgeronde hoeken-voorkeuren…"
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "Voorkeurenitem tonen in rechtermuisknopmenu van achtergrond"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Opvullingen van Kitty Terminal verbeteren"

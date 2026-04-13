@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-03-02 12:35+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/rounded-window-"
@@ -205,23 +205,16 @@ msgstr "Intentar añadir bordes redondeados a la terminal Kitty en Wayland"
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr ""
-"Añadir entrada de configuración en el menú de click derecho del fondo de "
-"pantalla"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Depurar"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Habilitar registro"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -229,7 +222,7 @@ msgstr ""
 "Ejecute <i>journalctl -o cat -f /usr/bin/gnome-shell</i> en una terminal "
 "para ver el registro"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Restaurar preferencias"
@@ -336,9 +329,14 @@ msgid "Always clip rounded corners even for fullscreen window"
 msgstr ""
 "Mantener los bordes redondeados cuando la ventana esté a pantalla completa."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Configuración de Rounded Corners..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Configuración de Rounded Corners..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr ""
+#~ "Añadir entrada de configuración en el menú de click derecho del fondo de "
+#~ "pantalla"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Optimizar el relleno para Kitty Terminal"

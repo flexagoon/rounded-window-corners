@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2024-02-25 14:01+0000\n"
 "Last-Translator: repex97 <repetto.andrea025@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/rounded-window-"
@@ -206,23 +206,16 @@ msgstr "Prova ad arrotondare i bordi al terminale Kitty su Wayland"
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr ""
-"Aggiungi tra le impostazioni del menu del tasto destro del mouse sul "
-"Background"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Debug"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Abilita i Log"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -230,7 +223,7 @@ msgstr ""
 "Esegui <i>journalctl -o cat -f /usr/bin/gnome-shell</i> nel terminale per "
 "vedere i log"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Reimposta Preferenze"
@@ -334,9 +327,14 @@ msgstr "Mantieni I Bordi Arrotondati In Schermo Intero"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Tieni i bordi arrotondati quando la finestra è a schermo intero."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Impostazioni per i Bordi Arrotondati..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Impostazioni per i Bordi Arrotondati..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr ""
+#~ "Aggiungi tra le impostazioni del menu del tasto destro del mouse sul "
+#~ "Background"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Personalizza i margini per Kitty Terminal"

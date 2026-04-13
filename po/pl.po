@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-10-29 05:13+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/rounded-window-"
@@ -204,23 +204,16 @@ msgstr ""
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr ""
-"Dodaj opcję do menu pojawiającego się po kliknięciu prawym przyciskiem myszy "
-"na pulpicie"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Debuguj"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Włącz logi"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -228,7 +221,7 @@ msgstr ""
 "Aby zobaczyć log, uruchom w terminalu polecenie <i>journalctl -o cat -f /usr/"
 "bin/gnome-shell</i>"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Przywróć preferencje do domyślnych"
@@ -331,9 +324,14 @@ msgstr "Zaokrąglaj okna w pełnym ekranie"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Zawsze zachowuj, gdy okno jest w trybie pełnoekranowym."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Ustawienia zaokrąglonych narożników..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Ustawienia zaokrąglonych narożników..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr ""
+#~ "Dodaj opcję do menu pojawiającego się po kliknięciu prawym przyciskiem "
+#~ "myszy na pulpicie"
 
 #, fuzzy
 #~ msgid "Open prefereces reset page"

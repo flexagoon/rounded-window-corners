@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-10-11 16:02+0000\n"
 "Last-Translator: luxluth <delphin.blehoussi93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/rounded-window-"
@@ -205,22 +205,16 @@ msgstr "Essayer d'ajouter des coins arrondis à la console Kitty sous Wayland"
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr ""
-"Ajoute un accès aux paramètres dans le menu clique-droit de l'arrière plan"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Débogage"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Activer les journaux"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -228,7 +222,7 @@ msgstr ""
 "Exécutez la command <i>journalctl -o cat -f /usr/bin/gnome-shell</i> dans un "
 "terminal pour voir les journaux"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Réinitialiser les préférences"
@@ -335,9 +329,13 @@ msgid "Always clip rounded corners even for fullscreen window"
 msgstr ""
 "Toujours garder les coins arrondis quand la fenêtre est en plein écran."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Paramètres de coins arrondis..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Paramètres de coins arrondis..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr ""
+#~ "Ajoute un accès aux paramètres dans le menu clique-droit de l'arrière plan"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Customiser les marges de la console Kitty"

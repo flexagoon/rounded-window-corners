@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-03-21 15:37+0000\n"
 "Last-Translator: maboroshin <maboroshin@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/rounded-window-"
@@ -202,21 +202,16 @@ msgstr ""
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "背景の右クリックメニューに設定項目を追加"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "デバッグ"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "ログを有効化"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -224,7 +219,7 @@ msgstr ""
 "ログ閲覧にはターミナルで <i>journalctl -o cat -f /usr/bin/gnome-shell</i> を"
 "実行"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "設定を初期化"
@@ -328,9 +323,12 @@ msgstr "全画面時に角丸を維持"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "全画面時でも角丸を維持。"
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "角丸の設定..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "角丸の設定..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "背景の右クリックメニューに設定項目を追加"
 
 #, fuzzy
 #~ msgid "Open prefereces reset page"

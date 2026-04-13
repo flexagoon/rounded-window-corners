@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-04-25 17:52+0000\n"
 "Last-Translator: Fjuro <ifjuro@proton.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/rounded-window-"
@@ -206,21 +206,16 @@ msgstr "Pokusit se přidat zaoblené rohy do aplikace Kitty Terminal ve Waylandu
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "Přidat položku Nastavení do nabídky pravého tlačítka myši na pozadí"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Ladění"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Povolit protokol"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -228,7 +223,7 @@ msgstr ""
 "Pro zobrazení protokolu spusťte v terminálu příkaz <i>journalctl -o cat -f /"
 "usr/bin/gnome-shell</i>"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Obnovit předvolby"
@@ -332,9 +327,12 @@ msgstr "Zachovat zaoblené rohy v režimu celé obrazovky"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Při zobrazení okna na celou obrazovku vždy zachovat zaoblené rohy."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Nastavení zaoblených rohů..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Nastavení zaoblených rohů..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "Přidat položku Nastavení do nabídky pravého tlačítka myši na pozadí"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Upravit výplně klipů pro Kitty Terminal"

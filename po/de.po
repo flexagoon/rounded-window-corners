@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-04-18 06:49+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/rounded-window-"
@@ -208,21 +208,16 @@ msgstr ""
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "Füge Einstellungseintrag zum Rechtsklickmenü des Hintergrunds hinzu"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Debug"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Logging aktivieren"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -230,7 +225,7 @@ msgstr ""
 "Führe <i>journalctl -o cat -f /usr/bin/gnome-shell</i> im Terminal aus, um "
 "die Logs zu betrachten"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Einstellungen zurücksetzen"
@@ -334,9 +329,12 @@ msgstr "Zeige abgerundete Ecken im Vollbild"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Abgerundete Ecken für Fenster im Vollbildmodus behalten."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Einstellungen für abgerundete Ecken..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Einstellungen für abgerundete Ecken..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "Füge Einstellungseintrag zum Rechtsklickmenü des Hintergrunds hinzu"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Optimiere die Innenabstände für Kitty Terminal"

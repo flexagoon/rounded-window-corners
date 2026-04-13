@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-05-14 22:51+0000\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/rounded-window-"
@@ -206,21 +206,16 @@ msgstr "Wayland'da Kitty Terminal'e yuvarlatılmış köşeler eklemeye çalış
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "Arka Plan'ın sağ tıklama menüsüne Ayarlar Girdisi Ekle"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Hata Ayıkla"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Günlüğü Etkinleştir"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -228,7 +223,7 @@ msgstr ""
 "Günlüğü görmek için uçbirimde <i>journalctl -o cat -f /usr/bin/gnome-shell</"
 "i> komutunu çalıştırın"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Tercihleri Sıfırla"
@@ -334,9 +329,12 @@ msgstr "Tam Ekran Olduğunda Yuvarlatılmış Köşeleri Koru"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Pencere tam ekran olduğunda köşeleri her zaman yuvarlak tut."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Yuvarlatılmış Köşe Ayarları..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Yuvarlatılmış Köşe Ayarları..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "Arka Plan'ın sağ tıklama menüsüne Ayarlar Girdisi Ekle"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Kitty Terminal için kırpma dolgularını ayarla"

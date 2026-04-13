@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2022-11-12 07:50+0000\n"
 "Last-Translator: Ilari Suhonen <ilari.suhonen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/rounded-window-"
@@ -205,21 +205,16 @@ msgstr "Koita pyöristää Kitty-pääteohjelman kulmat Waylandissa"
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "Lisää asetukset-rivi taustan kontekstivalikkoon"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Vianetsintä"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Kirjoita lokiin"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -227,7 +222,7 @@ msgstr ""
 "Suorita <i>journalctl -o cat -f /usr/bin/gnome-shell</i> komentopäätteessä "
 "nähdäksesi lokin"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Nollaa asetukset"
@@ -331,9 +326,12 @@ msgstr "Pidä pyöristetyt kulmat kokonäytön tilassa"
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Älä poista pyöristettyjä kulmia kokonäytön ikkunoista."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Kulmienpyöristyksen asetukset..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Kulmienpyöristyksen asetukset..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "Lisää asetukset-rivi taustan kontekstivalikkoon"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Muokkaa Kitty-pääteohjelman ylijäämäleikkausta"

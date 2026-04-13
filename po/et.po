@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "Language: et\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -165,24 +165,20 @@ msgstr ""
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr ""
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr ""
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 msgid "Enable debug logs"
 msgstr ""
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
 msgstr ""
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 msgid "Reset preferences"
 msgstr ""
 
@@ -272,8 +268,4 @@ msgstr ""
 
 #: src/preferences/widgets/custom_settings_row.ts:55
 msgid "Always clip rounded corners even for fullscreen window"
-msgstr ""
-
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
 msgstr ""

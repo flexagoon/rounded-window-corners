@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:13+0100\n"
+"POT-Creation-Date: 2026-04-13 15:46+0200\n"
 "PO-Revision-Date: 2023-03-09 15:37+0000\n"
 "Last-Translator: Evgeniy Khramov <thejenjagamertjg@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/rounded-window-"
@@ -207,21 +207,16 @@ msgstr "Попробовать добавить закругленные угл�
 msgid "Adjust paddings for Kitty Terminal to correctly round its corners"
 msgstr ""
 
-#: src/preferences/pages/general.ui:169
-#, fuzzy
-msgid "Add a settings entry in right-click menu of the desktop"
-msgstr "Добавить запись настроек в меню правой кнопки мыши фона"
-
-#: src/preferences/pages/general.ui:176
+#: src/preferences/pages/general.ui:171
 msgid "Debug"
 msgstr "Отладка"
 
-#: src/preferences/pages/general.ui:179
+#: src/preferences/pages/general.ui:174
 #, fuzzy
 msgid "Enable debug logs"
 msgstr "Включить журнал"
 
-#: src/preferences/pages/general.ui:180
+#: src/preferences/pages/general.ui:175
 #, fuzzy
 msgid ""
 "Run journalctl -o cat -f /usr/bin/gnome-shell in your terminal to see the log"
@@ -229,7 +224,7 @@ msgstr ""
 "Запустите <i>journalctl -o cat -f /usr/bin/gnome-shell</i> в терминале, "
 "чтобы посмотреть журнал"
 
-#: src/preferences/pages/general.ui:189
+#: src/preferences/pages/general.ui:184
 #, fuzzy
 msgid "Reset preferences"
 msgstr "Сбросить настройки"
@@ -334,9 +329,12 @@ msgstr "Сохранить закругленные углы при полноэ
 msgid "Always clip rounded corners even for fullscreen window"
 msgstr "Всегда сохранять закругленные углы при полноэкранном режиме окна."
 
-#: src/utils/background_menu.ts:49 src/utils/background_menu.ts:74
-msgid "Rounded Corners Settings..."
-msgstr "Настройки закругленных углов..."
+#~ msgid "Rounded Corners Settings..."
+#~ msgstr "Настройки закругленных углов..."
+
+#, fuzzy
+#~ msgid "Add a settings entry in right-click menu of the desktop"
+#~ msgstr "Добавить запись настроек в меню правой кнопки мыши фона"
 
 #~ msgid "Tweak clip paddings for Kitty Terminal"
 #~ msgstr "Настроить отступы зажимов для терминала Kitty Terminal"
