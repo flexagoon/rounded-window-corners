@@ -37,7 +37,12 @@ export function onAddEffect(actor: RoundedWindowActor) {
 
     const win = actor.metaWindow;
 
-    if (!shouldEnableEffect(win)) {
+    // Skip windows that already have the effect to prevent a memory leak
+    const windowInfo = actor.rwcCustomData;
+    const effect = getRoundedCornersEffect(actor);
+    const hasEffect = effect && windowInfo;
+
+    if (!shouldEnableEffect(win) || hasEffect) {
         logDebug(`Skipping ${win.title}`);
         return;
     }
@@ -237,16 +242,24 @@ function refreshRoundedCorners(actor: RoundedWindowActor): void {
     const hasEffect = effect && windowInfo;
     const shouldHaveEffect = shouldEnableEffect(win);
 
-    if (!hasEffect) {
-        // onAddEffect already skips windows that shouldn't have rounded corners.
+    // onAddEffect already skips windows that shouldn't have rounded corners.
+    // This if statement is just for code readability to match the check for
+    // onRemoveEffect below.
+    if (!hasEffect && shouldHaveEffect) {
         onAddEffect(actor);
+
+        // onAddEffect calls refreshRoundedCorners at the end, so return here to
+        // avoid running it twice.
         return;
     }
 
-    if (!shouldHaveEffect) {
+    if (hasEffect && !shouldHaveEffect) {
         onRemoveEffect(actor);
         return;
     }
+
+    // Don'd do anything when the window doesn't have the effect and shouldn't have it.
+    if (!hasEffect) return;
 
     if (!effect.enabled) {
         effect.enabled = true;
