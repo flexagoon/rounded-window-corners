@@ -186,7 +186,7 @@ export function onRestacked() {
 
 export const onSizeChanged = refreshRoundedCorners;
 
-export const onFocusChanged = refreshShadow;
+export const onFocusChanged = refreshRoundedCorners;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
 
