@@ -8,6 +8,8 @@ import type Meta from 'gi://Meta';
 import type Shell from 'gi://Shell';
 import type {RoundedWindowActor} from '../utils/types.js';
 
+import GLib from 'gi://GLib';
+
 import {logDebug} from '../utils/log.js';
 import {prefs} from '../utils/settings.js';
 import * as handlers from './event_handlers.js';
@@ -29,8 +31,52 @@ export function enableEffect() {
     // Add the effect to all windows when the extension is enabled.
     const windowActors = global.get_window_actors();
     logDebug(`Initial window count: ${windowActors.length}`);
+
     for (const actor of windowActors) {
         applyEffectTo(actor);
+    }
+
+    // When the extension is re-enabled after screen lock/unlock,
+    // Chromium-based browsers may render stale surfaces. The compositor
+    // skips repainting GLSL effects for unfocused windows, so briefly
+    // focusing each affected window forces a repaint and triggers our
+    // onFocusChanged handler which recomputes shader bounds.
+    if (windowActors.length > 0) {
+        deferredRefreshId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 250, () => {
+            const focusedWin = global.display.get_focus_window();
+            const chromiumWindows = global
+                .get_window_actors()
+                .map(a => a.metaWindow)
+                .filter(
+                    (win): win is Meta.Window =>
+                        win != null &&
+                        win !== focusedWin &&
+                        isChromiumWindow(win),
+                );
+
+            if (chromiumWindows.length > 0) {
+                const timestamp = global.get_current_time();
+                for (const [i, win] of chromiumWindows.entries()) {
+                    GLib.timeout_add(GLib.PRIORITY_DEFAULT, i * 100, () => {
+                        win.focus(timestamp);
+                        return GLib.SOURCE_REMOVE;
+                    });
+                }
+
+                // Restore focus to the originally focused window.
+                GLib.timeout_add(
+                    GLib.PRIORITY_DEFAULT,
+                    chromiumWindows.length * 100,
+                    () => {
+                        focusedWin?.focus(global.get_current_time());
+                        return GLib.SOURCE_REMOVE;
+                    },
+                );
+            }
+
+            deferredRefreshId = 0;
+            return GLib.SOURCE_REMOVE;
+        });
     }
 
     // Add the effect to new windows when they are opened.
@@ -74,6 +120,11 @@ export function enableEffect() {
 
 /** Disable the effect for all windows. */
 export function disableEffect() {
+    if (deferredRefreshId) {
+        GLib.source_remove(deferredRefreshId);
+        deferredRefreshId = 0;
+    }
+
     for (const actor of global.get_window_actors()) {
         removeEffectFrom(actor);
     }
@@ -81,6 +132,23 @@ export function disableEffect() {
     disconnectAll();
 }
 
+const CHROMIUM_WM_CLASSES = [
+    'brave-browser',
+    'chromium',
+    'google-chrome',
+    'microsoft-edge',
+];
+
+/**
+ * Check whether a window belongs to a Chromium-based browser. These apps
+ * render stale surfaces for unfocused windows after screen lock/unlock.
+ */
+function isChromiumWindow(win: Meta.Window): boolean {
+    const wmClass = win.get_wm_class_instance();
+    return wmClass != null && CHROMIUM_WM_CLASSES.includes(wmClass);
+}
+
+let deferredRefreshId = 0;
 const connections: {object: GObject.Object; id: number}[] = [];
 
 /**
