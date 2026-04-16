@@ -13,6 +13,7 @@ import {logDebug} from '../utils/log.js';
 import {prefs} from '../utils/settings.js';
 import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 import * as handlers from './event_handlers.js';
+import {isChromiumWindow} from './utils.js';
 
 /**
  * The rounded corners effect has to perform some actions when differen events
@@ -132,22 +133,6 @@ export function disableEffect() {
     }
 
     disconnectAll();
-}
-
-const CHROMIUM_WM_CLASSES = [
-    'brave-browser',
-    'chromium',
-    'google-chrome',
-    'microsoft-edge',
-];
-
-/**
- * Check whether a window belongs to a Chromium-based browser. These apps
- * render stale surfaces for unfocused windows after screen lock/unlock.
- */
-function isChromiumWindow(win: Meta.Window): boolean {
-    const wmClass = win.get_wm_class_instance();
-    return wmClass != null && CHROMIUM_WM_CLASSES.includes(wmClass);
 }
 
 let deferredRefreshId = 0;

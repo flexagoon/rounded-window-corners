@@ -2,7 +2,10 @@
 
 import type Clutter from 'gi://Clutter';
 import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
-import type {RoundedWindowActor} from '../utils/types.js';
+import type {
+    RoundedCornerSettings,
+    RoundedWindowActor,
+} from '../utils/types.js';
 
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
@@ -339,6 +342,23 @@ export async function shouldEnableEffect(
         (maximized && !fullscreen && cfg.keepRoundedCorners.maximized) ||
         (fullscreen && cfg.keepRoundedCorners.fullscreen)
     );
+}
+
+// Brave origin apps (PWAs, site-specific browsers) use 'brave-origin' instead
+// of 'brave-browser', so we match the prefix rather than the full class name.
+const CHROMIUM_WM_CLASS_PATTERN =
+    /^(brave-(browser|origin)|chromium|google-chrome|microsoft-edge)$/;
+
+/**
+ * Check whether a window belongs to a Chromium-based browser. These apps
+ * render stale surfaces for unfocused windows after screen lock/unlock.
+ *
+ * @param win - The window to check.
+ * @returns Whether the window belongs to a Chromium-based browser.
+ */
+export function isChromiumWindow(win: Meta.Window): boolean {
+    const wmClass = win.get_wm_class_instance();
+    return wmClass !== null && CHROMIUM_WM_CLASS_PATTERN.test(wmClass);
 }
 
 type AppType = 'LibAdwaita' | 'LibHandy' | 'Other';
