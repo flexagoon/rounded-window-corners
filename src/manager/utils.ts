@@ -344,6 +344,25 @@ export function shouldEnableEffect(
     );
 }
 
+const CHROMIUM_WM_CLASSES = [
+    'brave-browser',
+    'chromium',
+    'google-chrome',
+    'microsoft-edge',
+];
+
+/**
+ * Check whether a window belongs to a Chromium-based browser. These apps
+ * render stale surfaces for unfocused windows after screen lock/unlock.
+ *
+ * @param win - The window to check.
+ * @returns Whether the window belongs to a Chromium-based browser.
+ */
+export function isChromiumWindow(win: Meta.Window): boolean {
+    const wmClass = win.get_wm_class_instance();
+    return wmClass != null && CHROMIUM_WM_CLASSES.includes(wmClass);
+}
+
 type AppType = 'LibAdwaita' | 'LibHandy' | 'Other';
 
 /**
