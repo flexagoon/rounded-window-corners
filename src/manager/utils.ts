@@ -151,11 +151,12 @@ export function computeBounds(
     };
 
     // Kitty draws its window decoration by itself, so we need to manually
-    // clip its shadow and recompute the outer bounds for it.
+    // clip its shadow and recompute the outer bounds for it. Check wm_class
+    // first to avoid reading the pref for every non-kitty window.
     if (
-        getPref('tweak-kitty-terminal') &&
+        actor.metaWindow.get_wm_class_instance() === 'kitty' &&
         actor.metaWindow.get_client_type() === Meta.WindowClientType.WAYLAND &&
-        actor.metaWindow.get_wm_class_instance() === 'kitty'
+        getPref('tweak-kitty-terminal')
     ) {
         const [x1, y1, x2, y2] = APP_SHADOWS.kitty;
         const scale = windowScaleFactor(actor.metaWindow);
@@ -224,19 +225,17 @@ export function computeShadowActorOffset(
 export function updateShadowActorStyle(
     win: Meta.Window,
     actor: St.Bin,
-    borderRadius = getPref('global-rounded-corner-settings').borderRadius,
+    borderRadius?: number,
     shadow = getPref('focused-shadow'),
-    padding = getPref('global-rounded-corner-settings').padding,
+    padding?: RoundedCornerSettings['padding'],
 ) {
-    const {left, right, top, bottom} = padding;
-
-    // Increase border_radius when smoothing is on.
-    // Read global settings once to avoid repeated GSettings deserializations.
-    let adjustedBorderRadius = borderRadius;
     const globalCfg = getPref('global-rounded-corner-settings');
-    if (globalCfg !== null) {
-        adjustedBorderRadius *= 1.0 + globalCfg.smoothing;
-    }
+    const effectiveBorderRadius = borderRadius ?? globalCfg.borderRadius;
+    const effectivePadding = padding ?? globalCfg.padding;
+
+    const {left, right, top, bottom} = effectivePadding;
+    const adjustedBorderRadius =
+        effectiveBorderRadius * (1.0 + globalCfg.smoothing);
 
     // If there are two monitors with different scale factors, the scale of
     // the window may be different from the scale that has to be applied in
