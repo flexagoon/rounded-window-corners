@@ -5,6 +5,7 @@ import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
 import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
 
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 import Meta from 'gi://Meta';
 import St from 'gi://St';
 
@@ -385,7 +386,21 @@ function getAppType(win: Meta.Window): AppType {
 
         return 'Other';
     } catch (e) {
-        logError(e);
+        // /proc/<pid>/maps is unreadable for processes owned by another user
+        // (e.g. flatpak sandboxes), and can disappear if the process exits
+        // between get_pid() and the read. Both are expected and benign.
+        const isExpected =
+            e instanceof GLib.Error &&
+            e.domain === Gio.io_error_quark() &&
+            (e.code === Gio.IOErrorEnum.PERMISSION_DENIED ||
+                e.code === Gio.IOErrorEnum.NOT_FOUND);
+        if (isExpected) {
+            logDebug(
+                `Could not read /proc/${win.get_pid()}/maps: ${(e as GLib.Error).message}`,
+            );
+        } else {
+            logError(e);
+        }
         return 'Other';
     }
 }
