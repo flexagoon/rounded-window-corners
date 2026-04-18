@@ -1,6 +1,7 @@
 /** @file Provides various utility functions used withing signal handling code. */
 
 import type Clutter from 'gi://Clutter';
+import type GLib from 'gi://GLib';
 import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
 import type {
     RoundedCornerSettings,
@@ -383,7 +384,13 @@ async function getAppType(win: Meta.Window) {
 
         return 'Other';
     } catch (e) {
-        logError(e);
+        // /proc/<pid>/maps can fail for several expected reasons: the process
+        // is owned by another user (PERMISSION_DENIED), it exited between
+        // get_pid() and the read (NOT_FOUND or "No such process"), or any
+        // other transient I/O condition. All are benign — log at debug level.
+        logDebug(
+            `Could not read /proc/${win.get_pid()}/maps: ${(e as GLib.Error).message}`,
+        );
         return 'Other';
     }
 }
