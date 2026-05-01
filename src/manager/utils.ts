@@ -42,13 +42,15 @@ function isFractionalScalingEnabled(): boolean {
 
         // The method doesn't exist on GNOME 50+ because it's Wayland-only
         const isWaylandCompositor =
-            !Meta.is_wayland_compositor || Meta.is_wayland_compositor();
+            'is_wayland_compositor' in Meta
+                ? (Meta as any).is_wayland_compositor()
+                : global.context.get_wayland_compositor() !== null;
 
         fractionalScalingEnabled =
             isWaylandCompositor &&
             features.includes('scale-monitor-framebuffer');
     }
-    return fractionalScalingEnabled;
+    return fractionalScalingEnabled as boolean;
 }
 
 /**
@@ -70,6 +72,7 @@ export function clearMutterSettingsCache() {
  * @returns The correct actor that the effect should be applied to.
  */
 export function unwrapActor(actor: Meta.WindowActor): Clutter.Actor | null {
+    if (!actor.metaWindow) return null;
     const type = actor.metaWindow.get_client_type();
     return type === Meta.WindowClientType.X11 ? actor.get_first_child() : actor;
 }
@@ -111,9 +114,10 @@ export function getRoundedCornersEffect(
     actor: Meta.WindowActor,
 ): RoundedCornersEffectType | null {
     const win = actor.metaWindow;
+    if (!win) return null;
     const name = ROUNDED_CORNERS_EFFECT;
     return win.get_client_type() === Meta.WindowClientType.X11
-        ? (actor.firstChild.get_effect(name) as RoundedCornersEffectType)
+        ? (actor.firstChild?.get_effect(name) as RoundedCornersEffectType)
         : (actor.get_effect(name) as RoundedCornersEffectType);
 }
 
@@ -152,13 +156,15 @@ export function computeBounds(
 
     // Kitty draws its window decoration by itself, so we need to manually
     // clip its shadow and recompute the outer bounds for it.
+    const win = actor.metaWindow;
     if (
+        win &&
         getPref('tweak-kitty-terminal') &&
-        actor.metaWindow.get_client_type() === Meta.WindowClientType.WAYLAND &&
-        actor.metaWindow.get_wm_class_instance() === 'kitty'
+        win.get_client_type() === Meta.WindowClientType.WAYLAND &&
+        win.get_wm_class_instance() === 'kitty'
     ) {
         const [x1, y1, x2, y2] = APP_SHADOWS.kitty;
-        const scale = windowScaleFactor(actor.metaWindow);
+        const scale = windowScaleFactor(win);
         bounds.x1 += x1 * scale;
         bounds.y1 += y1 * scale;
         bounds.x2 -= x2 * scale;
@@ -203,6 +209,7 @@ export function computeShadowActorOffset(
     ],
 ): number[] {
     const win = actor.metaWindow;
+    if (!win) return [0, 0, 0, 0];
     const shadowPadding = SHADOW_PADDING * windowScaleFactor(win);
 
     return [

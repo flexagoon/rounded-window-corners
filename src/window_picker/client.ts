@@ -45,5 +45,6 @@ export function onPicked(callback: (wmInstanceClass: string) => void) {
             callback(val.get_string()[0]);
             connection.signal_unsubscribe(id);
         },
+        null,
     );
 }

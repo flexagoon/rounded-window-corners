@@ -42,6 +42,7 @@ export function addShadowsInWorkspaceSwitch(
 
             for (const {windowActor: actor, clone} of windowRecords) {
                 const win = actor.metaWindow;
+                if (!win) continue;
 
                 // Skip windows that don't have a shadow or an enabled RWC effect.
                 const shadow = (actor as RoundedWindowActor).rwcCustomData

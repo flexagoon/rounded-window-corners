@@ -172,25 +172,27 @@ function applyEffectTo(actor: RoundedWindowActor) {
 
     // Get notified about fullscreen explicitly, since a window must not change in
     // size to go fullscreen
-    connect(actor.metaWindow, 'notify::fullscreen', () => {
-        if (actor.metaWindow) {
-            handlers.onSizeChanged(actor);
-        }
-    });
+    if (actor.metaWindow) {
+        connect(actor.metaWindow, 'notify::fullscreen', () => {
+            if (actor.metaWindow) {
+                handlers.onSizeChanged(actor);
+            }
+        });
 
-    // Window focus changed.
-    connect(actor.metaWindow, 'notify::appears-focused', () => {
-        if (actor.metaWindow) {
-            handlers.onFocusChanged(actor);
-        }
-    });
+        // Window focus changed.
+        connect(actor.metaWindow, 'notify::appears-focused', () => {
+            if (actor.metaWindow) {
+                handlers.onFocusChanged(actor);
+            }
+        });
 
-    // Workspace or monitor of the window changed.
-    connect(actor.metaWindow, 'workspace-changed', () => {
-        if (actor.metaWindow) {
-            handlers.onFocusChanged(actor);
-        }
-    });
+        // Workspace or monitor of the window changed.
+        connect(actor.metaWindow, 'workspace-changed', () => {
+            if (actor.metaWindow) {
+                handlers.onFocusChanged(actor);
+            }
+        });
+    }
 
     handlers.onAddEffect(actor);
 }
@@ -202,7 +204,7 @@ function applyEffectTo(actor: RoundedWindowActor) {
  */
 function removeEffectFrom(actor: RoundedWindowActor) {
     disconnectAll(actor);
-    disconnectAll(actor.metaWindow);
+    if (actor.metaWindow) disconnectAll(actor.metaWindow);
 
     const texture = actor.get_texture();
     if (texture) {
