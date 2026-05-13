@@ -41,13 +41,9 @@ function isFractionalScalingEnabled(): boolean {
     if (fractionalScalingEnabled === null) {
         const features = mutterSettings.get_strv('experimental-features');
 
-        // The method doesn't exist on GNOME 50+ because it's Wayland-only
-        const isWaylandCompositor =
-            !Meta.is_wayland_compositor || Meta.is_wayland_compositor();
-
-        fractionalScalingEnabled =
-            isWaylandCompositor &&
-            features.includes('scale-monitor-framebuffer');
+        fractionalScalingEnabled = features.includes(
+            'scale-monitor-framebuffer',
+        );
     }
     return fractionalScalingEnabled;
 }
@@ -60,19 +56,6 @@ function isFractionalScalingEnabled(): boolean {
 export function clearMutterSettingsCache() {
     mutterSettings = null;
     fractionalScalingEnabled = null;
-}
-
-/**
- * Get the actor that rounded corners should be applied to.
- * In Wayland, the effect is applied to WindowActor, but in X11, it is applied
- * to WindowActor.first_child.
- *
- * @param actor - The window actor to unwrap.
- * @returns The correct actor that the effect should be applied to.
- */
-export function unwrapActor(actor: Meta.WindowActor): Clutter.Actor | null {
-    const type = actor.metaWindow.get_client_type();
-    return type === Meta.WindowClientType.X11 ? actor.get_first_child() : actor;
 }
 
 /**
@@ -111,11 +94,7 @@ type RoundedCornersEffectType = InstanceType<typeof RoundedCornersEffect>;
 export function getRoundedCornersEffect(
     actor: Meta.WindowActor,
 ): RoundedCornersEffectType | null {
-    const win = actor.metaWindow;
-    const name = ROUNDED_CORNERS_EFFECT;
-    return win.get_client_type() === Meta.WindowClientType.X11
-        ? (actor.firstChild.get_effect(name) as RoundedCornersEffectType)
-        : (actor.get_effect(name) as RoundedCornersEffectType);
+    return actor.get_effect(ROUNDED_CORNERS_EFFECT) as RoundedCornersEffectType;
 }
 
 /**
@@ -156,7 +135,6 @@ export function computeBounds(
     // first to avoid reading the pref for every non-kitty window.
     if (
         actor.metaWindow.get_wm_class_instance() === 'kitty' &&
-        actor.metaWindow.get_client_type() === Meta.WindowClientType.WAYLAND &&
         getPref('tweak-kitty-terminal')
     ) {
         const [x1, y1, x2, y2] = APP_SHADOWS.kitty;
