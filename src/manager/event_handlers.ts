@@ -46,8 +46,10 @@ function withActorLock(
 
 export function onAddEffect(actor: RoundedWindowActor) {
     return withActorLock(actor, async () => {
-        logDebug(`Adding effect to ${actor?.metaWindow.title}`);
         const win = actor.metaWindow;
+        if (!win) return;
+
+        logDebug(`Adding effect to ${win.title}`);
 
         // Skip windows that already have the effect to prevent a memory leak
         const shouldHaveEffect = await shouldEnableEffect(win);
@@ -292,6 +294,7 @@ function refreshRoundedCorners(actor: RoundedWindowActor) {
  */
 function updateEffect(actor: RoundedWindowActor) {
     const win = actor.metaWindow;
+    if (!win) return;
     const windowInfo = actor.rwcCustomData;
     if (!windowInfo) return;
 
