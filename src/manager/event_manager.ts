@@ -85,13 +85,18 @@ export function enableEffect() {
         global.display,
         'window-created',
         (_: Meta.Display, win: Meta.Window) => {
-            const actor: Meta.WindowActor = win.get_compositor_private();
+            const actor =
+                win.get_compositor_private() as Meta.WindowActor | null;
+            if (!actor) return;
 
             // If wm_class_instance of Meta.Window is null, wait for it to be
             // set before applying the effect.
             if (win?.get_wm_class_instance() == null) {
                 const notifyId = win.connect('notify::wm-class', () => {
-                    applyEffectTo(actor);
+                    // Re-fetch: compositor may have assigned a new actor by now.
+                    const freshActor =
+                        win.get_compositor_private() as Meta.WindowActor | null;
+                    if (freshActor) applyEffectTo(freshActor);
                     win.disconnect(notifyId);
                 });
             } else {
@@ -206,6 +211,16 @@ function applyEffectTo(actor: RoundedWindowActor) {
         return;
     }
 
+    // On mutter 50.2 (Wayland-only), metaWindow can be null during actor
+    // lifecycle transitions (e.g. when first-child fires during destruction).
+    // Guard here so we never end up with size signals connected but no effect
+    // added — that broken partial state is what triggers the C-level
+    // clutter_actor_node_new assertion when notify::size fires mid-paint.
+    const metaWin = actor.metaWindow;
+    if (!metaWin) {
+        return;
+    }
+
     // Window resized.
     //
     // The signal has to be connected both to the actor and the texture. Why is
@@ -225,21 +240,21 @@ function applyEffectTo(actor: RoundedWindowActor) {
 
     // Get notified about fullscreen explicitly, since a window must not change in
     // size to go fullscreen
-    connect(actor.metaWindow, 'notify::fullscreen', () => {
+    connect(metaWin, 'notify::fullscreen', () => {
         if (actor.metaWindow) {
             handlers.onSizeChanged(actor);
         }
     });
 
     // Window focus changed.
-    connect(actor.metaWindow, 'notify::appears-focused', () => {
+    connect(metaWin, 'notify::appears-focused', () => {
         if (actor.metaWindow) {
             handlers.onFocusChanged(actor);
         }
     });
 
     // Workspace or monitor of the window changed.
-    connect(actor.metaWindow, 'workspace-changed', () => {
+    connect(metaWin, 'workspace-changed', () => {
         if (actor.metaWindow) {
             handlers.onFocusChanged(actor);
         }
