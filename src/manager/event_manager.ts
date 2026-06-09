@@ -93,11 +93,16 @@ export function enableEffect() {
             // set before applying the effect.
             if (win?.get_wm_class_instance() == null) {
                 const notifyId = win.connect('notify::wm-class', () => {
-                    // Re-fetch: compositor may have assigned a new actor by now.
-                    const freshActor =
-                        win.get_compositor_private() as Meta.WindowActor | null;
-                    if (freshActor) applyEffectTo(freshActor);
                     win.disconnect(notifyId);
+                    // Defer: notify::wm-class can fire while Wayland protocol
+                    // messages are processed during a paint frame. Re-fetch the
+                    // actor inside the idle so we always use a fresh reference.
+                    GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                        const freshActor =
+                            win.get_compositor_private() as Meta.WindowActor | null;
+                        if (freshActor) applyEffectTo(freshActor);
+                        return GLib.SOURCE_REMOVE;
+                    });
                 });
             } else {
                 applyEffectTo(actor);
@@ -199,8 +204,14 @@ function applyEffectTo(actor: RoundedWindowActor) {
     // ready before applying the effect.
     if (!actor.firstChild) {
         const id = actor.connect('notify::first-child', () => {
-            applyEffectTo(actor);
             actor.disconnect(id);
+            // Defer: notify::first-child can fire during a Clutter layout pass
+            // inside a paint frame. Adding effects mid-paint corrupts the
+            // effect's actor pointer and triggers clutter_actor_node_new(NULL).
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                applyEffectTo(actor);
+                return GLib.SOURCE_REMOVE;
+            });
         });
 
         return;
@@ -227,14 +238,27 @@ function applyEffectTo(actor: RoundedWindowActor) {
     // that? I have no idea. But without that, weird bugs can happen. For
     // example, when using Dash to Dock, all opened windows will be invisible
     // *unless they are pinned in the dock*. So yeah, GNOME is magic.
+    // All signal callbacks that can trigger onAddEffect or onRemoveEffect are
+    // deferred with GLib.idle_add. Clutter can emit notify::size and
+    // size-changed during a layout pass that runs inside a paint frame (e.g.
+    // during meta_window_actor_paint_to_content for maximize animations).
+    // Adding or removing an effect mid-paint sets the effect's actor pointer
+    // while CLUTTER_ACTOR_IN_PAINT is set, which corrupts internal state and
+    // causes clutter_actor_node_new(NULL) → SIGABRT.
     connect(actor, 'notify::size', () => {
         if (actor.metaWindow) {
-            handlers.onSizeChanged(actor);
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                if (actor.metaWindow) handlers.onSizeChanged(actor);
+                return GLib.SOURCE_REMOVE;
+            });
         }
     });
     connect(texture, 'size-changed', () => {
         if (actor.metaWindow) {
-            handlers.onSizeChanged(actor);
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                if (actor.metaWindow) handlers.onSizeChanged(actor);
+                return GLib.SOURCE_REMOVE;
+            });
         }
     });
 
@@ -242,21 +266,30 @@ function applyEffectTo(actor: RoundedWindowActor) {
     // size to go fullscreen
     connect(metaWin, 'notify::fullscreen', () => {
         if (actor.metaWindow) {
-            handlers.onSizeChanged(actor);
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                if (actor.metaWindow) handlers.onSizeChanged(actor);
+                return GLib.SOURCE_REMOVE;
+            });
         }
     });
 
     // Window focus changed.
     connect(metaWin, 'notify::appears-focused', () => {
         if (actor.metaWindow) {
-            handlers.onFocusChanged(actor);
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                if (actor.metaWindow) handlers.onFocusChanged(actor);
+                return GLib.SOURCE_REMOVE;
+            });
         }
     });
 
     // Workspace or monitor of the window changed.
     connect(metaWin, 'workspace-changed', () => {
         if (actor.metaWindow) {
-            handlers.onFocusChanged(actor);
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                if (actor.metaWindow) handlers.onFocusChanged(actor);
+                return GLib.SOURCE_REMOVE;
+            });
         }
     });
 
