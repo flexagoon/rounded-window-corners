@@ -113,11 +113,15 @@ const OverviewShadowActorClone = GObject.registerClass(
                 return;
             }
 
+            const frameWidth = metaWindow.get_frame_rect().width;
+            if (frameWidth === 0) {
+                return;
+            }
+
             // Scale the shadow by the same scale factor that the window preview
             // is scaled by.
             const containerScaleFactor =
-                windowContainerBox.get_width() /
-                metaWindow.get_frame_rect().width;
+                windowContainerBox.get_width() / frameWidth;
             const paddings =
                 SHADOW_PADDING *
                 containerScaleFactor *

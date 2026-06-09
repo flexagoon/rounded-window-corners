@@ -5,6 +5,7 @@ import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
 import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
 
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 import Meta from 'gi://Meta';
 import St from 'gi://St';
 
@@ -130,10 +131,11 @@ export function computeBounds(
     };
 
     // Kitty draws its window decoration by itself, so we need to manually
-    // clip its shadow and recompute the outer bounds for it.
+    // clip its shadow and recompute the outer bounds for it. Check wm_class
+    // first to avoid reading the pref for every non-kitty window.
     if (
-        getPref('tweak-kitty-terminal') &&
-        actor.metaWindow.get_wm_class_instance() === 'kitty'
+        actor.metaWindow.get_wm_class_instance() === 'kitty' &&
+        getPref('tweak-kitty-terminal')
     ) {
         const [x1, y1, x2, y2] = APP_SHADOWS.kitty;
         const scale = windowScaleFactor(actor.metaWindow);
@@ -202,19 +204,17 @@ export function computeShadowActorOffset(
 export function updateShadowActorStyle(
     win: Meta.Window,
     actor: St.Bin,
-    borderRadius = getPref('global-rounded-corner-settings').borderRadius,
+    borderRadius?: number,
     shadow = getPref('focused-shadow'),
-    padding = getPref('global-rounded-corner-settings').padding,
+    padding?: RoundedCornerSettings['padding'],
 ) {
-    const {left, right, top, bottom} = padding;
-
-    // Increase border_radius when smoothing is on.
-    // Read global settings once to avoid repeated GSettings deserializations.
-    let adjustedBorderRadius = borderRadius;
     const globalCfg = getPref('global-rounded-corner-settings');
-    if (globalCfg !== null) {
-        adjustedBorderRadius *= 1.0 + globalCfg.smoothing;
-    }
+    const effectiveBorderRadius = borderRadius ?? globalCfg.borderRadius;
+    const effectivePadding = padding ?? globalCfg.padding;
+
+    const {left, right, top, bottom} = effectivePadding;
+    const adjustedBorderRadius =
+        effectiveBorderRadius * (1.0 + globalCfg.smoothing);
 
     // If there are two monitors with different scale factors, the scale of
     // the window may be different from the scale that has to be applied in
@@ -322,6 +322,25 @@ export function shouldEnableEffect(
     );
 }
 
+const CHROMIUM_WM_CLASSES = [
+    'brave-browser',
+    'chromium',
+    'google-chrome',
+    'microsoft-edge',
+];
+
+/**
+ * Check whether a window belongs to a Chromium-based browser. These apps
+ * render stale surfaces for unfocused windows after screen lock/unlock.
+ *
+ * @param win - The window to check.
+ * @returns Whether the window belongs to a Chromium-based browser.
+ */
+export function isChromiumWindow(win: Meta.Window): boolean {
+    const wmClass = win.get_wm_class_instance();
+    return wmClass != null && CHROMIUM_WM_CLASSES.includes(wmClass);
+}
+
 type AppType = 'LibAdwaita' | 'LibHandy' | 'Other';
 
 /**
@@ -345,7 +364,21 @@ function getAppType(win: Meta.Window): AppType {
 
         return 'Other';
     } catch (e) {
-        logError(e);
+        // /proc/<pid>/maps is unreadable for processes owned by another user
+        // (e.g. flatpak sandboxes), and can disappear if the process exits
+        // between get_pid() and the read. Both are expected and benign.
+        const isExpected =
+            e instanceof GLib.Error &&
+            e.domain === Gio.io_error_quark() &&
+            (e.code === Gio.IOErrorEnum.PERMISSION_DENIED ||
+                e.code === Gio.IOErrorEnum.NOT_FOUND);
+        if (isExpected) {
+            logDebug(
+                `Could not read /proc/${win.get_pid()}/maps: ${(e as GLib.Error).message}`,
+            );
+        } else {
+            logError(e);
+        }
         return 'Other';
     }
 }

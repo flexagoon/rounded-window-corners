@@ -32,9 +32,10 @@ import {
 } from './utils.js';
 
 export function onAddEffect(actor: RoundedWindowActor) {
-    logDebug(`Adding effect to ${actor?.metaWindow.title}`);
-
     const win = actor.metaWindow;
+    if (!win) return;
+
+    logDebug(`Adding effect to ${win.title}`);
 
     // Skip windows that already have the effect to prevent a memory leak
     const windowInfo = actor.rwcCustomData;
@@ -165,7 +166,7 @@ export function onRestacked(): void {
 
 export const onSizeChanged = refreshRoundedCorners;
 
-export const onFocusChanged = refreshShadow;
+export const onFocusChanged = refreshRoundedCorners;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
 
@@ -234,6 +235,7 @@ function refreshShadow(actor: RoundedWindowActor) {
  */
 function refreshRoundedCorners(actor: RoundedWindowActor): void {
     const win = actor.metaWindow;
+    if (!win) return;
 
     const windowInfo = actor.rwcCustomData;
     const effect = getRoundedCornersEffect(actor);

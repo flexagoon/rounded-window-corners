@@ -57,6 +57,15 @@ export const Schema = {
 export let prefs: Gio.Settings;
 
 /**
+ * Cache of deserialized pref values. Reading a pref goes through D-Bus and
+ * Variant unpacking, so hot paths (per-frame shader updates, per-event
+ * refreshes) read the same keys many times per second. The cache is
+ * invalidated by connecting to the `changed` signal on init.
+ */
+const prefCache = new Map<SchemaKey, unknown>();
+let prefCacheChangedId = 0;
+
+/**
  * Initialize the {@link prefs} object with existing GSettings.
  *
  * @param gSettings - GSettings to initialize the prefs with.
@@ -64,22 +73,38 @@ export let prefs: Gio.Settings;
 export function initPrefs(gSettings: Gio.Settings) {
     resetOutdated(gSettings);
     prefs = gSettings;
+    prefCache.clear();
+    prefCacheChangedId = prefs.connect('changed', (_, key) => {
+        prefCache.delete(key as SchemaKey);
+    });
 }
 
 /** Delete the {@link prefs} object for garbage collection. */
 export function uninitPrefs() {
+    if (prefCacheChangedId) {
+        prefs.disconnect(prefCacheChangedId);
+        prefCacheChangedId = 0;
+    }
+    prefCache.clear();
     (prefs as Gio.Settings | null) = null;
 }
 
 /**
  * Get a preference from GSettings and convert it from a GLib Variant to a
- * JavaScript type.
+ * JavaScript type. Values are cached and invalidated automatically when the
+ * underlying setting changes.
  *
  * @param key - The key of the preference to get.
  * @returns The value of the preference.
  */
 export function getPref<K extends SchemaKey>(key: K): Schema[K] {
-    return prefs.get_value(key).recursiveUnpack() as Schema[K];
+    const cached = prefCache.get(key);
+    if (cached !== undefined) {
+        return cached as Schema[K];
+    }
+    const value = prefs.get_value(key).recursiveUnpack() as Schema[K];
+    prefCache.set(key, value);
+    return value;
 }
 
 /**
