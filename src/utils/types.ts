@@ -55,4 +55,7 @@ export type RoundedWindowActor = Meta.WindowActor & {
         unminimizedTimeoutId: number;
         propertyBindings: GObject.Binding[];
     };
+    rwcSignalsConnected?: boolean;
+    rwcWaitingForFirstChild?: boolean;
+    rwcSignalTexture?: GObject.Object;
 };

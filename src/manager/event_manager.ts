@@ -136,14 +136,25 @@ function disconnectAll(object?: GObject.Object) {
  * @param actor - The window actor to apply the effect to.
  */
 function applyEffectTo(actor: RoundedWindowActor) {
+    if (!actor?.metaWindow) {
+        return;
+    }
+
     // In wayland sessions, the surface actor of XWayland clients is sometimes
     // not ready when the window is created. In this case, we wait until it is
     // ready before applying the effect.
     if (!actor.firstChild) {
-        const id = actor.connect('notify::first-child', () => {
-            applyEffectTo(actor);
-            actor.disconnect(id);
-        });
+        if (!actor.rwcWaitingForFirstChild) {
+            connect(actor, 'notify::first-child', () => {
+                if (!actor.firstChild) {
+                    return;
+                }
+
+                actor.rwcWaitingForFirstChild = false;
+                applyEffectTo(actor);
+            });
+            actor.rwcWaitingForFirstChild = true;
+        }
 
         return;
     }
@@ -153,44 +164,49 @@ function applyEffectTo(actor: RoundedWindowActor) {
         return;
     }
 
-    // Window resized.
-    //
-    // The signal has to be connected both to the actor and the texture. Why is
-    // that? I have no idea. But without that, weird bugs can happen. For
-    // example, when using Dash to Dock, all opened windows will be invisible
-    // *unless they are pinned in the dock*. So yeah, GNOME is magic.
-    connect(actor, 'notify::size', () => {
-        if (actor.metaWindow) {
-            handlers.onSizeChanged(actor);
-        }
-    });
-    connect(texture, 'size-changed', () => {
-        if (actor.metaWindow) {
-            handlers.onSizeChanged(actor);
-        }
-    });
+    if (!actor.rwcSignalsConnected) {
+        // Window resized.
+        //
+        // The signal has to be connected both to the actor and the texture. Why is
+        // that? I have no idea. But without that, weird bugs can happen. For
+        // example, when using Dash to Dock, all opened windows will be invisible
+        // *unless they are pinned in the dock*. So yeah, GNOME is magic.
+        connect(actor, 'notify::size', () => {
+            if (actor.metaWindow) {
+                handlers.onSizeChanged(actor);
+            }
+        });
+        connect(texture, 'size-changed', () => {
+            if (actor.metaWindow) {
+                handlers.onSizeChanged(actor);
+            }
+        });
 
-    // Get notified about fullscreen explicitly, since a window must not change in
-    // size to go fullscreen
-    connect(actor.metaWindow, 'notify::fullscreen', () => {
-        if (actor.metaWindow) {
-            handlers.onSizeChanged(actor);
-        }
-    });
+        // Get notified about fullscreen explicitly, since a window must not change in
+        // size to go fullscreen
+        connect(actor.metaWindow, 'notify::fullscreen', () => {
+            if (actor.metaWindow) {
+                handlers.onSizeChanged(actor);
+            }
+        });
 
-    // Window focus changed.
-    connect(actor.metaWindow, 'notify::appears-focused', () => {
-        if (actor.metaWindow) {
-            handlers.onFocusChanged(actor);
-        }
-    });
+        // Window focus changed.
+        connect(actor.metaWindow, 'notify::appears-focused', () => {
+            if (actor.metaWindow) {
+                handlers.onFocusChanged(actor);
+            }
+        });
 
-    // Workspace or monitor of the window changed.
-    connect(actor.metaWindow, 'workspace-changed', () => {
-        if (actor.metaWindow) {
-            handlers.onFocusChanged(actor);
-        }
-    });
+        // Workspace or monitor of the window changed.
+        connect(actor.metaWindow, 'workspace-changed', () => {
+            if (actor.metaWindow) {
+                handlers.onFocusChanged(actor);
+            }
+        });
+
+        actor.rwcSignalsConnected = true;
+        actor.rwcSignalTexture = texture;
+    }
 
     handlers.onAddEffect(actor);
 }
@@ -202,7 +218,17 @@ function applyEffectTo(actor: RoundedWindowActor) {
  */
 function removeEffectFrom(actor: RoundedWindowActor) {
     disconnectAll(actor);
-    disconnectAll(actor.metaWindow);
+    delete actor.rwcSignalsConnected;
+    delete actor.rwcWaitingForFirstChild;
+
+    if (actor.metaWindow) {
+        disconnectAll(actor.metaWindow);
+    }
+
+    if (actor.rwcSignalTexture) {
+        disconnectAll(actor.rwcSignalTexture);
+        delete actor.rwcSignalTexture;
+    }
 
     const texture = actor.get_texture();
     if (texture) {

@@ -32,9 +32,12 @@ import {
 } from './utils.js';
 
 export function onAddEffect(actor: RoundedWindowActor) {
-    logDebug(`Adding effect to ${actor?.metaWindow.title}`);
-
     const win = actor.metaWindow;
+    if (!win) {
+        return;
+    }
+
+    logDebug(`Adding effect to ${win.title}`);
 
     // Skip windows that already have the effect to prevent a memory leak
     const windowInfo = actor.rwcCustomData;
@@ -213,6 +216,10 @@ function createShadow(actor: Meta.WindowActor): St.Bin {
  */
 function refreshShadow(actor: RoundedWindowActor) {
     const win = actor.metaWindow;
+    if (!win) {
+        return;
+    }
+
     const shadow = actor.rwcCustomData?.shadow;
     if (!shadow) {
         return;
@@ -234,6 +241,10 @@ function refreshShadow(actor: RoundedWindowActor) {
  */
 function refreshRoundedCorners(actor: RoundedWindowActor): void {
     const win = actor.metaWindow;
+    if (!win) {
+        onRemoveEffect(actor);
+        return;
+    }
 
     const windowInfo = actor.rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
