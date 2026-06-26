@@ -50,9 +50,22 @@ export type BoxShadow = {
  * This type is needed to store extra custom properties on a window actor.
  */
 export type RoundedWindowActor = Meta.WindowActor & {
+    metaWindow: Meta.Window;
     rwcCustomData?: {
         shadow: St.Bin;
         unminimizedTimeoutId: number;
         propertyBindings: GObject.Binding[];
     };
 };
+
+/**
+ * Type guard to check if a WindowActor has a metaWindow
+ *
+ * @param actor - The actor to guard.
+ * @returns Whether the actor has a `metaWindow`.
+ */
+export function hasMetaWindow(
+    actor: Meta.WindowActor,
+): actor is RoundedWindowActor {
+    return actor.metaWindow !== null;
+}

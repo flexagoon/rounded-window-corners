@@ -114,7 +114,8 @@ export function bindPref(
     property: string,
     flags: Gio.SettingsBindFlags,
 ) {
-    prefs.bind(key, object, property, flags);
+    // @ts-ignore: TODO https://github.com/gjsify/ts-for-gir/issues/431
+    prefs.bind(key, object, property, flags); 
 }
 
 /**

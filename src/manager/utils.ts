@@ -2,7 +2,11 @@
 
 import type Clutter from 'gi://Clutter';
 import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
-import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
+import type {
+    Bounds,
+    RoundedCornerSettings,
+    RoundedWindowActor,
+} from '../utils/types.js';
 
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
@@ -119,7 +123,7 @@ export function windowScaleFactor(win: Meta.Window) {
  * @param [x, y, width, height] - The content offsets of the window actor.
  */
 export function computeBounds(
-    actor: Meta.WindowActor,
+    actor: RoundedWindowActor,
     [x, y, width, height]: [number, number, number, number],
 ): Bounds {
     const bounds = {
@@ -172,7 +176,7 @@ export function computeWindowContentsOffset(
  * @param [offsetX, offsetY, offsetWidth, offsetHeight] - The content offsets of the window actor.
  */
 export function computeShadowActorOffset(
-    actor: Meta.WindowActor,
+    actor: RoundedWindowActor,
     [offsetX, offsetY, offsetWidth, offsetHeight]: [
         number,
         number,

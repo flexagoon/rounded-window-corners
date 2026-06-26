@@ -4,8 +4,7 @@
  * in effect_manager.ts.
  */
 
-import type Meta from 'gi://Meta';
-import type {RoundedWindowActor} from '../utils/types.js';
+import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
@@ -174,7 +173,7 @@ export const onSettingsChanged = refreshAllRoundedCorners;
  *
  * @param actor - The window actor to create the shadow actor for.
  */
-function createShadow(actor: Meta.WindowActor): St.Bin {
+function createShadow(actor: RoundedWindowActor): St.Bin {
     const shadow = new St.Bin({
         name: 'Shadow Actor',
         child: new St.Bin({
@@ -214,9 +213,7 @@ function createShadow(actor: Meta.WindowActor): St.Bin {
 function refreshShadow(actor: RoundedWindowActor) {
     const win = actor.metaWindow;
     const shadow = actor.rwcCustomData?.shadow;
-    if (!shadow) {
-        return;
-    }
+    if (!shadow) return;
 
     const shadowSettings = win.appears_focused
         ? getPref('focused-shadow')
@@ -235,7 +232,7 @@ function refreshShadow(actor: RoundedWindowActor) {
 function refreshRoundedCorners(actor: RoundedWindowActor): void {
     const win = actor.metaWindow;
 
-    const windowInfo = actor.rwcCustomData;
+    const windowInfo = (actor as RoundedWindowActor).rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
 
     const hasEffect = effect && windowInfo;
@@ -289,6 +286,8 @@ function refreshRoundedCorners(actor: RoundedWindowActor): void {
 /** Refresh rounded corners settings for all windows. */
 function refreshAllRoundedCorners() {
     for (const actor of global.get_window_actors()) {
-        refreshRoundedCorners(actor);
+        if (hasMetaWindow(actor)) {
+            refreshRoundedCorners(actor);
+        }
     }
 }

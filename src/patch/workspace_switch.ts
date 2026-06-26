@@ -47,7 +47,7 @@ export function addShadowsInWorkspaceSwitch(
                 const shadow = (actor as RoundedWindowActor).rwcCustomData
                     ?.shadow;
                 const enabled = getRoundedCornersEffect(actor)?.enabled;
-                if (!(shadow && enabled)) {
+                if (!(shadow && enabled && win)) {
                     continue;
                 }
 

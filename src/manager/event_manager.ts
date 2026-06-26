@@ -6,7 +6,7 @@
 import type GObject from 'gi://GObject';
 import type Meta from 'gi://Meta';
 import type Shell from 'gi://Shell';
-import type {RoundedWindowActor} from '../utils/types.js';
+import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 
 import {logDebug} from '../utils/log.js';
 import {prefs} from '../utils/settings.js';
@@ -30,7 +30,9 @@ export function enableEffect() {
     const windowActors = global.get_window_actors();
     logDebug(`Initial window count: ${windowActors.length}`);
     for (const actor of windowActors) {
-        applyEffectTo(actor);
+        if (hasMetaWindow(actor)) {
+            applyEffectTo(actor);
+        }
     }
 
     // Add the effect to new windows when they are opened.
@@ -38,7 +40,7 @@ export function enableEffect() {
         global.display,
         'window-created',
         (_: Meta.Display, win: Meta.Window) => {
-            const actor: Meta.WindowActor = win.get_compositor_private();
+            const actor: RoundedWindowActor = win.get_compositor_private();
 
             // If wm_class_instance of Meta.Window is null, wait for it to be
             // set before applying the effect.
@@ -54,14 +56,14 @@ export function enableEffect() {
     );
 
     // Window minimized.
-    connect(wm, 'minimize', (_: Shell.WM, actor: Meta.WindowActor) =>
-        handlers.onMinimize(actor),
-    );
+    connect(wm, 'minimize', (_: Shell.WM, actor: Meta.WindowActor) => {
+        if (hasMetaWindow(actor)) handlers.onMinimize(actor);
+    });
 
     // Window unminimized.
-    connect(wm, 'unminimize', (_: Shell.WM, actor: Meta.WindowActor) =>
-        handlers.onUnminimize(actor),
-    );
+    connect(wm, 'unminimize', (_: Shell.WM, actor: Meta.WindowActor) => {
+        if (hasMetaWindow(actor)) handlers.onUnminimize(actor);
+    });
 
     // When closing the window, remove the effect from it.
     connect(wm, 'destroy', (_: Shell.WM, actor: Meta.WindowActor) =>
@@ -111,7 +113,8 @@ function connect(
  *
  * @param object - If object is provided, only disconnect signals from it.
  */
-function disconnectAll(object?: GObject.Object) {
+function disconnectAll(object?: GObject.Object | null) {
+    if (object === null) return;
     let i = connections.length;
     while (i--) {
         const connection = connections[i];
@@ -200,7 +203,7 @@ function applyEffectTo(actor: RoundedWindowActor) {
  *
  * @param actor - The window actor to remove the effect from.
  */
-function removeEffectFrom(actor: RoundedWindowActor) {
+function removeEffectFrom(actor: Meta.WindowActor) {
     disconnectAll(actor);
     disconnectAll(actor.metaWindow);
 
@@ -209,5 +212,7 @@ function removeEffectFrom(actor: RoundedWindowActor) {
         disconnectAll(texture);
     }
 
-    handlers.onRemoveEffect(actor);
+    if (hasMetaWindow(actor)) {
+        handlers.onRemoveEffect(actor);
+    }
 }

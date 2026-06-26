@@ -72,9 +72,12 @@ export const BlacklistPage = GObject.registerClass(
          */
         addWindow(_?: Gtk.Button, wmClass?: string) {
             const row = new AppRow({
-                onDelete: row => this.#deleteWindow(row),
-                onWindowChange: (_, oldWmClass, newWmClass) =>
-                    this.#changeWindow(oldWmClass, newWmClass),
+                onDelete: (row: AppRowClass) => this.#deleteWindow(row),
+                onWindowChange: (
+                    _: AppRowClass,
+                    oldWmClass: string,
+                    newWmClass: string,
+                ) => this.#changeWindow(oldWmClass, newWmClass),
             });
             row.set_subtitle(wmClass ?? '');
             this._blacklistGroup.add(row);
