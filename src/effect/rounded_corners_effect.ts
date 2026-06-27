@@ -9,7 +9,7 @@ import Shell from 'gi://Shell';
 import {readShader} from '../utils/file.js';
 import {getPref} from '../utils/settings.js';
 
-const [declarations, code] = readShader(
+const [declarations, code] = await readShader(
     import.meta.url,
     'shader/rounded_corners.frag',
 );

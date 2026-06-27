@@ -263,9 +263,9 @@ export function updateShadowActorStyle(
  * @param win - The window to check.
  * @returns Whether the window should have rounded corners.
  */
-export function shouldEnableEffect(
+export async function shouldEnableEffect(
     win: Meta.Window & {_appType?: AppType},
-): boolean {
+): Promise<boolean> {
     // Skip rounded corners for the DING (Desktop Icons NG) extension.
     //
     // https://extensions.gnome.org/extension/2087/desktop-icons-ng-ding/
@@ -296,7 +296,7 @@ export function shouldEnableEffect(
     }
 
     // Skip libhandy/libadwaita applications according to settings.
-    const appType = win._appType ?? getAppType(win);
+    const appType = win._appType ?? (await getAppType(win));
     win._appType = appType; // Cache the result.
     logDebug(`Check Type of window:${win.title} => ${appType}`);
 
@@ -334,10 +334,10 @@ type AppType = 'LibAdwaita' | 'LibHandy' | 'Other';
  * @param win - The window to get the type of.
  * @returns the type of the application.
  */
-function getAppType(win: Meta.Window): AppType {
+async function getAppType(win: Meta.Window): Promise<AppType> {
     try {
         // May throw a permission error.
-        const contents = readFile(`/proc/${win.get_pid()}/maps`);
+        const contents = await readFile(`/proc/${win.get_pid()}/maps`);
 
         if (contents.includes('libhandy-1.so')) {
             return 'LibHandy';

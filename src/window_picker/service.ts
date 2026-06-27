@@ -13,14 +13,15 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {readRelativeFile} from '../utils/file.js';
 import {logDebug} from '../utils/log.js';
 
+const iface = await readRelativeFile(import.meta.url, 'iface.xml');
+
 /**
  * This class provides the implementation of the DBus interface for the window
  * picker. It implements a single method - `pick` - which opens the window picker
  * and allows the user to select a window.
  */
 export class WindowPicker {
-    readonly #iface = readRelativeFile(import.meta.url, 'iface.xml');
-    readonly #dbus = Gio.DBusExportedObject.wrapJSObject(this.#iface, this);
+    readonly #dbus = Gio.DBusExportedObject.wrapJSObject(iface, this);
 
     /** Emit the wm_class of the picked window to the `picked` signal. */
     #sendPickedWindow(wmClass: string) {

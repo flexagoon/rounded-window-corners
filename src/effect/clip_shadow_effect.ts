@@ -11,7 +11,7 @@ import Shell from 'gi://Shell';
 
 import {readShader} from '../utils/file.js';
 
-const [declarations, code] = readShader(
+const [declarations, code] = await readShader(
     import.meta.url,
     'shader/clip_shadow.frag',
 );

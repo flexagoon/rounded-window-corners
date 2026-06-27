@@ -20,7 +20,10 @@ import {logDebug} from '../utils/log.js';
  * @param window - The window that the preview is of.
  * @param self - The window preview that the shadow actor is added to.
  */
-export function addShadowInOverview(window: Meta.Window, self: WindowPreview) {
+export async function addShadowInOverview(
+    window: Meta.Window,
+    self: WindowPreview,
+) {
     // Skip attached dialogs — they are added via _updateAttachedDialogs/addDialog
     // and should not get their own shadow clone in the overview.
     // We detect them by checking if the window is transient-for another window,
@@ -31,7 +34,7 @@ export function addShadowInOverview(window: Meta.Window, self: WindowPreview) {
 
     // If the original window doesn't have rounded corners or a shadow,
     // we don't need to do anything, so we can skip it.
-    const hasRoundedCorners = shouldEnableEffect(window);
+    const hasRoundedCorners = await shouldEnableEffect(window);
     const windowActor = window.get_compositor_private() as RoundedWindowActor;
     const shadow = windowActor.rwcCustomData?.shadow;
     if (!(hasRoundedCorners && shadow)) {

@@ -9,10 +9,10 @@ import GLib from 'gi://GLib';
  * @param path - The path to the file to be read.
  * @returns Contents of the file as a UTF-8 string.
  */
-export function readFile(path: string) {
+export async function readFile(path: string) {
     const file = Gio.File.new_for_path(path);
 
-    const contents = file.load_contents(null)[1];
+    const [contents] = await file.load_contents_async(null);
 
     const decoder = new TextDecoder('utf-8');
     return decoder.decode(contents);
@@ -42,8 +42,8 @@ export function readRelativeFile(module: string, path: string) {
  * @returns A list containing the declarations as the first element and
  *          contents of the main function as the second.
  */
-export function readShader(module: string, path: string) {
-    const shader = readRelativeFile(module, path);
+export async function readShader(module: string, path: string) {
+    const shader = await readRelativeFile(module, path);
     // biome-ignore lint/performance/useTopLevelRegex: This is only executed at startup
     let [declarations, code] = shader.split(/^.*?main\(\s?\)\s?/m);
     declarations = declarations.trim();

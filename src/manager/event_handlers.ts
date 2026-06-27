@@ -226,14 +226,14 @@ function refreshShadow(actor: RoundedWindowActor) {
  *
  * @param actor - The window actor to refresh the rounded corners settings for.
  */
-function refreshRoundedCorners(actor: RoundedWindowActor): void {
+async function refreshRoundedCorners(actor: RoundedWindowActor): Promise<void> {
     const win = actor.metaWindow;
 
     const windowInfo = (actor as RoundedWindowActor).rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
 
     const hasEffect = effect && windowInfo;
-    const shouldHaveEffect = shouldEnableEffect(win);
+    const shouldHaveEffect = await shouldEnableEffect(win);
 
     // onAddEffect already skips windows that shouldn't have rounded corners.
     // This if statement is just for code readability to match the check for
