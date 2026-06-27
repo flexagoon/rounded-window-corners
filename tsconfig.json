@@ -6,7 +6,7 @@
         "sourceMap": false,
         "strict": true,
         "skipLibCheck": true,
-        "rootDir": ".",
+        "rootDir": "src",
         "outDir": "./_build/"
     },
     "include": ["src/**/*.ts"]
