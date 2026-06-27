@@ -12,25 +12,25 @@ import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions
 import {onPicked, pick} from '../../window_picker/client.js';
 
 export class AppRowClass extends Adw.ExpanderRow {
-    #callbacks: AppRowCallbacks;
+    readonly #callbacks: AppRowCallbacks;
 
-    #removeButton = new Gtk.Button({
+    readonly #removeButton = new Gtk.Button({
         icon_name: 'window-close-symbolic',
         css_classes: ['flat', 'circular'],
         valign: Gtk.Align.CENTER,
     });
-    #applyButton = new Gtk.Button({
+    readonly #applyButton = new Gtk.Button({
         icon_name: 'object-select-symbolic',
         css_classes: ['flat', 'circular'],
         valign: Gtk.Align.CENTER,
     });
-    #pickButton = new Gtk.Button({
+    readonly #pickButton = new Gtk.Button({
         icon_name: 'find-location-symbolic',
         css_classes: ['flat', 'circular'],
         valign: Gtk.Align.CENTER,
     });
 
-    #wmClassEntry = new Adw.EntryRow({
+    readonly #wmClassEntry = new Adw.EntryRow({
         title: _('Window class'),
     });
 
@@ -83,7 +83,7 @@ export class AppRowClass extends Adw.ExpanderRow {
     }
 
     onDelete() {
-        this.#callbacks?.onDelete(this);
+        this.#callbacks.onDelete(this);
     }
 
     pickWindow(entry: Adw.EntryRow) {

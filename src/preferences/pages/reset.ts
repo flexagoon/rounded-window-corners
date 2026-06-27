@@ -40,13 +40,13 @@ export const ResetPage = GObject.registerClass(
         private declare _dialog: Adw.AlertDialog;
 
         // Store all switches in a list to enable the "select all" button.
-        #rows: Adw.SwitchRow[] = [];
+        readonly #rows: Adw.SwitchRow[] = [];
 
         // List of prefs that should be reset.
         #resetPrefs: ResetKey[] = [];
 
         // Map prefs to their labels in the UI.
-        #resetLabels: {[Key in ResetKey]?: string} = {
+        readonly #resetLabels: {[Key in ResetKey]?: string} = {
             'skip-libadwaita-app': 'Skip LibAdwaita Applications',
             'skip-libhandy-app': 'Skip LibHandy Applications',
             'focused-shadow': 'Focus Window Shadow Style',

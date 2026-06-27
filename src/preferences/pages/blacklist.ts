@@ -29,7 +29,7 @@ export const BlacklistPage = GObject.registerClass(
         private declare _blacklistGroup: Adw.PreferencesGroup;
         private declare _useWhitelist: Adw.SwitchRow;
 
-        #blacklist = getPref('blacklist');
+        readonly #blacklist = getPref('blacklist');
 
         constructor() {
             super();

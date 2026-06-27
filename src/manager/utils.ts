@@ -74,7 +74,7 @@ export function getRoundedCornersCfg(win: Meta.Window): RoundedCornerSettings {
 
     const wmClass = win.get_wm_class_instance();
     if (
-        wmClass == null ||
+        wmClass === null ||
         !customCfgList[wmClass] ||
         !customCfgList[wmClass].enabled
     ) {
@@ -275,7 +275,7 @@ export function shouldEnableEffect(
 
     // Skip blacklisted applications.
     const wmClass = win.get_wm_class_instance();
-    if (wmClass == null) {
+    if (wmClass === null) {
         logDebug(`Warning: wm_class_instance of ${win}: ${win.title} is null`);
         return false;
     }

@@ -44,6 +44,7 @@ export function readRelativeFile(module: string, path: string) {
  */
 export function readShader(module: string, path: string) {
     const shader = readRelativeFile(module, path);
+    // biome-ignore lint/performance/useTopLevelRegex: This is only executed at startup
     let [declarations, code] = shader.split(/^.*?main\(\s?\)\s?/m);
     declarations = declarations.trim();
     code = code.trim().replace(/^[{}]/gm, '').trim();

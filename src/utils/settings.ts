@@ -14,8 +14,6 @@ import type {
 
 import GLib from 'gi://GLib';
 
-import {logDebug} from './log.js';
-
 /** Mapping of schema keys to the JS representation of their type. */
 type Schema = {
     'settings-version': number;
@@ -89,7 +87,6 @@ export function getPref<K extends SchemaKey>(key: K): Schema[K] {
  * @param value - The value to set the preference to.
  */
 export function setPref<K extends SchemaKey>(key: K, value: Schema[K]) {
-    logDebug(`Settings pref: ${key}, ${value}`);
     let variant: GLib.Variant;
 
     if (key === 'global-rounded-corner-settings') {
@@ -114,8 +111,8 @@ export function bindPref(
     property: string,
     flags: Gio.SettingsBindFlags,
 ) {
-    // @ts-ignore: TODO https://github.com/gjsify/ts-for-gir/issues/431
-    prefs.bind(key, object, property, flags); 
+    // @ts-expect-error: TODO https://github.com/gjsify/ts-for-gir/issues/431
+    prefs.bind(key, object, property, flags);
 }
 
 /**
@@ -194,12 +191,12 @@ function packRoundedCornerSettings(settings: RoundedCornerSettings) {
     const enabled = GLib.Variant.new_boolean(settings.enabled);
 
     const variantObject = {
-        padding: padding,
-        keepRoundedCorners: keepRoundedCorners,
-        borderRadius: borderRadius,
-        smoothing: smoothing,
-        borderColor: borderColor,
-        enabled: enabled,
+        padding,
+        keepRoundedCorners,
+        borderRadius,
+        smoothing,
+        borderColor,
+        enabled,
     };
 
     return new GLib.Variant('a{sv}', variantObject);

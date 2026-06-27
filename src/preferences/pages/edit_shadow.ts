@@ -60,13 +60,14 @@ export const EditShadowPage = GObject.registerClass(
 
         // CSS Providers allow to dynamically apply a CSS style string to
         // the preview widgets.
-        #unfocusCssProvider = new Gtk.CssProvider();
-        #focusCssProvider = new Gtk.CssProvider();
-        #backgroundCssProvider = new Gtk.CssProvider();
+        readonly #unfocusCssProvider = new Gtk.CssProvider();
+        readonly #focusCssProvider = new Gtk.CssProvider();
+        readonly #backgroundCssProvider = new Gtk.CssProvider();
 
         #focusedShadowSettings = getPref('focused-shadow');
         #unfocusedShadowSettings = getPref('unfocused-shadow');
 
+        // biome-ignore lint/style/useReadonlyClassProperties: False positive
         #isInitialized = false;
 
         constructor() {

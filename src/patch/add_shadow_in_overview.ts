@@ -101,8 +101,9 @@ const OverviewShadowActorClone = GObject.registerClass(
             // The layout box of the window has to be obtained in a different
             // way when leaving the overview (eg. by pressing ESC). I have no
             // idea why this is the case, but oh well. GNOME.
-            // @ts-ignore: TODO https://github.com/gjsify/gnome-shell/pull/123
-            const leavingOverview = overview._overview.controls._workspacesDisplay._leavingOverview;
+            const leavingOverview =
+                // @ts-expect-error: TODO https://github.com/gjsify/gnome-shell/pull/123
+                overview._overview.controls._workspacesDisplay._leavingOverview;
             const windowContainerBox = leavingOverview
                 ? this.windowPreview.windowContainer.get_allocation_box()
                 : this.windowPreview.get_allocation_box();

@@ -5,10 +5,10 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 
 export class PaddingsRowClass extends Adw.PreferencesRow {
-    public declare paddingTop: number;
-    public declare paddingBottom: number;
-    public declare paddingStart: number;
-    public declare paddingEnd: number;
+    declare paddingTop: number;
+    declare paddingBottom: number;
+    declare paddingStart: number;
+    declare paddingEnd: number;
 }
 
 export const PaddingsRow = GObject.registerClass(

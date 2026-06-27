@@ -19,8 +19,8 @@ import {logDebug} from '../utils/log.js';
  * and allows the user to select a window.
  */
 export class WindowPicker {
-    #iface = readRelativeFile(import.meta.url, 'iface.xml');
-    #dbus = Gio.DBusExportedObject.wrapJSObject(this.#iface, this);
+    readonly #iface = readRelativeFile(import.meta.url, 'iface.xml');
+    readonly #dbus = Gio.DBusExportedObject.wrapJSObject(this.#iface, this);
 
     /** Emit the wm_class of the picked window to the `picked` signal. */
     #sendPickedWindow(wmClass: string) {
@@ -55,7 +55,7 @@ export class WindowPicker {
             // often since it's usually a Meta.SurfaceActor, try to find its
             // parent which is a Meta.WindowActor.
             for (let i = 0; i < 2; i++) {
-                if (actor == null || actor instanceof Meta.WindowActor) {
+                if (actor === null || actor instanceof Meta.WindowActor) {
                     break;
                 }
                 actor = actor.get_parent();

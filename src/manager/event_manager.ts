@@ -6,10 +6,10 @@
 import type GObject from 'gi://GObject';
 import type Meta from 'gi://Meta';
 import type Shell from 'gi://Shell';
-import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 
 import {logDebug} from '../utils/log.js';
 import {prefs} from '../utils/settings.js';
+import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 import * as handlers from './event_handlers.js';
 
 /**
@@ -44,7 +44,7 @@ export function enableEffect() {
 
             // If wm_class_instance of Meta.Window is null, wait for it to be
             // set before applying the effect.
-            if (win?.get_wm_class_instance() == null) {
+            if (win?.get_wm_class_instance() === null) {
                 const notifyId = win.connect('notify::wm-class', () => {
                     applyEffectTo(actor);
                     win.disconnect(notifyId);
@@ -101,7 +101,7 @@ function connect(
     callback: (...args: any[]) => any,
 ) {
     connections.push({
-        object: object,
+        object,
         id: object.connect(signal, callback),
     });
 }

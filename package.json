@@ -6,6 +6,7 @@
     "license": "GPL-3.0-or-later",
     "main": "src/extension.ts",
     "devDependencies": {
+        "@biomejs/biome": "^2.5.1",
         "@girs/gnome-shell": "^50.0.3",
         "typescript": "^6.0.3"
     }

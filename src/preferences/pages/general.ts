@@ -57,7 +57,7 @@ export const GeneralPage = GObject.registerClass(
         private declare _tweakKitty: Adw.SwitchRow;
         private declare _enableDebugLogs: Adw.SwitchRow;
 
-        #settings = getPref('global-rounded-corner-settings');
+        readonly #settings = getPref('global-rounded-corner-settings');
 
         // Bind all buttons to respective prefs.
         constructor() {

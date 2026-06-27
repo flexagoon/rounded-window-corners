@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.3.2/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
     "files": {
         "includes": ["**", "!**/_build/**/*"]
     },
@@ -28,21 +28,24 @@
             "project": "all"
         },
         "rules": {
-            "recommended": true,
+            "preset": "all",
             "complexity": {
-                "noExcessiveCognitiveComplexity": "error",
-                "useSimplifiedLogicExpression": "error",
-                "useWhile": "error"
+                "noExcessiveLinesPerFunction": "off",
+                "noForEach": "off",
+                "useMaxParams": "off"
             },
-            "nursery": {},
             "style": {
-                "noUnusedTemplateLiteral": "error",
-                "noUselessElse": "error",
-                "useAtIndex": "error",
-                "useCollapsedIf": "error",
-                "useCollapsedElseIf": "error",
-                "useConsistentArrayType": "error",
-                "useForOf": "error",
+                "noContinue": "off",
+                "noDefaultExport": "off",
+                "noExcessiveClassesPerFile": "off",
+                "noHexColors": "off",
+                "noIncrementDecrement": "off",
+                "noMagicNumbers": "off",
+                "noTernary": "off",
+                "useBlockStatements": "off",
+                "useDestructuring": "off",
+                "useExportsLast": "off",
+                "useGlobalThis": "off",
                 "useNamingConvention": {
                     "level": "error",
                     "options": {
@@ -62,15 +65,27 @@
                 }
             },
             "performance": {
-                "noAwaitInLoops": "error"
+                "noDelete": "off",
+                "noNamespaceImport": "off"
             },
             "correctness": {
                 "noUnknownTypeSelector": "off",
+                "noUnresolvedImports": "off",
                 "useImportExtensions": {
+                    "level": "error",
                     "options": {
                         "forceJsExtensions": true
                     }
                 }
+            },
+            "suspicious": {
+                "noConsole": "off",
+                "noForIn": "off",
+                "noShadow": "off",
+                "useGuardForIn": "off"
+            },
+            "security": {
+                "noSecrets": "off"
             }
         }
     },

@@ -34,7 +34,9 @@ export const CustomPage = GObject.registerClass(
     class extends Adw.PreferencesPage {
         private declare _customGroup: Adw.PreferencesGroup;
 
-        #customWindowSettings = getPref('custom-rounded-corner-settings');
+        readonly #customWindowSettings = getPref(
+            'custom-rounded-corner-settings',
+        );
 
         constructor() {
             super();

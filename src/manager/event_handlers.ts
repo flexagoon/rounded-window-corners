@@ -4,8 +4,6 @@
  * in effect_manager.ts.
  */
 
-import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
-
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
@@ -19,6 +17,7 @@ import {
 } from '../utils/constants.js';
 import {logDebug} from '../utils/log.js';
 import {getPref} from '../utils/settings.js';
+import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 import {
     computeBounds,
     computeShadowActorOffset,
@@ -145,8 +144,6 @@ export function onUnminimize(actor: RoundedWindowActor): void {
                 source.disconnect(id);
             }
         });
-
-        return;
     }
 }
 
