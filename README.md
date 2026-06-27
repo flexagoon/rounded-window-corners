@@ -1,4 +1,4 @@
-![2022-07-29 23-49-57][6]
+![Screenshot](https://github.com/user-attachments/assets/0bde1a86-37c8-4d53-b9ca-e049799f5355)
 
 <div align="center">
   <h1>Rounded Window Corners Reborn</h1>
@@ -10,17 +10,7 @@
 <br>
 
 > [!NOTE]
-> This is the fork of the [original rounded-window-corners extension][14] by @yilozt, which is no longer maintained.
-
-## Features
-
-- Works with Gnome 46+
-- Custom border radius and clip paddings for windows
-- Blocklist for applications that draw their own window decorations
-- Custom shadow for windows with rounded corners
-- Option to skip libadwaita / libhandy application
-- [Superelliptical][1] shape for rounded corners, thanks to [@YuraIz][2]
-- A simple reset preferences dialog
+> This is the fork of the [original rounded-window-corners extension](https://github.com/yilozt/rounded-window-corners) by @yilozt, which is no longer maintained.
 
 ## Installation
 
@@ -101,19 +91,3 @@ Available recipes:
 ## Credits
 
 Thanks to [yotamguttman](https://github.com/yotamguttman) for making an icon for the extension!
-
-<!-- links -->
-
-[1]: https://en.wikipedia.org/wiki/Superellipse
-[2]: https://github.com/YuraIz
-[3]: https://extensions.gnome.org/extension/3740/compiz-alike-magic-lamp-effect/
-[4]: https://gitlab.gnome.org/GNOME/mutter/-/blob/main/src/compositor/meta-background-content.c#L138
-[6]: https://user-images.githubusercontent.com/32430186/181902857-d4d10740-82fe-4941-b064-d436b9ea7317.png
-[7]: https://extensions.gnome.org/extension/5237/rounded-window-corners/
-[8]: https://github.com/yilozt/rounded-window-corners/releases
-[9]: https://github.com/yilozt/rounded-window-corners/actions/workflows/pack.yml
-[10]: https://img.shields.io/github/v/release/yilozt/rounded-window-corners?style=flat-square
-[11]: https://img.shields.io/github/actions/workflow/status/yilozt/rounded-window-corners/pack.yml?branch=main&style=flat-square
-[12]: https://hosted.weblate.org/widgets/rounded-window-corners/-/rounded-window-corners/multi-auto.svg
-[13]: https://hosted.weblate.org/engage/rounded-window-corners/
-[14]: https://github.com/yilozt/rounded-window-corners
