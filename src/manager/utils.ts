@@ -62,6 +62,19 @@ export function clearMutterSettingsCache() {
 }
 
 /**
+ * Get the actor that rounded corners should be applied to.
+ * In Wayland, the effect is applied to WindowActor, but in X11, it is applied
+ * to WindowActor.first_child.
+ *
+ * @param actor - The window actor to unwrap.
+ * @returns The correct actor that the effect should be applied to.
+ */
+export function unwrapActor(actor: RoundedWindowActor): Clutter.Actor | null {
+    const type = actor.metaWindow.get_client_type();
+    return type === Meta.WindowClientType.X11 ? actor.get_first_child() : actor;
+}
+
+/**
  * Get the correct rounded corner setting for a window (custom settings if a
  * window has custom overrides, global settings otherwise).
  *
@@ -95,9 +108,16 @@ type RoundedCornersEffectType = InstanceType<typeof RoundedCornersEffect>;
  * @returns The corresponding Clutter.Effect object.
  */
 export function getRoundedCornersEffect(
-    actor: Meta.WindowActor,
+    actor: RoundedWindowActor,
 ): RoundedCornersEffectType | null {
-    return actor.get_effect(ROUNDED_CORNERS_EFFECT) as RoundedCornersEffectType;
+    const win = actor.metaWindow;
+    const name = ROUNDED_CORNERS_EFFECT;
+    const isXwayland =
+        win.get_client_type() === Meta.WindowClientType.X11 && actor.firstChild;
+
+    return isXwayland
+        ? (actor.firstChild.get_effect(name) as RoundedCornersEffectType)
+        : (actor.get_effect(name) as RoundedCornersEffectType);
 }
 
 /**
@@ -137,6 +157,7 @@ export function computeBounds(
     // clip its shadow and recompute the outer bounds for it.
     if (
         getPref('tweak-kitty-terminal') &&
+        actor.metaWindow.get_client_type() === Meta.WindowClientType.WAYLAND &&
         actor.metaWindow.get_wm_class_instance() === 'kitty'
     ) {
         const [x1, y1, x2, y2] = APP_SHADOWS.kitty;
@@ -265,7 +286,7 @@ export function updateShadowActorStyle(
  */
 export async function shouldEnableEffect(
     win: Meta.Window & {_appType?: AppType},
-): Promise<boolean> {
+) {
     // Skip rounded corners for the DING (Desktop Icons NG) extension.
     //
     // https://extensions.gnome.org/extension/2087/desktop-icons-ng-ding/

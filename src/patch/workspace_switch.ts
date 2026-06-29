@@ -1,12 +1,12 @@
 /** @file Provides functions for handling shadows during workspace switching. */
 
 import type {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
-import type {RoundedWindowActor} from '../utils/types.js';
 
 import Clutter from 'gi://Clutter';
 
 import {getRoundedCornersEffect, windowScaleFactor} from '../manager/utils.js';
 import {SHADOW_PADDING} from '../utils/constants.js';
+import {hasMetaWindow} from '../utils/types.js';
 
 type WsAnimationActor = Clutter.Actor & {shadowClone?: Clutter.Actor};
 
@@ -41,11 +41,14 @@ export function addShadowsInWorkspaceSwitch(
             });
 
             for (const {windowActor: actor, clone} of windowRecords) {
+                if (!hasMetaWindow(actor)) {
+                    continue;
+                }
+
                 const win = actor.metaWindow;
 
                 // Skip windows that don't have a shadow or an enabled RWC effect.
-                const shadow = (actor as RoundedWindowActor).rwcCustomData
-                    ?.shadow;
+                const shadow = actor.rwcCustomData?.shadow;
                 const enabled = getRoundedCornersEffect(actor)?.enabled;
                 if (!(shadow && enabled && win)) {
                     continue;

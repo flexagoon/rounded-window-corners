@@ -38,6 +38,7 @@
                 "noContinue": "off",
                 "noDefaultExport": "off",
                 "noExcessiveClassesPerFile": "off",
+                "noExcessiveLinesPerFile": "off",
                 "noHexColors": "off",
                 "noIncrementDecrement": "off",
                 "noMagicNumbers": "off",

@@ -25,6 +25,7 @@ import {
     getRoundedCornersCfg,
     getRoundedCornersEffect,
     shouldEnableEffect,
+    unwrapActor,
     updateShadowActorStyle,
     windowScaleFactor,
 } from './utils.js';
@@ -44,7 +45,7 @@ export function onAddEffect(actor: RoundedWindowActor) {
         return;
     }
 
-    actor.add_effect_with_name(
+    unwrapActor(actor)?.add_effect_with_name(
         ROUNDED_CORNERS_EFFECT,
         new RoundedCornersEffect(),
     );
@@ -83,7 +84,7 @@ export function onAddEffect(actor: RoundedWindowActor) {
 
 export function onRemoveEffect(actor: RoundedWindowActor): void {
     const name = ROUNDED_CORNERS_EFFECT;
-    actor.remove_effect_by_name(name);
+    unwrapActor(actor)?.remove_effect_by_name(name);
 
     // Unbind all properties
     for (const binding of actor.rwcCustomData?.propertyBindings || []) {
