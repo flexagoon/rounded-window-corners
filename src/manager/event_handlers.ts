@@ -30,21 +30,45 @@ import {
     windowScaleFactor,
 } from './utils.js';
 
-export async function onAddEffect(actor: RoundedWindowActor) {
-    logDebug(`Adding effect to ${actor?.metaWindow.title}`);
+/**
+ * Per-actor queue lock to run event handlers one after another and avoid
+ * needlessly refreshing the effect a lot of times.
+ */
+function withActorLock(
+    actor: RoundedWindowActor,
+    fn: () => Promise<void>,
+): Promise<void> {
+    const prev: Promise<void> | undefined = actor.rwcLock;
+    const next = prev ? prev.then(fn, fn) : fn();
+    actor.rwcLock = next;
+    return next;
+}
 
-    const win = actor.metaWindow;
+export function onAddEffect(actor: RoundedWindowActor) {
+    return withActorLock(actor, async () => {
+        logDebug(`Adding effect to ${actor?.metaWindow.title}`);
+        const win = actor.metaWindow;
 
-    // Skip windows that already have the effect to prevent a memory leak
-    const shouldHaveEffect = await shouldEnableEffect(win);
-    const effect = getRoundedCornersEffect(actor);
-    const hasEffect = effect && actor.rwcCustomData;
+        // Skip windows that already have the effect to prevent a memory leak
+        const shouldHaveEffect = await shouldEnableEffect(win);
+        const effect = getRoundedCornersEffect(actor);
+        const hasEffect = effect && actor.rwcCustomData;
 
-    if (!shouldHaveEffect || hasEffect) {
-        logDebug(`Skipping ${win.title}`);
-        return;
-    }
+        if (!shouldHaveEffect || hasEffect) {
+            logDebug(`Skipping ${win.title}`);
+            return;
+        }
 
+        createEffect(actor);
+    });
+}
+
+/**
+ * Create the effect on an actor.
+ *
+ * @param actor - The window actor to create the effect on.
+ */
+function createEffect(actor: RoundedWindowActor) {
     unwrapActor(actor)?.add_effect_with_name(
         ROUNDED_CORNERS_EFFECT,
         new RoundedCornersEffect(),
@@ -79,7 +103,7 @@ export async function onAddEffect(actor: RoundedWindowActor) {
     };
 
     // Make sure the effect is applied correctly.
-    refreshRoundedCorners(actor);
+    updateEffect(actor);
 }
 
 export function onRemoveEffect(actor: RoundedWindowActor) {
@@ -227,40 +251,57 @@ function refreshShadow(actor: RoundedWindowActor) {
  *
  * @param actor - The window actor to refresh the rounded corners settings for.
  */
-async function refreshRoundedCorners(actor: RoundedWindowActor) {
+function refreshRoundedCorners(actor: RoundedWindowActor) {
+    return withActorLock(actor, async () => {
+        const win = actor.metaWindow;
+
+        const shouldHaveEffect = await shouldEnableEffect(win);
+
+        const windowInfo = (actor as RoundedWindowActor).rwcCustomData;
+        const effect = getRoundedCornersEffect(actor);
+
+        const hasEffect = effect && windowInfo;
+
+        // onAddEffect already skips windows that shouldn't have rounded corners.
+        // This if statement is just for code readability to match the check for
+        // onRemoveEffect below.
+        if (!hasEffect && shouldHaveEffect) {
+            createEffect(actor);
+
+            // createEffect already calls updateEffect at the end,
+            // so return here to avoid running the update twice.
+            return;
+        }
+
+        if (hasEffect && !shouldHaveEffect) {
+            onRemoveEffect(actor);
+            return;
+        }
+
+        // Don'd do anything when the window doesn't have the effect and shouldn't have it.
+        if (!hasEffect) return;
+
+        updateEffect(actor);
+    });
+}
+
+/**
+ * Update effect uniforms and constraints for a window.
+ *
+ * @param actor - The window actor to update the effect for.
+ */
+function updateEffect(actor: RoundedWindowActor) {
     const win = actor.metaWindow;
+    const windowInfo = actor.rwcCustomData;
+    if (!windowInfo) return;
 
-    const shouldHaveEffect = await shouldEnableEffect(win);
-
-    const windowInfo = (actor as RoundedWindowActor).rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
-
-    const hasEffect = effect && windowInfo;
-
-    // onAddEffect already skips windows that shouldn't have rounded corners.
-    // This if statement is just for code readability to match the check for
-    // onRemoveEffect below.
-    if (!hasEffect && shouldHaveEffect) {
-        onAddEffect(actor);
-
-        // onAddEffect calls refreshRoundedCorners at the end, so return here to
-        // avoid running it twice.
-        return;
-    }
-
-    if (hasEffect && !shouldHaveEffect) {
-        onRemoveEffect(actor);
-        return;
-    }
-
-    // Don'd do anything when the window doesn't have the effect and shouldn't have it.
-    if (!hasEffect) return;
+    if (!effect) return;
 
     if (!effect.enabled) {
         effect.enabled = true;
     }
 
-    // When window size is changed, update uniforms for corner rounding shader.
     const cfg = getRoundedCornersCfg(win);
     const windowContentOffset = computeWindowContentsOffset(win);
     effect.updateUniforms(
@@ -269,7 +310,6 @@ async function refreshRoundedCorners(actor: RoundedWindowActor) {
         computeBounds(actor, windowContentOffset),
     );
 
-    // Update BindConstraint for the shadow
     const shadow = windowInfo.shadow;
     const offsets = computeShadowActorOffset(actor, windowContentOffset);
     const constraints = shadow.get_constraints();
