@@ -30,17 +30,17 @@ import {
     windowScaleFactor,
 } from './utils.js';
 
-export function onAddEffect(actor: RoundedWindowActor) {
+export async function onAddEffect(actor: RoundedWindowActor) {
     logDebug(`Adding effect to ${actor?.metaWindow.title}`);
 
     const win = actor.metaWindow;
 
     // Skip windows that already have the effect to prevent a memory leak
-    const windowInfo = actor.rwcCustomData;
+    const shouldHaveEffect = await shouldEnableEffect(win);
     const effect = getRoundedCornersEffect(actor);
-    const hasEffect = effect && windowInfo;
+    const hasEffect = effect && actor.rwcCustomData;
 
-    if (!shouldEnableEffect(win) || hasEffect) {
+    if (!shouldHaveEffect || hasEffect) {
         logDebug(`Skipping ${win.title}`);
         return;
     }
@@ -230,11 +230,12 @@ function refreshShadow(actor: RoundedWindowActor) {
 async function refreshRoundedCorners(actor: RoundedWindowActor): Promise<void> {
     const win = actor.metaWindow;
 
+    const shouldHaveEffect = await shouldEnableEffect(win);
+
     const windowInfo = (actor as RoundedWindowActor).rwcCustomData;
     const effect = getRoundedCornersEffect(actor);
 
     const hasEffect = effect && windowInfo;
-    const shouldHaveEffect = await shouldEnableEffect(win);
 
     // onAddEffect already skips windows that shouldn't have rounded corners.
     // This if statement is just for code readability to match the check for
