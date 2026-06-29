@@ -24,6 +24,7 @@ import {
     computeWindowContentsOffset,
     getRoundedCornersCfg,
     getRoundedCornersEffect,
+    isChromiumWindow,
     shouldEnableEffect,
     unwrapActor,
     updateShadowActorStyle,
@@ -171,6 +172,23 @@ export function onUnminimize(actor: RoundedWindowActor) {
                 source.disconnect(id);
             }
         });
+    } else if (roundedCornersEffect) {
+        const win = actor.metaWindow;
+        if (win && isChromiumWindow(win)) {
+            // Chromium's Wayland surface takes ~250ms to deliver a fresh frame
+            // after restore. Refreshing immediately uses a stale surface and
+            // produces glitched corners; the delayed call picks up the settled
+            // surface without blocking any intermediate refreshes.
+            const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 250, () => {
+                if (actor.rwcCustomData)
+                    actor.rwcCustomData.unminimizedTimeoutId = 0;
+                if (actor.metaWindow && getRoundedCornersEffect(actor))
+                    refreshRoundedCorners(actor);
+                return GLib.SOURCE_REMOVE;
+            });
+            if (actor.rwcCustomData)
+                actor.rwcCustomData.unminimizedTimeoutId = id;
+        }
     }
 }
 
