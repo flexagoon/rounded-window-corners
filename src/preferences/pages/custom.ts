@@ -89,7 +89,7 @@ export const CustomPage = GObject.registerClass(
             row: AppRowClass,
             oldWmClass: string,
             newWmClass: string,
-        ): boolean {
+        ) {
             // If overrides for the new window already exist, show an error.
             if (this.#customWindowSettings[newWmClass] !== undefined) {
                 const win = this.root as unknown as Adw.PreferencesDialog;

@@ -82,7 +82,7 @@ export async function onAddEffect(actor: RoundedWindowActor) {
     refreshRoundedCorners(actor);
 }
 
-export function onRemoveEffect(actor: RoundedWindowActor): void {
+export function onRemoveEffect(actor: RoundedWindowActor) {
     const name = ROUNDED_CORNERS_EFFECT;
     unwrapActor(actor)?.remove_effect_by_name(name);
 
@@ -110,7 +110,7 @@ export function onRemoveEffect(actor: RoundedWindowActor): void {
     delete actor.rwcCustomData;
 }
 
-export function onMinimize(actor: RoundedWindowActor): void {
+export function onMinimize(actor: RoundedWindowActor) {
     // Compatibility with "Compiz alike magic lamp effect".
     // When minimizing a window, disable the shadow to make the magic lamp effect
     // work.
@@ -124,7 +124,7 @@ export function onMinimize(actor: RoundedWindowActor): void {
     }
 }
 
-export function onUnminimize(actor: RoundedWindowActor): void {
+export function onUnminimize(actor: RoundedWindowActor) {
     // Compatibility with "Compiz alike magic lamp effect".
     // When unminimizing a window, wait until the effect is completed before
     // showing the shadow.
@@ -148,7 +148,7 @@ export function onUnminimize(actor: RoundedWindowActor): void {
     }
 }
 
-export function onRestacked(): void {
+export function onRestacked() {
     for (const actor of global.get_window_actors()) {
         const shadow = (actor as RoundedWindowActor).rwcCustomData?.shadow;
 
@@ -171,7 +171,7 @@ export const onSettingsChanged = refreshAllRoundedCorners;
  *
  * @param actor - The window actor to create the shadow actor for.
  */
-function createShadow(actor: RoundedWindowActor): St.Bin {
+function createShadow(actor: RoundedWindowActor) {
     const shadow = new St.Bin({
         name: 'Shadow Actor',
         child: new St.Bin({
@@ -227,7 +227,7 @@ function refreshShadow(actor: RoundedWindowActor) {
  *
  * @param actor - The window actor to refresh the rounded corners settings for.
  */
-async function refreshRoundedCorners(actor: RoundedWindowActor): Promise<void> {
+async function refreshRoundedCorners(actor: RoundedWindowActor) {
     const win = actor.metaWindow;
 
     const shouldHaveEffect = await shouldEnableEffect(win);

@@ -132,7 +132,7 @@ export const ResetPage = GObject.registerClass(
         }
 
         /** Callback to add or remove a pref from the list of prefs to reset. */
-        #onToggled(source: Adw.SwitchRow): void {
+        #onToggled(source: Adw.SwitchRow) {
             if (source.active) {
                 this.#resetPrefs.push(source.name as ResetKey);
             } else {

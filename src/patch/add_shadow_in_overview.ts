@@ -100,7 +100,7 @@ const OverviewShadowActorClone = GObject.registerClass(
          * - position and size of window preview in overview changed
          * @param box The bound box of shadow actor
          */
-        vfunc_allocate(box: Clutter.ActorBox): void {
+        vfunc_allocate(box: Clutter.ActorBox) {
             // The layout box of the window has to be obtained in a different
             // way when leaving the overview (eg. by pressing ESC). I have no
             // idea why this is the case, but oh well. GNOME.

@@ -12,14 +12,11 @@ import Shell from 'gi://Shell';
 export const LinearFilterEffect = GObject.registerClass(
     {},
     class extends Shell.GLSLEffect {
-        vfunc_build_pipeline(): void {
+        vfunc_build_pipeline() {
             this.add_glsl_snippet(Cogl.SnippetHook.FRAGMENT, '', '', false);
         }
 
-        vfunc_paint_target(
-            node: Clutter.PaintNode,
-            ctx: Clutter.PaintContext,
-        ): void {
+        vfunc_paint_target(node: Clutter.PaintNode, ctx: Clutter.PaintContext) {
             this.get_pipeline()?.set_layer_filters(
                 0,
                 Cogl.PipelineFilter.LINEAR_MIPMAP_LINEAR,

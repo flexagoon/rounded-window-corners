@@ -99,7 +99,7 @@ export const BlacklistPage = GObject.registerClass(
          * @param newWmClass - New WM_CLASS of the entry.
          * @returns Whether the entry was changed successfully.
          */
-        #changeWindow(oldWmClass: string, newWmClass: string): boolean {
+        #changeWindow(oldWmClass: string, newWmClass: string) {
             if (this.#blacklist.includes(newWmClass)) {
                 // If the new window is already in the blacklist, show an error.
                 const win = this.root as unknown as Adw.PreferencesDialog;

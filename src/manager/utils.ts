@@ -2,11 +2,7 @@
 
 import type Clutter from 'gi://Clutter';
 import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
-import type {
-    Bounds,
-    RoundedCornerSettings,
-    RoundedWindowActor,
-} from '../utils/types.js';
+import type {RoundedWindowActor} from '../utils/types.js';
 
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
@@ -34,7 +30,7 @@ let fractionalScalingEnabled: boolean | null = null;
  *
  * @returns Whether fractional scaling is currently enabled.
  */
-function isFractionalScalingEnabled(): boolean {
+function isFractionalScalingEnabled() {
     if (mutterSettings === null) {
         mutterSettings = Gio.Settings.new('org.gnome.mutter');
         mutterSettings.connect('changed::experimental-features', () => {
@@ -69,7 +65,7 @@ export function clearMutterSettingsCache() {
  * @param actor - The window actor to unwrap.
  * @returns The correct actor that the effect should be applied to.
  */
-export function unwrapActor(actor: RoundedWindowActor): Clutter.Actor | null {
+export function unwrapActor(actor: RoundedWindowActor) {
     const type = actor.metaWindow.get_client_type();
     return type === Meta.WindowClientType.X11 ? actor.get_first_child() : actor;
 }
@@ -81,7 +77,7 @@ export function unwrapActor(actor: RoundedWindowActor): Clutter.Actor | null {
  * @param win - The window to get the settings for.
  * @returns The matching settings object.
  */
-export function getRoundedCornersCfg(win: Meta.Window): RoundedCornerSettings {
+export function getRoundedCornersCfg(win: Meta.Window) {
     const globalCfg = getPref('global-rounded-corner-settings');
     const customCfgList = getPref('custom-rounded-corner-settings');
 
@@ -107,9 +103,7 @@ type RoundedCornersEffectType = InstanceType<typeof RoundedCornersEffect>;
  * @param actor - The window actor to get the effect for.
  * @returns The corresponding Clutter.Effect object.
  */
-export function getRoundedCornersEffect(
-    actor: RoundedWindowActor,
-): RoundedCornersEffectType | null {
+export function getRoundedCornersEffect(actor: RoundedWindowActor) {
     const win = actor.metaWindow;
     const name = ROUNDED_CORNERS_EFFECT;
     const isXwayland =
@@ -145,7 +139,7 @@ export function windowScaleFactor(win: Meta.Window) {
 export function computeBounds(
     actor: RoundedWindowActor,
     [x, y, width, height]: [number, number, number, number],
-): Bounds {
+) {
     const bounds = {
         x1: x + 1,
         y1: y + 1,
@@ -204,7 +198,7 @@ export function computeShadowActorOffset(
         number,
         number,
     ],
-): number[] {
+) {
     const win = actor.metaWindow;
     const shadowPadding = SHADOW_PADDING * windowScaleFactor(win);
 
@@ -355,7 +349,7 @@ type AppType = 'LibAdwaita' | 'LibHandy' | 'Other';
  * @param win - The window to get the type of.
  * @returns the type of the application.
  */
-async function getAppType(win: Meta.Window): Promise<AppType> {
+async function getAppType(win: Meta.Window) {
     try {
         // May throw a permission error.
         const contents = await readFile(`/proc/${win.get_pid()}/maps`);

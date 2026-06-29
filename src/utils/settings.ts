@@ -76,7 +76,7 @@ export function uninitPrefs() {
  * @param key - The key of the preference to get.
  * @returns The value of the preference.
  */
-export function getPref<K extends SchemaKey>(key: K): Schema[K] {
+export function getPref<K extends SchemaKey>(key: K) {
     return prefs.get_value(key).recursiveUnpack() as Schema[K];
 }
 
