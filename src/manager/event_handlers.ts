@@ -24,6 +24,7 @@ import {
     computeWindowContentsOffset,
     getRoundedCornersCfg,
     getRoundedCornersEffect,
+    isChromiumWindow,
     shouldEnableEffect,
     unwrapActor,
     updateShadowActorStyle,
@@ -46,8 +47,10 @@ function withActorLock(
 
 export function onAddEffect(actor: RoundedWindowActor) {
     return withActorLock(actor, async () => {
-        logDebug(`Adding effect to ${actor?.metaWindow.title}`);
         const win = actor.metaWindow;
+        if (!win) return;
+
+        logDebug(`Adding effect to ${win.title}`);
 
         // Skip windows that already have the effect to prevent a memory leak
         const shouldHaveEffect = await shouldEnableEffect(win);
@@ -169,6 +172,23 @@ export function onUnminimize(actor: RoundedWindowActor) {
                 source.disconnect(id);
             }
         });
+    } else if (roundedCornersEffect) {
+        const win = actor.metaWindow;
+        if (win && isChromiumWindow(win)) {
+            // Chromium's Wayland surface takes ~250ms to deliver a fresh frame
+            // after restore. Refreshing immediately uses a stale surface and
+            // produces glitched corners; the delayed call picks up the settled
+            // surface without blocking any intermediate refreshes.
+            const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 250, () => {
+                if (actor.rwcCustomData)
+                    actor.rwcCustomData.unminimizedTimeoutId = 0;
+                if (actor.metaWindow && getRoundedCornersEffect(actor))
+                    refreshRoundedCorners(actor);
+                return GLib.SOURCE_REMOVE;
+            });
+            if (actor.rwcCustomData)
+                actor.rwcCustomData.unminimizedTimeoutId = id;
+        }
     }
 }
 
@@ -186,7 +206,7 @@ export function onRestacked() {
 
 export const onSizeChanged = refreshRoundedCorners;
 
-export const onFocusChanged = refreshShadow;
+export const onFocusChanged = refreshRoundedCorners;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
 
@@ -292,6 +312,7 @@ function refreshRoundedCorners(actor: RoundedWindowActor) {
  */
 function updateEffect(actor: RoundedWindowActor) {
     const win = actor.metaWindow;
+    if (!win) return;
     const windowInfo = actor.rwcCustomData;
     if (!windowInfo) return;
 
