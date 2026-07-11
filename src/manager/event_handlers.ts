@@ -19,6 +19,7 @@ import {logDebug} from '../utils/log.js';
 import {getPref} from '../utils/settings.js';
 import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 import {
+    isChromiumWindow,
     computeBounds,
     computeShadowActorOffset,
     computeWindowContentsOffset,
@@ -104,6 +105,24 @@ function createEffect(actor: RoundedWindowActor) {
 
     // Make sure the effect is applied correctly.
     updateEffect(actor);
+
+    // For Chromium/Electron windows (QQ, WeChat, etc.) on fractional-scaled
+    // Wayland, force periodic shader refreshes to nudge Mutter/DRM toward the
+    // full-resolution buffer allocation, reducing initial blurry-window time.
+    const win = actor.metaWindow;
+    if (win && isChromiumWindow(win)) {
+        actor.rwcCustomData.refreshIds = [32, 80, 200, 500].map(ms =>
+            GLib.timeout_add(GLib.PRIORITY_DEFAULT, ms, () => {
+                if (actor.rwcCustomData) {
+                    if (getRoundedCornersEffect(actor))
+                        refreshRoundedCorners(actor);
+                    else
+                        actor.queue_repaint();
+                }
+                return GLib.SOURCE_REMOVE;
+            })
+        );
+    }
 }
 
 export function onRemoveEffect(actor: RoundedWindowActor) {
@@ -124,6 +143,13 @@ export function onRemoveEffect(actor: RoundedWindowActor) {
         global.windowGroup.remove_child(shadow);
         shadow.clear_effects();
         shadow.destroy();
+    }
+
+    // Clean up Chromium timeout-based shader refreshes
+    const refreshIds = actor.rwcCustomData?.refreshIds;
+    if (refreshIds) {
+        for (const id of refreshIds)
+            GLib.source_remove(id);
     }
 
     // Remove all timeout handler
@@ -169,6 +195,33 @@ export function onUnminimize(actor: RoundedWindowActor) {
                 source.disconnect(id);
             }
         });
+    } else if (roundedCornersEffect) {
+        const win = actor.metaWindow;
+        if (win && isChromiumWindow(win)) {
+            // Chromium/Electron windows delivered from the dock (QQ, WeChat,
+            // etc.) appear blurry because Mutter's ClutterOffscreenEffect
+            // reuses the offscreen FBO populated during the unminimize
+            // animation at a mismatched resolution. Toggling the effect's
+            // enabled state destroys the stale FBO; the subsequent
+            // refreshRoundedCorners call triggers pre_paint which allocates
+            // a fresh FBO at the correct resolution.
+            //
+            // The 250ms delay allows Electron's Wayland renderer to deliver
+            // a settled frame before the FBO is recreated.
+            const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 250, () => {
+                if (actor.rwcCustomData)
+                    actor.rwcCustomData.unminimizedTimeoutId = 0;
+                const effect = getRoundedCornersEffect(actor);
+                if (actor.metaWindow && effect) {
+                    effect.enabled = false;
+                    effect.enabled = true;
+                    refreshRoundedCorners(actor);
+                }
+                return GLib.SOURCE_REMOVE;
+            });
+            if (actor.rwcCustomData)
+                actor.rwcCustomData.unminimizedTimeoutId = id;
+        }
     }
 }
 
@@ -186,7 +239,7 @@ export function onRestacked() {
 
 export const onSizeChanged = refreshRoundedCorners;
 
-export const onFocusChanged = refreshShadow;
+export const onFocusChanged = refreshRoundedCorners;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
 
@@ -281,9 +334,34 @@ function refreshRoundedCorners(actor: RoundedWindowActor) {
         // Don'd do anything when the window doesn't have the effect and shouldn't have it.
         if (!hasEffect) return;
 
-        updateEffect(actor);
+        updateEffectWithFboInvalidate(actor, win);
     });
 }
+
+/**
+ * Helper that forces FBO invalidation for Chromium/Electron windows before
+ * updating the effect. This destroys the stale offscreen framebuffer that
+ * Mutter populated during the unminimize animation at a mismatched resolution,
+ * ensuring the next pre_paint allocates a fresh FBO with the correct content.
+ *
+ * Non-Chromium windows are unaffected and go through the normal updateEffect.
+ *
+ * @param actor - The window actor.
+ * @param win   - The Meta.Window the actor represents.
+ */
+function updateEffectWithFboInvalidate(
+    actor: RoundedWindowActor,
+    win: Meta.Window,
+) {
+    const effect = getRoundedCornersEffect(actor);
+    if (win && isChromiumWindow(win) && effect) {
+        effect.enabled = false;
+        effect.enabled = true;
+    }
+    updateEffect(actor);
+}
+
+/**
 
 /**
  * Update effect uniforms and constraints for a window.

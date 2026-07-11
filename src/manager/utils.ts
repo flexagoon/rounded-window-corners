@@ -272,6 +272,25 @@ export function updateShadowActorStyle(
     }
 }
 
+// Browser apps that may leave stale Wayland surfaces after minimize/restore,
+// causing Mutter offscreen FBOs to render at mismatched resolutions.
+const CHROMIUM_WM_CLASS_PATTERN =
+    /^(brave-(browser|origin)|chromium|electron|google-chrome|microsoft-edge|qq|wechat)$/;
+
+/**
+ * Check whether a window belongs to a Chromium/Electron application.
+ * These apps can render blurry content through Mutter's ClutterOffscreenEffect
+ * when shown from the dock, because their Wayland buffers may not be at
+ * the expected resolution after unminimize transitions.
+ *
+ * @param win - The window to check.
+ * @returns Whether the window uses a Chromium-based renderer.
+ */
+export function isChromiumWindow(win: Meta.Window) {
+    const wmClass = win.get_wm_class_instance();
+    return wmClass !== null && CHROMIUM_WM_CLASS_PATTERN.test(wmClass);
+}
+
 /**
  * Check whether a window should have rounded corners.
  *
