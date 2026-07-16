@@ -265,6 +265,31 @@ export async function shouldEnableEffect(
     );
 }
 
+/**
+ * Check if a window is Chromium/Electron-based.
+ *
+ * @param win - The window to check.
+ * @returns whether the application uses Chromium.
+ */
+export async function isChromium(win: Meta.Window & {_isChromium?: boolean}) {
+    logDebug('ischromium', win.wmClass);
+    // biome-ignore lint/suspicious/noEqualsToNull: matching both null and undefined is intended.
+    if (win._isChromium != null) return win._isChromium;
+    try {
+        // May throw a permission error.
+        const contents = await readFile(`/proc/${win.get_pid()}/maps`);
+        const hasChromiumShm = contents.includes(
+            '/dev/shm/.org.chromium.Chromium',
+        );
+        win._isChromium = hasChromiumShm;
+        logDebug(win.wmClass, 'chromium', hasChromiumShm);
+        return hasChromiumShm;
+    } catch (e) {
+        logError(e);
+        return false;
+    }
+}
+
 type AppType = 'LibAdwaita' | 'LibHandy' | 'Other';
 
 /**

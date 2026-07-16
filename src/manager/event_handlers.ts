@@ -24,6 +24,7 @@ import {
     computeWindowContentsOffset,
     getRoundedCornersCfg,
     getRoundedCornersEffect,
+    isChromium,
     shouldEnableEffect,
     unwrapActor,
     updateShadowActorStyle,
@@ -147,7 +148,7 @@ export function onMinimize(actor: RoundedWindowActor) {
     }
 }
 
-export function onUnminimize(actor: RoundedWindowActor) {
+export async function onUnminimize(actor: RoundedWindowActor) {
     // Compatibility with "Compiz alike magic lamp effect".
     // When unminimizing a window, wait until the effect is completed before
     // showing the shadow.
@@ -168,6 +169,10 @@ export function onUnminimize(actor: RoundedWindowActor) {
                 source.disconnect(id);
             }
         });
+    }
+
+    if (await isChromium(actor.metaWindow)) {
+        setTimeout(() => refreshRoundedCorners(actor), 250);
     }
 }
 
