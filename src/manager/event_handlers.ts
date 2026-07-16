@@ -171,6 +171,13 @@ export async function onUnminimize(actor: RoundedWindowActor) {
         });
     }
 
+    // Chromium has a bug where windows are sometimes unminimized to the
+    // wrong location, and then move to the correct position shortly after.
+    // This forces an effect refresh after the window has already moved to the
+    // proper position; otherwise, the effect bounds would use the wrong one and
+    // cut off a part of the window.
+    //
+    // See https://github.com/flexagoon/rounded-window-corners/issues/124
     if (await isChromium(actor.metaWindow)) {
         setTimeout(() => refreshRoundedCorners(actor), 250);
     }
