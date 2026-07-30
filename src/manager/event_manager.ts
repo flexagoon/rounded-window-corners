@@ -11,6 +11,7 @@ import {logDebug} from '../utils/log.js';
 import {prefs} from '../utils/settings.js';
 import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
 import * as handlers from './event_handlers.js';
+import {unwrapActor} from './utils.js';
 
 /**
  * The rounded corners effect has to perform some actions when differen events
@@ -141,11 +142,15 @@ function disconnectAll(object?: GObject.Object | null) {
 function applyEffectTo(actor: RoundedWindowActor) {
     // In wayland sessions, the surface actor of XWayland clients is sometimes
     // not ready when the window is created. In this case, we wait until it is
-    // ready before applying the effect.
-    if (!actor.firstChild) {
-        const id = actor.connect('notify::first-child', () => {
-            applyEffectTo(actor);
+    // ready before applying the effect. `child-added` is used instead of
+    // `notify::first-child` because another extension may already occupy the
+    // first child slot.
+    if (!unwrapActor(actor)) {
+        const id = actor.connect('child-added', () => {
+            if (!unwrapActor(actor)) return;
+
             actor.disconnect(id);
+            applyEffectTo(actor);
         });
 
         return;
