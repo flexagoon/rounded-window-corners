@@ -22,28 +22,17 @@ import {logDebug} from '../utils/log.js';
 import {getPref} from '../utils/settings.js';
 
 /**
- * Get the actor that rounded corners should be applied to.
- *
- * The window contents are drawn by a MetaSurfaceActor, which is a child of the
- * window actor. The effect is applied to that surface actor rather than to the
- * window actor itself, because the effect is an offscreen effect: everything
- * inside the actor it is attached to gets redirected into an offscreen
- * framebuffer.
- *
- * Other extensions add their own actors as children of the window actor, and
- * such actors break if they end up inside our offscreen framebuffer. The most
- * notable case is Blur my Shell, which puts a blur actor below the window
- * contents. That actor samples whatever has already been drawn behind it, so
- * inside our (empty) offscreen framebuffer it has nothing to sample and blurs
- * away to nothing, leaving the window plainly transparent instead of blurred.
- *
- * MetaSurfaceActor is not exposed to introspection, so it can't be matched by
- * type. Instead, actors injected by other extensions are skipped: those are
- * always StWidgets, while the surface actor never is.
+ * Get the actor that rounded corners should be applied to: the MetaSurfaceActor
+ * holding the window contents, rather than the window actor itself. The effect
+ * is an offscreen effect, so attaching it to the window actor would also
+ * capture actors that other extensions insert into it, such as Blur my Shell's
+ * blur actor, which then has nothing left to blur. MetaSurfaceActor isn't
+ * introspectable, so it is matched by skipping those injected actors, which are
+ * always StWidgets.
  *
  * @param actor - The window actor to unwrap.
- * @returns The correct actor that the effect should be applied to, or
- * `undefined` if the window contents don't exist yet.
+ * @returns The actor to apply the effect to, or `undefined` if the window
+ * contents don't exist yet.
  */
 export function unwrapActor(actor: RoundedWindowActor) {
     return actor.get_children().find(child => !(child instanceof St.Widget));

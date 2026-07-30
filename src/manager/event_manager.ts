@@ -142,11 +142,9 @@ function disconnectAll(object?: GObject.Object | null) {
 function applyEffectTo(actor: RoundedWindowActor) {
     // In wayland sessions, the surface actor of XWayland clients is sometimes
     // not ready when the window is created. In this case, we wait until it is
-    // ready before applying the effect.
-    //
-    // `child-added` is used instead of `notify::first-child` because other
-    // extensions may have already inserted an actor below the window contents,
-    // in which case adding the surface actor doesn't change the first child.
+    // ready before applying the effect. `child-added` is used instead of
+    // `notify::first-child` because another extension may already occupy the
+    // first child slot.
     if (!unwrapActor(actor)) {
         const id = actor.connect('child-added', () => {
             if (!unwrapActor(actor)) return;
