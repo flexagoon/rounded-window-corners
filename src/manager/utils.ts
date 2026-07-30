@@ -1,6 +1,5 @@
 /** @file Provides various utility functions used withing signal handling code. */
 
-import type St from 'gi://St';
 import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
 import type {
     BoxShadow,
@@ -10,6 +9,7 @@ import type {
 
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
+import St from 'gi://St';
 
 import {boxShadowCss} from '../utils/box_shadow.js';
 import {
@@ -23,15 +23,30 @@ import {getPref} from '../utils/settings.js';
 
 /**
  * Get the actor that rounded corners should be applied to.
- * In Wayland, the effect is applied to WindowActor, but in X11, it is applied
- * to WindowActor.first_child.
+ *
+ * The window contents are drawn by a MetaSurfaceActor, which is a child of the
+ * window actor. The effect is applied to that surface actor rather than to the
+ * window actor itself, because the effect is an offscreen effect: everything
+ * inside the actor it is attached to gets redirected into an offscreen
+ * framebuffer.
+ *
+ * Other extensions add their own actors as children of the window actor, and
+ * such actors break if they end up inside our offscreen framebuffer. The most
+ * notable case is Blur my Shell, which puts a blur actor below the window
+ * contents. That actor samples whatever has already been drawn behind it, so
+ * inside our (empty) offscreen framebuffer it has nothing to sample and blurs
+ * away to nothing, leaving the window plainly transparent instead of blurred.
+ *
+ * MetaSurfaceActor is not exposed to introspection, so it can't be matched by
+ * type. Instead, actors injected by other extensions are skipped: those are
+ * always StWidgets, while the surface actor never is.
  *
  * @param actor - The window actor to unwrap.
- * @returns The correct actor that the effect should be applied to.
+ * @returns The correct actor that the effect should be applied to, or
+ * `undefined` if the window contents don't exist yet.
  */
 export function unwrapActor(actor: RoundedWindowActor) {
-    const type = actor.metaWindow.get_client_type();
-    return type === Meta.WindowClientType.X11 ? actor.get_first_child() : actor;
+    return actor.get_children().find(child => !(child instanceof St.Widget));
 }
 
 /**
@@ -67,14 +82,9 @@ type RoundedCornersEffectType = InstanceType<typeof RoundedCornersEffect>;
  * @returns The corresponding Clutter.Effect object.
  */
 export function getRoundedCornersEffect(actor: RoundedWindowActor) {
-    const win = actor.metaWindow;
-    const name = ROUNDED_CORNERS_EFFECT;
-    const isXwayland =
-        win.get_client_type() === Meta.WindowClientType.X11 && actor.firstChild;
-
-    return isXwayland
-        ? (actor.firstChild.get_effect(name) as RoundedCornersEffectType)
-        : (actor.get_effect(name) as RoundedCornersEffectType);
+    return unwrapActor(actor)?.get_effect(
+        ROUNDED_CORNERS_EFFECT,
+    ) as RoundedCornersEffectType | null;
 }
 
 /** Compute outer bounds for rounded corners of a window
