@@ -25,6 +25,7 @@ import {
     getRoundedCornersCfg,
     getRoundedCornersEffect,
     isChromium,
+    setCreateMipmaps,
     shouldEnableEffect,
     unwrapActor,
     updateShadowActorStyle,
@@ -74,6 +75,8 @@ function createEffect(actor: RoundedWindowActor) {
         new RoundedCornersEffect(),
     );
 
+    setCreateMipmaps(actor, false);
+
     const shadow = createShadow(actor);
 
     // Bind properties of the window to the shadow actor.
@@ -109,6 +112,8 @@ function createEffect(actor: RoundedWindowActor) {
 export function onRemoveEffect(actor: RoundedWindowActor) {
     const name = ROUNDED_CORNERS_EFFECT;
     unwrapActor(actor)?.remove_effect_by_name(name);
+
+    setCreateMipmaps(actor, true);
 
     // Unbind all properties
     for (const binding of actor.rwcCustomData?.propertyBindings || []) {
