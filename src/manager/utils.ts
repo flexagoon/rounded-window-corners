@@ -35,6 +35,33 @@ export function unwrapActor(actor: RoundedWindowActor) {
 }
 
 /**
+ * Enable or disable mipmaps for the texture of a window.
+ *
+ * When a window is painted at less than half its size, GNOME paints it from a
+ * half resolution copy of its texture instead. It decides that based on how
+ * the window is being painted, but when a window has an effect, it is first
+ * rendered into an offscreen texture at its full size — and GNOME still makes
+ * that decision based on the size the *result* is painted at. That means the
+ * offscreen texture ends up containing a blurry, upscaled copy of the window
+ * whenever the window is shown scaled down, which is why windows with rounded
+ * corners look blurry in the overview.
+ *
+ * Turning mipmaps off avoids that. Scaled down copies of the offscreen texture
+ * are still filtered properly — see `effect/texture_filters.ts`.
+ *
+ * See https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/7903
+ *
+ * @param actor - The window actor to change the setting for.
+ * @param createMipmaps - Whether GNOME should create mipmaps for the window.
+ */
+export function setCreateMipmaps(
+    actor: RoundedWindowActor,
+    createMipmaps: boolean,
+) {
+    actor.get_texture()?.set_create_mipmaps(createMipmaps);
+}
+
+/**
  * Get the correct rounded corner setting for a window (custom settings if a
  * window has custom overrides, global settings otherwise).
  *

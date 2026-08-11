@@ -10,7 +10,6 @@ import Graphene from 'gi://Graphene';
 
 import {overview} from 'resource:///org/gnome/shell/ui/main.js';
 
-import {LinearFilterEffect} from '../effect/linear_filter_effect.js';
 import {shouldEnableEffect} from '../manager/utils.js';
 import {OVERVIEW_SHADOW_ACTOR, SHADOW_PADDING} from '../utils/constants.js';
 import {logDebug} from '../utils/log.js';
@@ -45,11 +44,6 @@ export async function addShadowInOverview(
 
     // windowContainer has the actual contents of the window preview
     const windowContainer = self.windowContainer;
-
-    // Apply linear interpolation to the window preview to make it look
-    // better (there's an upstream GNOME bug causing windows to be blurry,
-    // this makes the effect less noticeable)
-    windowContainer.firstChild?.add_effect(new LinearFilterEffect());
 
     // Create a clone of the window's shadow actor and add it to the preview
     const shadowActorClone = new OverviewShadowActorClone(shadow, self);
