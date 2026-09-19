@@ -3,6 +3,7 @@
 import type {WorkspaceAnimationController} from 'resource:///org/gnome/shell/ui/workspaceAnimation.js';
 
 import Clutter from 'gi://Clutter';
+import GObject from 'gi://GObject';
 
 import {getRoundedCornersEffect} from '../manager/utils.js';
 import {SHADOW_PADDING} from '../utils/constants.js';
@@ -81,7 +82,14 @@ export function addShadowsInWorkspaceSwitch(
                 // Store the reference to the shadow clone. This allows restacking
                 // them, as you can see at the top of this function.
                 (clone as WsAnimationActor).shadowClone = shadowClone;
-                clone.bind_property('visible', shadowClone, 'visible', 0);
+                // Minimized windows already have hidden clones when the
+                // switch starts, so also synchronize the initial visibility.
+                clone.bind_property(
+                    'visible',
+                    shadowClone,
+                    'visible',
+                    GObject.BindingFlags.SYNC_CREATE,
+                );
 
                 workspace.insert_child_below(shadowClone, clone);
             }
