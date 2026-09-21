@@ -79,11 +79,11 @@ function createEffect(actor: RoundedWindowActor) {
     // Bind properties of the window to the shadow actor.
     const propertyBindings: GObject.Binding[] = [];
     for (const prop of [
-        'pivot-point',
         'translation-x',
         'translation-y',
         'scale-x',
         'scale-y',
+        'opacity',
         'visible',
     ]) {
         const binding = actor.bind_property(
@@ -95,11 +95,21 @@ function createEffect(actor: RoundedWindowActor) {
         propertyBindings.push(binding);
     }
 
+    // The shadow has a different allocation due to its padding. Copying the
+    // normalized pivot would make it scale around a different stage position.
+    function syncPivot() {
+        syncShadowPivot(actor, shadow);
+    }
+    const pivotPointChangedId = actor.connect('notify::pivot-point', syncPivot);
+    shadow.connect('notify::allocation', syncPivot);
+    syncPivot();
+
     // Store shadow, app type, visible binding, so that we can access them later
     actor.rwcCustomData = {
         shadow,
         unminimizedTimeoutId: 0,
         propertyBindings,
+        pivotPointChangedId,
     };
 
     // Make sure the effect is applied correctly.
@@ -113,6 +123,9 @@ export function onRemoveEffect(actor: RoundedWindowActor) {
     // Unbind all properties
     for (const binding of actor.rwcCustomData?.propertyBindings || []) {
         binding.unbind();
+    }
+    if (actor.rwcCustomData) {
+        actor.disconnect(actor.rwcCustomData.pivotPointChangedId);
     }
 
     // Remove shadow actor
@@ -212,6 +225,17 @@ export const onSizeChanged = refreshRoundedCorners;
 export const onFocusChanged = refreshShadow;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
+
+/** Keep the shadow's scaling origin at the window's pivot in parent coordinates. */
+function syncShadowPivot(actor: RoundedWindowActor, shadow: St.Bin) {
+    if (shadow.width <= 0 || shadow.height <= 0) return;
+
+    const [pivotX, pivotY] = actor.get_pivot_point();
+    shadow.set_pivot_point(
+        (actor.x - shadow.x + pivotX * actor.width) / shadow.width,
+        (actor.y - shadow.y + pivotY * actor.height) / shadow.height,
+    );
+}
 
 /**
  * Create the shadow actor for a window.
