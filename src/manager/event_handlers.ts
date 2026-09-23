@@ -15,9 +15,10 @@ import {
     CLIP_SHADOW_EFFECT,
     ROUNDED_CORNERS_EFFECT,
 } from '../utils/constants.js';
-import {logDebug} from '../utils/log.js';
+import {logDebug, logError} from '../utils/log.js';
 import {getPref} from '../utils/settings.js';
 import {hasMetaWindow, type RoundedWindowActor} from '../utils/types.js';
+import {syncPaperBlur, syncPaperShadow, syncShadowClip} from './paperwm.js';
 import {
     computeBounds,
     computeShadowActorOffset,
@@ -38,9 +39,16 @@ function withActorLock(
     actor: RoundedWindowActor,
     fn: () => Promise<void>,
 ): Promise<void> {
-    const prev: Promise<void> | undefined = actor.rwcLock;
-    const next = prev ? prev.then(fn, fn) : fn();
+    const generation = actor.rwcGeneration;
+    const run = async () => {
+        if (generation && actor.rwcGeneration === generation) await fn();
+    };
+    const prev = actor.rwcLock;
+    const next = (prev ? prev.then(run, run) : run()).catch(logError);
     actor.rwcLock = next;
+    next.then(() => {
+        if (actor.rwcLock === next) delete actor.rwcLock;
+    });
     return next;
 }
 
@@ -48,9 +56,14 @@ export function onAddEffect(actor: RoundedWindowActor) {
     return withActorLock(actor, async () => {
         logDebug(`Adding effect to ${actor?.metaWindow.wmClass}`);
         const win = actor.metaWindow;
+        const generation = actor.rwcGeneration;
 
         // Skip windows that already have the effect to prevent a memory leak
-        const shouldHaveEffect = await shouldEnableEffect(win);
+        const shouldHaveEffect = await shouldEnableEffect(
+            win,
+            () => actor.rwcGeneration === generation,
+        );
+        if (actor.rwcGeneration !== generation) return;
         const effect = getRoundedCornersEffect(actor);
         const hasEffect = effect && actor.rwcCustomData;
 
@@ -69,7 +82,9 @@ export function onAddEffect(actor: RoundedWindowActor) {
  * @param actor - The window actor to create the effect on.
  */
 function createEffect(actor: RoundedWindowActor) {
-    unwrapActor(actor)?.add_effect_with_name(
+    const effectActor = unwrapActor(actor);
+    if (!effectActor) return;
+    effectActor.add_effect_with_name(
         ROUNDED_CORNERS_EFFECT,
         new RoundedCornersEffect(),
     );
@@ -85,6 +100,7 @@ function createEffect(actor: RoundedWindowActor) {
         'scale-x',
         'scale-y',
         'visible',
+        'opacity',
     ]) {
         const binding = actor.bind_property(
             prop,
@@ -97,6 +113,7 @@ function createEffect(actor: RoundedWindowActor) {
 
     // Store shadow, app type, visible binding, so that we can access them later
     actor.rwcCustomData = {
+        effectActor,
         shadow,
         unminimizedTimeoutId: 0,
         propertyBindings,
@@ -108,7 +125,9 @@ function createEffect(actor: RoundedWindowActor) {
 
 export function onRemoveEffect(actor: RoundedWindowActor) {
     const name = ROUNDED_CORNERS_EFFECT;
-    unwrapActor(actor)?.remove_effect_by_name(name);
+    actor.rwcCustomData?.paperBlur?.destroy();
+    actor.rwcCustomData?.paperShadow?.destroy();
+    actor.rwcCustomData?.effectActor.remove_effect_by_name(name);
 
     // Unbind all properties
     for (const binding of actor.rwcCustomData?.propertyBindings || []) {
@@ -121,7 +140,7 @@ export function onRemoveEffect(actor: RoundedWindowActor) {
         shadow.get_constraints().forEach(constraint => {
             shadow.remove_constraint(constraint);
         });
-        global.windowGroup.remove_child(shadow);
+        shadow.get_parent()?.remove_child(shadow);
         shadow.clear_effects();
         shadow.destroy();
     }
@@ -149,6 +168,8 @@ export function onMinimize(actor: RoundedWindowActor) {
 }
 
 export async function onUnminimize(actor: RoundedWindowActor) {
+    const generation = actor.rwcGeneration;
+    if (!generation) return;
     // Compatibility with "Compiz alike magic lamp effect".
     // When unminimizing a window, wait until the effect is completed before
     // showing the shadow.
@@ -180,6 +201,7 @@ export async function onUnminimize(actor: RoundedWindowActor) {
     // See https://github.com/flexagoon/rounded-window-corners/issues/124
     if (
         (await isChromium(actor.metaWindow)) &&
+        actor.rwcGeneration === generation &&
         actor.rwcCustomData !== undefined
     ) {
         const oldTimeout = actor.rwcCustomData.unminimizedTimeoutId;
@@ -188,6 +210,8 @@ export async function onUnminimize(actor: RoundedWindowActor) {
             GLib.PRIORITY_DEFAULT,
             250,
             () => {
+                if (actor.rwcCustomData)
+                    actor.rwcCustomData.unminimizedTimeoutId = 0;
                 refreshRoundedCorners(actor);
                 return GLib.SOURCE_REMOVE;
             },
@@ -197,14 +221,24 @@ export async function onUnminimize(actor: RoundedWindowActor) {
 
 export function onRestacked() {
     for (const actor of global.get_window_actors()) {
+        if (!hasMetaWindow(actor)) continue;
+        onActorChanged(actor);
         const shadow = (actor as RoundedWindowActor).rwcCustomData?.shadow;
 
         if (!(actor.visible && shadow)) {
             continue;
         }
 
-        global.windowGroup.set_child_below_sibling(shadow, actor);
+        const parent = actor.get_parent();
+        if (parent && shadow.get_parent() === parent)
+            parent.set_child_below_sibling(shadow, actor);
     }
+}
+
+export function onActorChanged(actor: RoundedWindowActor) {
+    syncPaperShadow(actor);
+    syncPaperBlur(actor);
+    syncShadowClip(actor);
 }
 
 export const onSizeChanged = refreshRoundedCorners;
@@ -228,14 +262,12 @@ function createShadow(actor: RoundedWindowActor) {
     });
     (shadow.firstChild as St.Bin).add_style_class_name('shadow');
 
-    refreshShadow(actor);
-
     // We have to clip the shadow because of this issue:
     // https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/4474
     shadow.add_effect_with_name(CLIP_SHADOW_EFFECT, new ClipShadowEffect());
 
     // Draw the shadow actor below the window actor.
-    global.windowGroup.insert_child_below(shadow, actor);
+    actor.get_parent()?.insert_child_below(shadow, actor);
 
     // Bind position and size between window and shadow
     for (let i = 0; i < 4; i++) {
@@ -277,8 +309,13 @@ function refreshShadow(actor: RoundedWindowActor) {
 function refreshRoundedCorners(actor: RoundedWindowActor) {
     return withActorLock(actor, async () => {
         const win = actor.metaWindow;
+        const generation = actor.rwcGeneration;
 
-        const shouldHaveEffect = await shouldEnableEffect(win);
+        const shouldHaveEffect = await shouldEnableEffect(
+            win,
+            () => actor.rwcGeneration === generation,
+        );
+        if (actor.rwcGeneration !== generation) return;
 
         const windowInfo = (actor as RoundedWindowActor).rwcCustomData;
         const effect = getRoundedCornersEffect(actor);
@@ -339,6 +376,7 @@ function updateEffect(actor: RoundedWindowActor) {
     });
 
     refreshShadow(actor);
+    onActorChanged(actor);
 }
 
 /** Refresh rounded corners settings for all windows. */

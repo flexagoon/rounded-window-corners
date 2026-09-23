@@ -1,5 +1,6 @@
 /** @file Provides various utility functions used withing signal handling code. */
 
+import type Clutter from 'gi://Clutter';
 import type St from 'gi://St';
 import type {RoundedCornersEffect} from '../effect/rounded_corners_effect.js';
 import type {
@@ -9,6 +10,7 @@ import type {
 } from '../utils/types.js';
 
 import Gio from 'gi://Gio';
+import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
 
 import {boxShadowCss} from '../utils/box_shadow.js';
@@ -23,15 +25,26 @@ import {getPref} from '../utils/settings.js';
 
 /**
  * Get the actor that rounded corners should be applied to.
- * In Wayland, the effect is applied to WindowActor, but in X11, it is applied
- * to WindowActor.first_child.
+ * Round the surface before WindowActor clipping and transforms. PaperWM clips
+ * WindowActor to the monitor and paints it through clones while scrolling;
+ * applying an offscreen effect to that clipped actor changes its paint bounds.
  *
  * @param actor - The window actor to unwrap.
  * @returns The correct actor that the effect should be applied to.
  */
 export function unwrapActor(actor: RoundedWindowActor) {
-    const type = actor.metaWindow.get_client_type();
-    return type === Meta.WindowClientType.X11 ? actor.get_first_child() : actor;
+    // Blur My Shell inserts an St.Widget before Mutter's surface. Child order
+    // is not an ownership contract: only attach our offscreen effect to the
+    // compositor's surface (or its Wayland subsurface container).
+    return (
+        actor
+            .get_children()
+            .find(child =>
+                GObject.type_name(
+                    (child.constructor as typeof Clutter.Actor).$gtype,
+                )?.startsWith('MetaSurface'),
+            ) ?? null
+    );
 }
 
 /**
@@ -67,14 +80,9 @@ type RoundedCornersEffectType = InstanceType<typeof RoundedCornersEffect>;
  * @returns The corresponding Clutter.Effect object.
  */
 export function getRoundedCornersEffect(actor: RoundedWindowActor) {
-    const win = actor.metaWindow;
-    const name = ROUNDED_CORNERS_EFFECT;
-    const isXwayland =
-        win.get_client_type() === Meta.WindowClientType.X11 && actor.firstChild;
-
-    return isXwayland
-        ? (actor.firstChild.get_effect(name) as RoundedCornersEffectType)
-        : (actor.get_effect(name) as RoundedCornersEffectType);
+    return (actor.rwcCustomData?.effectActor ?? unwrapActor(actor))?.get_effect(
+        ROUNDED_CORNERS_EFFECT,
+    ) as RoundedCornersEffectType | null;
 }
 
 /** Compute outer bounds for rounded corners of a window
@@ -86,11 +94,12 @@ export function computeBounds(
     actor: RoundedWindowActor,
     [x, y, width, height]: [number, number, number, number],
 ) {
+    const surface = unwrapActor(actor);
     const bounds = {
-        x1: x + 1,
-        y1: y + 1,
-        x2: x + actor.width + width,
-        y2: y + actor.height + height,
+        x1: x,
+        y1: y,
+        x2: x + (surface?.width ?? actor.width) + width,
+        y2: y + (surface?.height ?? actor.height) + height,
     };
 
     // Kitty draws its window decoration by itself, so we need to manually
@@ -208,6 +217,7 @@ export function updateShadowActorStyle(
  */
 export async function shouldEnableEffect(
     win: Meta.Window & {_appType?: AppType},
+    isCurrent: () => boolean = () => true,
 ) {
     // Skip rounded corners for the DING (Desktop Icons NG) extension.
     //
@@ -230,15 +240,18 @@ export async function shouldEnableEffect(
 
     // Only apply the effect to normal windows (skip menus, tooltips, etc.)
     if (
-        win.windowType !== Meta.WindowType.NORMAL &&
-        win.windowType !== Meta.WindowType.DIALOG &&
-        win.windowType !== Meta.WindowType.MODAL_DIALOG
+        ![
+            Meta.WindowType.NORMAL,
+            Meta.WindowType.DIALOG,
+            Meta.WindowType.MODAL_DIALOG,
+        ].includes(win.windowType)
     ) {
         return false;
     }
 
     // Skip libhandy/libadwaita applications according to settings.
     const appType = win._appType ?? (await getAppType(win));
+    if (!isCurrent()) return false;
     win._appType = appType; // Cache the result.
     logDebug(`Check Type of window:${win.wmClass} => ${appType}`);
 
@@ -246,16 +259,10 @@ export async function shouldEnableEffect(
         getPref('skip-libadwaita-app') &&
         appType === 'LibAdwaita' &&
         !isException
-    ) {
+    )
         return false;
-    }
-    if (
-        getPref('skip-libhandy-app') &&
-        appType === 'LibHandy' &&
-        !isException
-    ) {
+    if (getPref('skip-libhandy-app') && appType === 'LibHandy' && !isException)
         return false;
-    }
 
     // Skip maximized/fullscreen windows according to settings.
     const maximized = win.maximizedHorizontally || win.maximizedVertically;
@@ -277,6 +284,7 @@ export async function shouldEnableEffect(
 export async function isChromium(win: Meta.Window & {_isChromium?: boolean}) {
     // biome-ignore lint/suspicious/noEqualsToNull: matching both null and undefined is intended.
     if (win._isChromium != null) return win._isChromium;
+    const wmClass = win.wmClass;
     return await withProcMaps(
         win,
         contents => {
@@ -284,7 +292,7 @@ export async function isChromium(win: Meta.Window & {_isChromium?: boolean}) {
                 '/dev/shm/.org.chromium.Chromium',
             );
             win._isChromium = hasChromiumShm;
-            logDebug(win.wmClass, 'chromium', hasChromiumShm);
+            logDebug(wmClass, 'chromium', hasChromiumShm);
             return hasChromiumShm;
         },
         () => {
@@ -334,6 +342,7 @@ async function withProcMaps<T>(
     successCb: (contents: string) => T,
     errorCb: () => T,
 ) {
+    const wmClass = win.wmClass;
     try {
         const contents = await readFile(`/proc/${win.get_pid()}/maps`);
         return successCb(contents);
@@ -342,7 +351,7 @@ async function withProcMaps<T>(
             e instanceof Gio.IOErrorEnum &&
             e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.PERMISSION_DENIED)
         ) {
-            logDebug(`Permission denied reading /proc maps for ${win.wmClass}`);
+            logDebug(`Permission denied reading /proc maps for ${wmClass}`);
         } else {
             logError(e);
         }

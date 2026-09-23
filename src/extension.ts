@@ -49,6 +49,7 @@ export default class RoundedWindowCornersReborn extends Extension {
                         // biome-ignore lint/style/noNonNullAssertion: Since this happens inside of the connection, there is no way for this to be null.
                         this.#layoutManagerStartupConnection!,
                     );
+                    this.#layoutManagerStartupConnection = null;
                 },
             );
         } else {

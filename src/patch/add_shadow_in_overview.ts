@@ -11,7 +11,7 @@ import Graphene from 'gi://Graphene';
 import {overview} from 'resource:///org/gnome/shell/ui/main.js';
 
 import {LinearFilterEffect} from '../effect/linear_filter_effect.js';
-import {shouldEnableEffect} from '../manager/utils.js';
+import {getRoundedCornersEffect} from '../manager/utils.js';
 import {OVERVIEW_SHADOW_ACTOR, SHADOW_PADDING} from '../utils/constants.js';
 import {logDebug} from '../utils/log.js';
 
@@ -20,10 +20,7 @@ import {logDebug} from '../utils/log.js';
  * @param window - The window that the preview is of.
  * @param self - The window preview that the shadow actor is added to.
  */
-export async function addShadowInOverview(
-    window: Meta.Window,
-    self: WindowPreview,
-) {
+export function addShadowInOverview(window: Meta.Window, self: WindowPreview) {
     // Skip attached dialogs — they are added via _updateAttachedDialogs/addDialog
     // and should not get their own shadow clone in the overview.
     // We detect them by checking if the window is transient-for another window,
@@ -34,8 +31,10 @@ export async function addShadowInOverview(
 
     // If the original window doesn't have rounded corners or a shadow,
     // we don't need to do anything, so we can skip it.
-    const hasRoundedCorners = await shouldEnableEffect(window);
-    const windowActor = window.get_compositor_private() as RoundedWindowActor;
+    const windowActor =
+        window.get_compositor_private() as RoundedWindowActor | null;
+    if (!windowActor) return;
+    const hasRoundedCorners = getRoundedCornersEffect(windowActor)?.enabled;
     const shadow = windowActor.rwcCustomData?.shadow;
     if (!(hasRoundedCorners && shadow)) {
         return;

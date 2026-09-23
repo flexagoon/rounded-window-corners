@@ -71,6 +71,8 @@
             },
             "correctness": {
                 "noUnknownTypeSelector": "off",
+                // This is a GJS extension, not a Qwik application.
+                "useQwikValidLexicalScope": "off",
                 "noUnresolvedImports": "off",
                 "useImportExtensions": {
                     "level": "error",

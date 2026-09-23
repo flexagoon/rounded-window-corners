@@ -1,5 +1,6 @@
 /** @file Provides types used throughout the codebase, mostly for storing settings. */
 
+import type Clutter from 'gi://Clutter';
 import type GObject from 'gi://GObject';
 import type Meta from 'gi://Meta';
 import type St from 'gi://St';
@@ -52,11 +53,20 @@ export type BoxShadow = {
 export type RoundedWindowActor = Meta.WindowActor & {
     metaWindow: Meta.Window;
     rwcCustomData?: {
+        effectActor: Clutter.Actor;
         shadow: St.Bin;
+        paperShadow?: {container: Clutter.Actor; destroy: () => void};
+        paperBlur?: {
+            actor: Clutter.Actor;
+            clone: Clutter.Clone;
+            destroy: () => void;
+        };
         unminimizedTimeoutId: number;
         propertyBindings: GObject.Binding[];
     };
     rwcLock?: Promise<void>;
+    /** Replaced on every registration; invalidates pending asynchronous work. */
+    rwcGeneration?: object;
 };
 
 /**
@@ -66,7 +76,7 @@ export type RoundedWindowActor = Meta.WindowActor & {
  * @returns Whether the actor has a `metaWindow`.
  */
 export function hasMetaWindow(
-    actor: Meta.WindowActor,
+    actor: Meta.WindowActor | null | undefined,
 ): actor is RoundedWindowActor {
-    return actor.metaWindow !== null;
+    return Boolean(actor?.metaWindow);
 }

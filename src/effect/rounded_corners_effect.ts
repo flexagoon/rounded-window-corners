@@ -62,6 +62,8 @@ export const RoundedCornersEffect = GObject.registerClass(
          * @param windowBounds - Bounds of the window without padding
          */
         updateUniforms(config: RoundedCornerSettings, windowBounds: Bounds) {
+            if (!this.actor || this.actor.width <= 0 || this.actor.height <= 0)
+                return;
             const borderWidth = getPref('border-width');
             const borderColor = config.borderColor;
 
@@ -93,17 +95,19 @@ export const RoundedCornersEffect = GObject.registerClass(
             ];
 
             // This is needed for squircle corners
-            let exponent = smoothing * 10 + 2;
+            const exponent = smoothing * 10 + 2;
             let radius = outerRadius * 0.5 * exponent;
-            const maxRadius = Math.min(
-                bounds[3] - bounds[0],
-                bounds[4] - bounds[1],
+            const maxRadius = Math.max(
+                0,
+                Math.min(bounds[2] - bounds[0], bounds[3] - bounds[1]) / 2,
             );
             if (radius > maxRadius) {
-                exponent *= maxRadius / radius;
                 radius = maxRadius;
             }
-            borderedAreaRadius *= radius / outerRadius;
+            borderedAreaRadius =
+                outerRadius > 0
+                    ? (borderedAreaRadius * radius) / outerRadius
+                    : 0;
 
             this.#setUniforms(
                 bounds,
