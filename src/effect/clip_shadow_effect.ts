@@ -5,9 +5,9 @@
  * https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/4474
  */
 
+import Clutter from 'gi://Clutter';
 import Cogl from 'gi://Cogl';
 import GObject from 'gi://GObject';
-import Shell from 'gi://Shell';
 
 import {readShader} from '../utils/file.js';
 
@@ -18,14 +18,17 @@ const [declarations, code] = await readShader(
 
 export const ClipShadowEffect = GObject.registerClass(
     {},
-    class extends Shell.GLSLEffect {
-        vfunc_build_pipeline() {
-            this.add_glsl_snippet(
+    class extends Clutter.ShaderEffect {
+        vfunc_get_static_snippet() {
+            const snippet = Cogl.Snippet.new(
                 Cogl.SnippetHook.FRAGMENT,
                 declarations,
-                code,
-                false,
+                '',
             );
+            // Post, not replace: the shadow texture must be sampled into
+            // cogl_color_out by the generated code first.
+            snippet.set_post(code);
+            return snippet;
         }
     },
 );
