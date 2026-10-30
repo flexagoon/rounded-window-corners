@@ -2,9 +2,9 @@
 
 import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
 
+import Clutter from 'gi://Clutter';
 import Cogl from 'gi://Cogl';
 import GObject from 'gi://GObject';
-import Shell from 'gi://Shell';
 
 import {readShader} from '../utils/file.js';
 import {getPref} from '../utils/settings.js';
@@ -14,43 +14,17 @@ const [declarations, code] = await readShader(
     'shader/rounded_corners.frag',
 );
 
-class Uniforms {
-    bounds = 0;
-    clipRadius = 0;
-    borderWidth = 0;
-    borderColor = 0;
-    borderedAreaBounds = 0;
-    borderedAreaClipRadius = 0;
-    exponent = 0;
-    pixelStep = 0;
-}
-
+// GNOME 51 removed Shell.GLSLEffect. Clutter.ShaderEffect is the replacement:
+// the snippet is built once per class, and uniforms are set by name (Clutter
+// resolves and caches their locations internally on each paint).
 export const RoundedCornersEffect = GObject.registerClass(
     {},
-    class Effect extends Shell.GLSLEffect {
-        /**
-         * To store a uniform value, we need to know its location in the shader,
-         * which is done by calling `this.get_uniform_location()`. This is
-         * expensive, so we cache the location of uniforms when the shader is
-         * created.
-         */
-        static uniforms: Uniforms = new Uniforms();
-
-        constructor() {
-            super();
-
-            for (const k in Effect.uniforms) {
-                Effect.uniforms[k as keyof Uniforms] =
-                    this.get_uniform_location(k);
-            }
-        }
-
-        vfunc_build_pipeline() {
-            this.add_glsl_snippet(
+    class Effect extends Clutter.ShaderEffect {
+        vfunc_get_static_snippet() {
+            return Cogl.Snippet.new(
                 Cogl.SnippetHook.FRAGMENT,
                 declarations,
                 code,
-                false,
             );
         }
 
@@ -127,21 +101,27 @@ export const RoundedCornersEffect = GObject.registerClass(
             pixelStep: number[],
             exponent: number,
         ) {
-            const uniforms = Effect.uniforms;
-            this.set_uniform_float(uniforms.bounds, 4, bounds);
-            this.set_uniform_float(uniforms.clipRadius, 1, [radius]);
-            this.set_uniform_float(uniforms.borderWidth, 1, [borderWidth]);
-            this.set_uniform_float(uniforms.borderColor, 4, borderColor);
-            this.set_uniform_float(
-                uniforms.borderedAreaBounds,
-                4,
-                borderedAreaBounds,
-            );
-            this.set_uniform_float(uniforms.borderedAreaClipRadius, 1, [
+            // ShaderEffect.set_uniform_float() is new in GNOME 51 and is not
+            // in the @girs typings yet. Each directive below will turn into an
+            // "unused @ts-expect-error" error once the typings are updated.
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('bounds', 4, bounds);
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('clipRadius', 1, [radius]);
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('borderWidth', 1, [borderWidth]);
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('borderColor', 4, borderColor);
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('borderedAreaBounds', 4, borderedAreaBounds);
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('borderedAreaClipRadius', 1, [
                 borderedAreaRadius,
             ]);
-            this.set_uniform_float(uniforms.pixelStep, 2, pixelStep);
-            this.set_uniform_float(uniforms.exponent, 1, [exponent]);
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('pixelStep', 2, pixelStep);
+            // @ts-expect-error: TODO remove when @girs has GNOME 51 typings
+            this.set_uniform_float('exponent', 1, [exponent]);
             this.queue_repaint();
         }
     },
