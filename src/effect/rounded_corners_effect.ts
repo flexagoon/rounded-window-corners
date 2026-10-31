@@ -14,23 +14,25 @@ const [declarations, code] = await readShader(
     'shader/rounded_corners.frag',
 );
 
+type UniformName =
+    | 'bounds'
+    | 'clipRadius'
+    | 'borderWidth'
+    | 'borderColor'
+    | 'borderedAreaBounds'
+    | 'borderedAreaClipRadius'
+    | 'pixelStep'
+    | 'exponent';
+
 export const RoundedCornersEffect = GObject.registerClass(
     {},
     class Effect extends Clutter.ShaderEffect {
-        /**
-         * GNOME 51 removed Shell.GLSLEffect, so the shader is now provided
-         * as a Cogl.Snippet. This is only called once per class, no matter
-         * how many windows use the effect.
-         */
         vfunc_get_static_snippet() {
             const snippet = Cogl.Snippet.new(
                 Cogl.SnippetHook.FRAGMENT,
                 declarations,
                 '',
             );
-            // Post, not replace: the generated code that samples the window
-            // texture into cogl_color_out must run first. This matches the
-            // old add_glsl_snippet(..., is_replace=false) behavior.
             snippet.set_post(code);
             return snippet;
         }
@@ -73,7 +75,6 @@ export const RoundedCornersEffect = GObject.registerClass(
                 1 / this.actor.get_height(),
             ];
 
-            // This is needed for squircle corners
             let exponent = smoothing * 10 + 2;
             let radius = outerRadius * 0.5 * exponent;
             const maxRadius = Math.min(
@@ -108,8 +109,6 @@ export const RoundedCornersEffect = GObject.registerClass(
             pixelStep: number[],
             exponent: number,
         ) {
-            // Unlike the removed Shell.GLSLEffect, Clutter.ShaderEffect
-            // addresses uniforms by name instead of cached locations.
             this.#setUniform('bounds', 4, bounds);
             this.#setUniform('clipRadius', 1, [radius]);
             this.#setUniform('borderWidth', 1, [borderWidth]);
@@ -121,24 +120,8 @@ export const RoundedCornersEffect = GObject.registerClass(
             this.queue_repaint();
         }
 
-        /**
-         * Set a float uniform by name.
-         *
-         * The bundled @girs types predate the GNOME 51 Clutter.ShaderEffect
-         * API, so the call goes through a structural type until upstream
-         * publishes GNOME 51 types. Verified against the local
-         * Clutter-51.gir: `set_uniform_float(name, n_components, value)`.
-         */
-        #setUniform(name: string, nComponents: number, value: number[]) {
-            const effect = this as unknown as {
-                // biome-ignore lint/style/useNamingConvention: Must match the C API name.
-                set_uniform_float: (
-                    name: string,
-                    nComponents: number,
-                    value: number[],
-                ) => void;
-            };
-            effect.set_uniform_float(name, nComponents, value);
+        #setUniform(name: UniformName, nComponents: number, value: number[]) {
+            this.set_uniform_float(name, nComponents, value);
         }
     },
 );

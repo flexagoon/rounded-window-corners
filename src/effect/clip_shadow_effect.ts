@@ -25,8 +25,6 @@ export const ClipShadowEffect = GObject.registerClass(
                 declarations,
                 '',
             );
-            // Post, not replace: the shadow texture must be sampled into
-            // cogl_color_out by the generated code first.
             snippet.set_post(code);
             return snippet;
         }

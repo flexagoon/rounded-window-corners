@@ -3,6 +3,8 @@
  * window picker. See the {@link WindowPicker} class for more information.
  */
 
+import type Clutter from 'gi://Clutter';
+
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Meta from 'gi://Meta';
@@ -50,7 +52,7 @@ export class WindowPicker {
                 }
             }
 
-            let actor = target;
+            let actor: Clutter.Actor | null = target;
 
             // If the picked actor is not a Meta.WindowActor, which happens
             // often since it's usually a Meta.SurfaceActor, try to find its

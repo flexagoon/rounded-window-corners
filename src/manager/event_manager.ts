@@ -100,9 +100,13 @@ function connect(
     // biome-ignore lint/suspicious/noExplicitAny: Signal callbacks can have any return args and return types.
     callback: (...args: any[]) => any,
 ) {
+    const connectable = object as {
+        connect: (signal: string, callbackFn: typeof callback) => number;
+    };
+
     connections.push({
         object,
-        id: object.connect(signal, callback),
+        id: connectable.connect(signal, callback),
     });
 }
 
