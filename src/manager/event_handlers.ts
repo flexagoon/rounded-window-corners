@@ -226,6 +226,12 @@ export async function onUnminimize(actor: RoundedWindowActor) {
             GLib.PRIORITY_DEFAULT,
             250,
             () => {
+                // Refreshing re-enables the effect, which the magic lamp
+                // handling above keeps disabled until the animation is done;
+                // doing it earlier draws the border around the full window
+                // while it is still warping out of the dock.
+                if (actor.get_effect('unminimize-magic-lamp-effect'))
+                    return GLib.SOURCE_CONTINUE;
                 refreshRoundedCorners(actor);
                 return GLib.SOURCE_REMOVE;
             },
