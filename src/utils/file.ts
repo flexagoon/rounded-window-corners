@@ -3,6 +3,11 @@
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 
+// In GJS 1.84+ (GNOME Shell 51) calling an async Gio method without its
+// callback no longer returns a promise automatically, so we have to opt in
+// with Gio._promisify. This is what gnome-shell itself does (loginDialog.js).
+Gio._promisify(Gio.File.prototype, 'load_contents_async');
+
 /**
  * Read file contents as a string.
  *
@@ -34,8 +39,7 @@ export function readRelativeFile(module: string, path: string) {
 
 /**
  * Read a shader file and split it into declarations and main code, since
- * GNOME's `add_glsl_snippet` function takes those parts as two separate
- * arguments.
+ * `Cogl.Snippet.new` takes those parts as two separate arguments.
  *
  * @param module - `import.meta.url` of the current module.
  * @param path - File path relative to the current module.

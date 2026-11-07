@@ -3,9 +3,10 @@
  * effect. See {@link enableEffect} for more information.
  */
 
-import type GObject from 'gi://GObject';
 import type Meta from 'gi://Meta';
 import type Shell from 'gi://Shell';
+
+import GObject from 'gi://GObject';
 
 import {logDebug} from '../utils/log.js';
 import {prefs} from '../utils/settings.js';
@@ -102,7 +103,10 @@ function connect(
 ) {
     connections.push({
         object,
-        id: object.connect(signal, callback),
+        // GObject.Object.connect only accepts statically known signal names
+        // in the type definitions, so use GObject.signal_connect instead,
+        // which accepts any signal name at runtime.
+        id: GObject.signal_connect(object, signal, callback),
     });
 }
 

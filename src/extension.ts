@@ -1,3 +1,5 @@
+import GObject from 'gi://GObject';
+
 import {
     Extension,
     InjectionManager,
@@ -40,7 +42,8 @@ export default class RoundedWindowCornersReborn extends Extension {
 
         if (layoutManager._startingUp) {
             // Wait for GNOME Shell to be ready before enabling rounded corners
-            this.#layoutManagerStartupConnection = layoutManager.connect(
+            this.#layoutManagerStartupConnection = GObject.signal_connect(
+                layoutManager,
                 'startup-complete',
                 () => {
                     enableEffect();

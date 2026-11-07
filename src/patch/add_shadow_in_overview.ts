@@ -62,67 +62,65 @@ export async function addShadowInOverview(
  * A clone of a window's shadow actor that is shown in the overview. Binds the
  * size of the shadow to the size of the window preview in the overview.
  */
-const OverviewShadowActorClone = GObject.registerClass(
-    {},
-    class extends Clutter.Clone {
-        windowPreview: WindowPreview;
+class OverviewShadowActorClone extends Clutter.Clone {
+    static {
+        GObject.registerClass(OverviewShadowActorClone);
+    }
 
-        /**
-         * Create the clone of the shadow actor.
-         * @param source the shadow actor to clone.
-         * @param windowPreview the window preview that the clone is applied to.
-         */
-        constructor(source: Clutter.Actor, windowPreview: WindowPreview) {
-            super({
-                source, // the source shadow actor shown in desktop
-                name: OVERVIEW_SHADOW_ACTOR,
-                pivotPoint: new Graphene.Point({x: 0.5, y: 0.5}),
-            });
+    windowPreview: WindowPreview;
 
-            this.windowPreview = windowPreview;
+    /**
+     * Create the clone of the shadow actor.
+     * @param source the shadow actor to clone.
+     * @param windowPreview the window preview that the clone is applied to.
+     */
+    constructor(source: Clutter.Actor, windowPreview: WindowPreview) {
+        super({
+            source, // the source shadow actor shown in desktop
+            name: OVERVIEW_SHADOW_ACTOR,
+            pivotPoint: new Graphene.Point({x: 0.5, y: 0.5}),
+        });
+
+        this.windowPreview = windowPreview;
+    }
+
+    /**
+     * Recompute the position and size of shadow in overview
+     * This virtual function will be called when we:
+     * - entering/closing overview
+     * - dragging window
+     * - position and size of window preview in overview changed
+     * @param box The bound box of shadow actor
+     */
+    vfunc_allocate(box: Clutter.ActorBox) {
+        // The layout box of the window has to be obtained in a different
+        // way when leaving the overview (eg. by pressing ESC). I have no
+        // idea why this is the case, but oh well. GNOME.
+        const leavingOverview =
+            overview._overview.controls._workspacesDisplay._leavingOverview;
+        const windowContainerBox = leavingOverview
+            ? this.windowPreview.windowContainer.get_allocation_box()
+            : this.windowPreview.get_allocation_box();
+
+        const metaWindow = this.windowPreview._windowActor.get_meta_window();
+        if (!metaWindow) {
+            return;
         }
 
-        /**
-         * Recompute the position and size of shadow in overview
-         * This virtual function will be called when we:
-         * - entering/closing overview
-         * - dragging window
-         * - position and size of window preview in overview changed
-         * @param box The bound box of shadow actor
-         */
-        vfunc_allocate(box: Clutter.ActorBox) {
-            // The layout box of the window has to be obtained in a different
-            // way when leaving the overview (eg. by pressing ESC). I have no
-            // idea why this is the case, but oh well. GNOME.
-            const leavingOverview =
-                // @ts-expect-error: TODO https://github.com/gjsify/gnome-shell/pull/123
-                overview._overview.controls._workspacesDisplay._leavingOverview;
-            const windowContainerBox = leavingOverview
-                ? this.windowPreview.windowContainer.get_allocation_box()
-                : this.windowPreview.get_allocation_box();
+        // Scale the shadow by the same scale factor that the window preview
+        // is scaled by.
+        const containerScaleFactor =
+            windowContainerBox.get_width() / metaWindow.get_frame_rect().width;
+        const paddings = SHADOW_PADDING * containerScaleFactor;
 
-            const metaWindow =
-                this.windowPreview._windowActor.get_meta_window();
-            if (!metaWindow) {
-                return;
-            }
+        // Setup the bounding box of the shadow actor.
+        box.set_origin(-paddings, -paddings);
+        box.set_size(
+            windowContainerBox.get_width() + 2 * paddings,
+            windowContainerBox.get_height() + 2 * paddings,
+        );
 
-            // Scale the shadow by the same scale factor that the window preview
-            // is scaled by.
-            const containerScaleFactor =
-                windowContainerBox.get_width() /
-                metaWindow.get_frame_rect().width;
-            const paddings = SHADOW_PADDING * containerScaleFactor;
-
-            // Setup the bounding box of the shadow actor.
-            box.set_origin(-paddings, -paddings);
-            box.set_size(
-                windowContainerBox.get_width() + 2 * paddings,
-                windowContainerBox.get_height() + 2 * paddings,
-            );
-
-            // Apply the bounding box.
-            super.vfunc_allocate(box);
-        }
-    },
-);
+        // Apply the bounding box.
+        super.vfunc_allocate(box);
+    }
+}
