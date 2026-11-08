@@ -26,12 +26,20 @@ export class RoundedCornersEffect extends Clutter.ShaderEffect {
     }
 
     vfunc_get_static_snippet() {
+        // The shader body must run *after* Cogl has drawn the window texture
+        // into cogl_color_out, since it modulates that color (clipping the
+        // corners). That is what the "post" hook does: Cogl generates
+        //
+        //     main() { cogl_generated_source(); <post code> }
+        //
+        // Using set_replace() instead would replace the whole main() function
+        // and drop the cogl_generated_source() call, leaving the window
+        // completely invisible.
         const snippet = Cogl.Snippet.new(
             Cogl.SnippetHook.FRAGMENT,
             declarations,
-            null,
+            code,
         );
-        snippet.set_replace(code);
         return snippet;
     }
 
@@ -76,9 +84,13 @@ export class RoundedCornersEffect extends Clutter.ShaderEffect {
         // This is needed for squircle corners
         let exponent = smoothing * 10 + 2;
         let radius = outerRadius * 0.5 * exponent;
+        // bounds is [left, top, right, bottom], so the window width is
+        // bounds[2] - bounds[0] and the height is bounds[3] - bounds[1].
+        // (This used to read bounds[4], which does not exist, making
+        // maxRadius NaN and disabling the clamp below.)
         const maxRadius = Math.min(
-            bounds[3] - bounds[0],
-            bounds[4] - bounds[1],
+            bounds[2] - bounds[0],
+            bounds[3] - bounds[1],
         );
         if (radius > maxRadius) {
             exponent *= maxRadius / radius;

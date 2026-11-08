@@ -28,12 +28,21 @@ export class ClipShadowEffect extends Clutter.ShaderEffect {
     }
 
     vfunc_get_static_snippet() {
+        // The shader reads cogl_color_out to compute the shadow's luminance,
+        // so it has to run *after* Cogl has drawn the actor into that variable.
+        // Passing the code as the "post" hook is what guarantees that: Cogl
+        // generates
+        //
+        //     main() { cogl_generated_source(); <post code> }
+        //
+        // set_replace() would instead replace the entire main() function,
+        // removing the cogl_generated_source() call and making the shadow
+        // -- and the window -- invisible.
         const snippet = Cogl.Snippet.new(
             Cogl.SnippetHook.FRAGMENT,
             declarations,
-            null,
+            code,
         );
-        snippet.set_replace(code);
         return snippet;
     }
 }

@@ -43,14 +43,31 @@ export function readRelativeFile(module: string, path: string) {
  *
  * @param module - `import.meta.url` of the current module.
  * @param path - File path relative to the current module.
- * @returns A list containing the declarations as the first element and
- *          contents of the main function as the second.
+ * @returns A list containing the declarations as the first element and the
+ *          body of the main function (the statements between its braces) as
+ *          the second.
  */
 export async function readShader(module: string, path: string) {
     const shader = await readRelativeFile(module, path);
+    // Match the `main` definition at the start of a line (optionally preceded
+    // by a return type) so that a mention of "main()" inside a comment does
+    // not swallow part of the declarations.
     // biome-ignore lint/performance/useTopLevelRegex: This is only executed at startup
-    let [declarations, code] = shader.split(/^.*?main\(\s?\)\s?/m);
-    declarations = declarations.trim();
-    code = code.trim().replace(/^[{}]/gm, '').trim();
+    const match = /^[ \t]*(?:void[ \t]+)?main[ \t]*\([ \t]*\)[ \t]*\{/m.exec(
+        shader,
+    );
+    if (!match) {
+        throw new Error(`Could not find main() in shader ${path}`);
+    }
+
+    const declarations = shader.slice(0, match.index).trim();
+
+    // Take everything between the opening and the matching closing brace.
+    const bodyStart = match.index + match[0].length;
+    const bodyEnd = shader.lastIndexOf('}');
+    const code = shader
+        .slice(bodyStart, bodyEnd > bodyStart ? bodyEnd : undefined)
+        .trim();
+
     return [declarations, code];
 }

@@ -154,10 +154,18 @@ float getPointOpacity(vec2 p, vec4 bounds, float clipRadius, float exponent) {
         return squircleBounds(p, center, clipRadius, exponent);
 }
 
-// This is the main function of the shader. It's what is actually being called
-// when rendering a point to the screen. It has no return value; as explained
-// at the beginning of the file, the `cogl_color_out` variable is used to set
-// the point color.
+// This is the body of the shader. It's what is actually being called when
+// rendering a point to the screen.
+//
+// Everything above this line is passed to Cogl as the snippet "declarations"
+// and everything inside the braces is passed as the snippet "code", which Cogl
+// appends to the end of the function it generates for the fragment stage —
+// after `cogl_generated_source()` has sampled the window texture into
+// `cogl_color_out`. Cogl generates the surrounding function itself, so this
+// file only supplies the statements.
+//
+// It has no return value; as explained at the beginning of the file, the
+// `cogl_color_out` variable is used to set the point color.
 void main() {
     vec2 p = cogl_tex_coord0_in.xy / pixelStep;
 
