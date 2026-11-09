@@ -94,19 +94,18 @@ const connections: {object: GObject.Object; id: number}[] = [];
  * @param signal - The name of the signal.
  * @param callback - The function to connect to the signal.
  */
-function connect(
-    object: GObject.Object,
-    signal: string,
+function connect<K extends GObject.Object>(
+    object: K,
+    signal: keyof K['$signals'],
     // biome-ignore lint/suspicious/noExplicitAny: Signal callbacks can have any return args and return types.
     callback: (...args: any[]) => any,
 ) {
-    const connectable = object as {
-        connect: (signal: string, callbackFn: typeof callback) => number;
-    };
-
     connections.push({
         object,
-        id: connectable.connect(signal, callback),
+        id: object.connect(
+            signal as keyof GObject.Object.SignalSignatures,
+            callback,
+        ),
     });
 }
 
