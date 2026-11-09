@@ -2,9 +2,9 @@
 
 import type {Bounds, RoundedCornerSettings} from '../utils/types.js';
 
+import Clutter from 'gi://Clutter';
 import Cogl from 'gi://Cogl';
 import GObject from 'gi://GObject';
-import Shell from 'gi://Shell';
 
 import {readShader} from '../utils/file.js';
 import {getPref} from '../utils/settings.js';
@@ -14,44 +14,17 @@ const [declarations, code] = await readShader(
     'shader/rounded_corners.frag',
 );
 
-class Uniforms {
-    bounds = 0;
-    clipRadius = 0;
-    borderWidth = 0;
-    borderColor = 0;
-    borderedAreaBounds = 0;
-    borderedAreaClipRadius = 0;
-    exponent = 0;
-    pixelStep = 0;
-}
-
 export const RoundedCornersEffect = GObject.registerClass(
     {},
-    class Effect extends Shell.GLSLEffect {
-        /**
-         * To store a uniform value, we need to know its location in the shader,
-         * which is done by calling `this.get_uniform_location()`. This is
-         * expensive, so we cache the location of uniforms when the shader is
-         * created.
-         */
-        static uniforms: Uniforms = new Uniforms();
-
-        constructor() {
-            super();
-
-            for (const k in Effect.uniforms) {
-                Effect.uniforms[k as keyof Uniforms] =
-                    this.get_uniform_location(k);
-            }
-        }
-
-        vfunc_build_pipeline() {
-            this.add_glsl_snippet(
+    class Effect extends Clutter.ShaderEffect {
+        vfunc_get_static_snippet() {
+            const snippet = Cogl.Snippet.new(
                 Cogl.SnippetHook.FRAGMENT,
                 declarations,
-                code,
-                false,
+                '',
             );
+            snippet.set_post(code);
+            return snippet;
         }
 
         /**
@@ -92,7 +65,6 @@ export const RoundedCornersEffect = GObject.registerClass(
                 1 / this.actor.get_height(),
             ];
 
-            // This is needed for squircle corners
             let exponent = smoothing * 10 + 2;
             let radius = outerRadius * 0.5 * exponent;
             const maxRadius = Math.min(
@@ -105,43 +77,16 @@ export const RoundedCornersEffect = GObject.registerClass(
             }
             borderedAreaRadius *= radius / outerRadius;
 
-            this.#setUniforms(
-                bounds,
-                radius,
-                borderWidth,
-                borderColor,
-                borderedAreaBounds,
-                borderedAreaRadius,
-                pixelStep,
-                exponent,
-            );
-        }
-
-        #setUniforms(
-            bounds: number[],
-            radius: number,
-            borderWidth: number,
-            borderColor: [number, number, number, number],
-            borderedAreaBounds: number[],
-            borderedAreaRadius: number,
-            pixelStep: number[],
-            exponent: number,
-        ) {
-            const uniforms = Effect.uniforms;
-            this.set_uniform_float(uniforms.bounds, 4, bounds);
-            this.set_uniform_float(uniforms.clipRadius, 1, [radius]);
-            this.set_uniform_float(uniforms.borderWidth, 1, [borderWidth]);
-            this.set_uniform_float(uniforms.borderColor, 4, borderColor);
-            this.set_uniform_float(
-                uniforms.borderedAreaBounds,
-                4,
-                borderedAreaBounds,
-            );
-            this.set_uniform_float(uniforms.borderedAreaClipRadius, 1, [
+            this.set_uniform_float('bounds', 4, bounds);
+            this.set_uniform_float('clipRadius', 1, [radius]);
+            this.set_uniform_float('borderWidth', 1, [borderWidth]);
+            this.set_uniform_float('borderColor', 4, borderColor);
+            this.set_uniform_float('borderedAreaBounds', 4, borderedAreaBounds);
+            this.set_uniform_float('borderedAreaClipRadius', 1, [
                 borderedAreaRadius,
             ]);
-            this.set_uniform_float(uniforms.pixelStep, 2, pixelStep);
-            this.set_uniform_float(uniforms.exponent, 1, [exponent]);
+            this.set_uniform_float('pixelStep', 2, pixelStep);
+            this.set_uniform_float('exponent', 1, [exponent]);
             this.queue_repaint();
         }
     },

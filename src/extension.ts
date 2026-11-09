@@ -41,6 +41,7 @@ export default class RoundedWindowCornersReborn extends Extension {
         if (layoutManager._startingUp) {
             // Wait for GNOME Shell to be ready before enabling rounded corners
             this.#layoutManagerStartupConnection = layoutManager.connect(
+                // @ts-expect-error: https://github.com/gjsify/gnome-shell/issues/171
                 'startup-complete',
                 () => {
                     enableEffect();
