@@ -14,16 +14,6 @@ const [declarations, code] = await readShader(
     'shader/rounded_corners.frag',
 );
 
-type UniformName =
-    | 'bounds'
-    | 'clipRadius'
-    | 'borderWidth'
-    | 'borderColor'
-    | 'borderedAreaBounds'
-    | 'borderedAreaClipRadius'
-    | 'pixelStep'
-    | 'exponent';
-
 export const RoundedCornersEffect = GObject.registerClass(
     {},
     class Effect extends Clutter.ShaderEffect {
@@ -87,41 +77,17 @@ export const RoundedCornersEffect = GObject.registerClass(
             }
             borderedAreaRadius *= radius / outerRadius;
 
-            this.#setUniforms(
-                bounds,
-                radius,
-                borderWidth,
-                borderColor,
-                borderedAreaBounds,
+            this.set_uniform_float('bounds', 4, bounds);
+            this.set_uniform_float('clipRadius', 1, [radius]);
+            this.set_uniform_float('borderWidth', 1, [borderWidth]);
+            this.set_uniform_float('borderColor', 4, borderColor);
+            this.set_uniform_float('borderedAreaBounds', 4, borderedAreaBounds);
+            this.set_uniform_float('borderedAreaClipRadius', 1, [
                 borderedAreaRadius,
-                pixelStep,
-                exponent,
-            );
-        }
-
-        #setUniforms(
-            bounds: number[],
-            radius: number,
-            borderWidth: number,
-            borderColor: [number, number, number, number],
-            borderedAreaBounds: number[],
-            borderedAreaRadius: number,
-            pixelStep: number[],
-            exponent: number,
-        ) {
-            this.#setUniform('bounds', 4, bounds);
-            this.#setUniform('clipRadius', 1, [radius]);
-            this.#setUniform('borderWidth', 1, [borderWidth]);
-            this.#setUniform('borderColor', 4, borderColor);
-            this.#setUniform('borderedAreaBounds', 4, borderedAreaBounds);
-            this.#setUniform('borderedAreaClipRadius', 1, [borderedAreaRadius]);
-            this.#setUniform('pixelStep', 2, pixelStep);
-            this.#setUniform('exponent', 1, [exponent]);
+            ]);
+            this.set_uniform_float('pixelStep', 2, pixelStep);
+            this.set_uniform_float('exponent', 1, [exponent]);
             this.queue_repaint();
-        }
-
-        #setUniform(name: UniformName, nComponents: number, value: number[]) {
-            this.set_uniform_float(name, nComponents, value);
         }
     },
 );
