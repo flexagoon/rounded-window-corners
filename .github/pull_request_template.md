@@ -10,4 +10,8 @@ that in your pull request description.
 
 Submitting a blatantly obvious AI hallucination
 with no disclosure will get you blocked from this repository.
+
+Pull request descriptions MUST be human written. If you
+don't understand the code AI wrote enough to describe
+it in your own words, you shouldn't submit it.
 -->
