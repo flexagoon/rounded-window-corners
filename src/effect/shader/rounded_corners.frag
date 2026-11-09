@@ -165,6 +165,9 @@ void main() {
 
     if (borderWidth > 0.9 || borderWidth < -0.9) {
         // If there is a border, we have to paint it.
+        // Window pixels already include paint opacity. Apply it to the border
+        // color too, so both its RGB and alpha fade with the window.
+        vec4 borderPaintColor = vec4(borderColor.rgb, 1.0) * cogl_color_in.a;
 
         // Calculate if the point lies within the bordered area (see the
         // `borderedAreaBounds` uniform for an explanation of what this means)
@@ -178,13 +181,13 @@ void main() {
             // Calculate if the point is located on the border itself
             float borderAlpha = clamp(abs(pointAlpha - borderedAreaAlpha), 0.0, 1.0);
             // Then, mix the window color and the border color
-            cogl_color_out = mix(cogl_color_out, vec4(borderColor.rgb, 1.0), borderAlpha * borderColor.a);
+            cogl_color_out = mix(cogl_color_out, borderPaintColor, borderAlpha * borderColor.a);
         } else {
             // Outer borders
 
             // If the point is within the bordered area, paint it with the
             // border color
-            vec4 borderRect = vec4(borderColor.rgb, 1.0) * borderedAreaAlpha * borderColor.a;
+            vec4 borderRect = borderPaintColor * borderedAreaAlpha * borderColor.a;
             // Then, if the point is also inside of the actual window
             // (pointAlpha = 1), draw the correct window pixel on top
             cogl_color_out = mix(borderRect, cogl_color_out, pointAlpha);
