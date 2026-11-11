@@ -176,6 +176,13 @@ function applyEffectTo(actor: RoundedWindowActor) {
         }
     });
 
+    // Window clip added, changed or removed.
+    connect(actor, 'notify::has-clip', () => {
+        if (actor.metaWindow) {
+            handlers.onClipChanged(actor);
+        }
+    });
+
     // Get notified about fullscreen explicitly, since a window must not change in
     // size to go fullscreen
     connect(actor.metaWindow, 'notify::fullscreen', () => {

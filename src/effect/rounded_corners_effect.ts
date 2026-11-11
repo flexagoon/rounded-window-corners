@@ -41,11 +41,26 @@ export const RoundedCornersEffect = GObject.registerClass(
             const outerRadius = config.borderRadius;
             const {padding, smoothing} = config;
 
+            const {width, height} = this.actor;
+
+            // If the actor is clipped (e.g. by PaperWM), the texture it's
+            // painted to covers the clip area instead of the actor.
+            const [clipX, clipY, clipWidth, clipHeight] = this.actor.hasClip
+                ? this.actor.get_clip()
+                : [0, 0, width, height];
+
+            // Scale and offset relative to the texture of an unclipped actor.
+            // Clutter pads the texture by 3 pixels.
+            const scaleX = (clipWidth + 3) / (width + 3);
+            const scaleY = (clipHeight + 3) / (height + 3);
+            const offsetX = (clipX * width) / (width + 3);
+            const offsetY = (clipY * height) / (height + 3);
+
             const bounds = [
-                windowBounds.x1 + padding.left,
-                windowBounds.y1 + padding.top,
-                windowBounds.x2 - padding.right,
-                windowBounds.y2 - padding.bottom,
+                windowBounds.x1 + padding.left - offsetX,
+                windowBounds.y1 + padding.top - offsetY,
+                windowBounds.x2 - padding.right - offsetX,
+                windowBounds.y2 - padding.bottom - offsetY,
             ];
 
             const borderedAreaBounds = [
@@ -60,10 +75,7 @@ export const RoundedCornersEffect = GObject.registerClass(
                 borderedAreaRadius = 0.0;
             }
 
-            const pixelStep = [
-                1 / this.actor.get_width(),
-                1 / this.actor.get_height(),
-            ];
+            const pixelStep = [1 / (width * scaleX), 1 / (height * scaleY)];
 
             let exponent = smoothing * 10 + 2;
             let radius = outerRadius * 0.5 * exponent;

@@ -209,6 +209,9 @@ export function onRestacked() {
 
 export const onSizeChanged = refreshRoundedCorners;
 
+// Synchronous, since the clip can change right before a paint.
+export const onClipChanged = updateEffect;
+
 export const onFocusChanged = refreshShadow;
 
 export const onSettingsChanged = refreshAllRoundedCorners;
