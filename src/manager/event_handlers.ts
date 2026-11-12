@@ -153,6 +153,7 @@ function withMagicLampEffect(
     actor: RoundedWindowActor,
     name: string,
     callback: (effect: Clutter.Effect) => void,
+    otherwise?: () => void,
 ) {
     const effect = actor.get_effect(name);
     if (effect) {
@@ -165,6 +166,7 @@ function withMagicLampEffect(
         if (actor.rwcCustomData) {
             const lateEffect = actor.get_effect(name);
             if (lateEffect) callback(lateEffect);
+            else otherwise?.();
         }
         return GLib.SOURCE_REMOVE;
     });
@@ -189,25 +191,38 @@ export async function onUnminimize(actor: RoundedWindowActor) {
     // Compatibility with "Compiz alike magic lamp effect".
     // When unminimizing a window, wait until the effect is completed before
     // showing the shadow.
-    withMagicLampEffect(actor, 'unminimize-magic-lamp-effect', effect => {
-        const shadow = actor.rwcCustomData?.shadow;
-        const roundedCornersEffect = getRoundedCornersEffect(actor);
-        if (!(shadow && roundedCornersEffect)) return;
+    withMagicLampEffect(
+        actor,
+        'unminimize-magic-lamp-effect',
+        effect => {
+            const shadow = actor.rwcCustomData?.shadow;
+            const roundedCornersEffect = getRoundedCornersEffect(actor);
+            if (!(shadow && roundedCornersEffect)) return;
 
-        shadow.visible = false;
-        type Effect = Clutter.Effect & {timerId: Clutter.Timeline};
-        const timer = (effect as Effect).timerId;
+            shadow.visible = false;
+            type Effect = Clutter.Effect & {timerId: Clutter.Timeline};
+            const timer = (effect as Effect).timerId;
 
-        const id = timer.connect('new-frame', source => {
-            // Wait until the effect is 98% completed
-            if (source.get_progress() > 0.98) {
-                logDebug('Unminimizing with magic lamp effect');
-                shadow.visible = true;
-                roundedCornersEffect.enabled = true;
-                source.disconnect(id);
-            }
-        });
-    });
+            const id = timer.connect('new-frame', source => {
+                // Wait until the effect is 98% completed
+                if (source.get_progress() > 0.98) {
+                    logDebug('Unminimizing with magic lamp effect');
+                    shadow.visible = true;
+                    roundedCornersEffect.enabled = true;
+                    source.disconnect(id);
+                }
+            });
+        },
+        () => {
+            // The magic lamp skips its animation in some cases (for example
+            // when the window is restored from the overview), but onMinimize
+            // may still have disabled the effect and hidden the shadow.
+            const shadow = actor.rwcCustomData?.shadow;
+            const roundedCornersEffect = getRoundedCornersEffect(actor);
+            if (shadow) shadow.visible = true;
+            if (roundedCornersEffect) roundedCornersEffect.enabled = true;
+        },
+    );
 
     // Chromium has a bug where windows are sometimes unminimized to the
     // wrong location, and then move to the correct position shortly after.
