@@ -4,6 +4,8 @@
  * in effect_manager.ts.
  */
 
+import type Meta from 'gi://Meta';
+
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
@@ -69,10 +71,9 @@ export function onAddEffect(actor: RoundedWindowActor) {
  * @param actor - The window actor to create the effect on.
  */
 function createEffect(actor: RoundedWindowActor) {
-    unwrapActor(actor)?.add_effect_with_name(
-        ROUNDED_CORNERS_EFFECT,
-        new RoundedCornersEffect(),
-    );
+    const effect = new RoundedCornersEffect();
+    unwrapActor(actor)?.add_effect_with_name(ROUNDED_CORNERS_EFFECT, effect);
+    effect.connect('notify::enabled', () => updateScanoutInhibition(actor));
 
     const shadow = createShadow(actor);
 
@@ -100,6 +101,7 @@ function createEffect(actor: RoundedWindowActor) {
         shadow,
         unminimizedTimeoutId: 0,
         propertyBindings,
+        inhibitsScanout: false,
     };
 
     // Make sure the effect is applied correctly.
@@ -131,7 +133,67 @@ export function onRemoveEffect(actor: RoundedWindowActor) {
     if (timeoutId) {
         GLib.source_remove(timeoutId);
     }
+
+    // Give back the direct scanout this window was holding off.
+    if (actor.rwcCustomData?.inhibitsScanout) {
+        global.compositor.enable_unredirect();
+    }
     delete actor.rwcCustomData;
+}
+
+/**
+ * Check whether a window covers its whole monitor.
+ *
+ * @param win - The window to check.
+ * @returns Whether the window's frame covers its monitor.
+ */
+function coversMonitor(win: Meta.Window) {
+    const monitor = win.get_monitor();
+    if (monitor < 0) return false;
+
+    const area = global.display.get_monitor_geometry(monitor);
+    const frame = win.get_frame_rect();
+    return (
+        frame.x <= area.x &&
+        frame.y <= area.y &&
+        frame.x + frame.width >= area.x + area.width &&
+        frame.y + frame.height >= area.y + area.height
+    );
+}
+
+/**
+ * Keep a window from being scanned out directly while it shows the effect.
+ *
+ * When a window covers a whole monitor (a maximized window on a monitor with
+ * no top bar, for example), mutter can hand its buffer straight to the
+ * display and skip compositing. Mutter does not check actor effects before
+ * doing that, so the rounded corners and the border are not drawn, and only
+ * show up when something forces compositing again, like a software cursor.
+ * Fullscreen windows keep direct scanout unless rounded corners are enabled
+ * for them, since they have no effect otherwise.
+ *
+ * Mutter counts inhibitions, so each window inhibits at most once and gives
+ * it back when it no longer needs it or when the effect is removed.
+ *
+ * @param actor - The window actor to update.
+ */
+function updateScanoutInhibition(actor: RoundedWindowActor) {
+    const windowInfo = actor.rwcCustomData;
+    if (!windowInfo) return;
+
+    const win = actor.metaWindow;
+    const effect = getRoundedCornersEffect(actor);
+    const shouldInhibit =
+        effect?.enabled === true && !win.minimized && coversMonitor(win);
+
+    if (shouldInhibit === windowInfo.inhibitsScanout) return;
+
+    if (shouldInhibit) {
+        global.compositor.disable_unredirect();
+    } else {
+        global.compositor.enable_unredirect();
+    }
+    windowInfo.inhibitsScanout = shouldInhibit;
 }
 
 export function onMinimize(actor: RoundedWindowActor) {
@@ -146,9 +208,13 @@ export function onMinimize(actor: RoundedWindowActor) {
         shadow.visible = false;
         roundedCornersEffect.enabled = false;
     }
+
+    updateScanoutInhibition(actor);
 }
 
 export async function onUnminimize(actor: RoundedWindowActor) {
+    updateScanoutInhibition(actor);
+
     // Compatibility with "Compiz alike magic lamp effect".
     // When unminimizing a window, wait until the effect is completed before
     // showing the shadow.
@@ -339,6 +405,7 @@ function updateEffect(actor: RoundedWindowActor) {
     });
 
     refreshShadow(actor);
+    updateScanoutInhibition(actor);
 }
 
 /** Refresh rounded corners settings for all windows. */
