@@ -55,6 +55,8 @@ export type RoundedWindowActor = Meta.WindowActor & {
         shadow: St.Bin;
         unminimizedTimeoutId: number;
         propertyBindings: GObject.Binding[];
+        /** Whether this window currently inhibits direct scanout. */
+        inhibitsScanout: boolean;
     };
     rwcLock?: Promise<void>;
 };
